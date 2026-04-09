@@ -71,7 +71,7 @@
       overflow: hidden;
       background: var(--bg2);
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: minmax(0, 1fr) minmax(460px, 44vw);
       min-height: 480px;
     }
     .hero-inner {
@@ -83,10 +83,12 @@
       position: relative;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 24px;
+      padding: 18px 30px 18px 18px;
     }
     .hero-img-wrap img {
-      width: 100%; height: 100%;
+      width: min(100%, 560px);
+      max-height: 430px;
+      height: 100%;
       object-fit: contain;
       display: block;
     }
