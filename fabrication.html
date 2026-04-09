@@ -15,21 +15,23 @@
       --red: rgba(255, 90, 90, 0.85); --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
     }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; min-height: 100vh; }
-    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 58px; background: rgba(8,9,15,0.88); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 26px; height: 26px; flex-shrink: 0; object-fit: contain; }
+    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    .member-entry { display: inline-flex; align-items: center; gap: 8px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255, 90, 90, 0.92); transition: color 0.2s; }
+    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
     .lock-icon svg { width: 13px; height: 13px; }
     .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill { display: none; align-items: center; gap: 12px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 4px 12px; font-family: var(--mono); font-size: 11px; }
-    .member-pill .member-pill-label { color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
-    .member-pill a { color: var(--text-muted); font-size: 11px; }
-    .member-pill a.active, .member-pill a:hover { color: var(--accent); }
+    .member-pill { display: none; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
+    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
+
 
     #login-gate { min-height: calc(100vh - 58px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; background: var(--bg2); }
     .login-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: 14px; padding: 40px; width: 100%; max-width: 380px; }
@@ -78,18 +80,14 @@
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
       <li>
-        <a href="member-tools.html" class="member-entry">
+        <a href="member-tools.html" class="member-entry" class="active">
           <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon" aria-hidden="true">
-            <svg viewBox="0 0 20 20" fill="none">
-              <rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/>
-              <path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </span>
+          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
       </li>
       <li class="member-pill" id="member-pages-pill">
         <span class="member-pill-label">members</span>
+        <span class="member-pill-sep"></span>
         <a href="member-tools.html">tools</a>
         <a href="quick-learn.html">quick learn</a>
         <a href="fabrication.html" class="active">fabrication</a>
@@ -143,15 +141,15 @@
   </div>
 
   <script>
+    const SESSION_KEY = 'etrb_auth';
     const CORRECT_USER = 'member';
     const CORRECT_PASS = 'rktpass1';
-    const SESSION_KEY  = 'etrb_auth';
 
     function setMemberNavState(isLoggedIn) {
-      const lockIcon = document.getElementById('member-lock-icon');
+      const icon = document.getElementById('member-lock-icon');
       const pill = document.getElementById('member-pages-pill');
-      lockIcon.classList.toggle('unlocked', isLoggedIn);
-      pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      if (pill) pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
     }
 
     function tryLogin() {
@@ -184,13 +182,11 @@
       setMemberNavState(true);
     }
 
-    setMemberNavState(false);
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
+    else setMemberNavState(false);
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') {
-        tryLogin();
-      }
+      if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') tryLogin();
     });
   </script>
 </body>

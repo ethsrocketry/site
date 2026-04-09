@@ -44,8 +44,6 @@
       backdrop-filter: blur(12px);
       border-bottom: 0.5px solid var(--border);
     }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 26px; height: 26px; flex-shrink: 0; object-fit: contain; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a {
@@ -82,6 +80,22 @@
     }
     .member-pill a { color: var(--text-muted); font-size: 11px; }
     .member-pill a.active, .member-pill a:hover { color: var(--accent); }
+
+
+    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
+    .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
+    .member-pill { display: none; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
+    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
 
     /* ── LOGIN GATE ── */
     #login-gate {
@@ -240,8 +254,19 @@
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="member-tools.html" class="active">member tools</a></li>
-      <li id="quick-learn-nav" style="display: none;"><a href="quick-learn.html">quick learn</a></li>
+      <li>
+        <a href="member-tools.html" class="member-entry" class="active">
+          <span>member tools</span>
+          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        </a>
+      </li>
+      <li class="member-pill" id="member-pages-pill">
+        <span class="member-pill-label">members</span>
+        <span class="member-pill-sep"></span>
+        <a href="member-tools.html" class="active">tools</a>
+        <a href="quick-learn.html">quick learn</a>
+        <a href="fabrication.html">fabrication</a>
+      </li>
     </ul>
   </nav>
 
@@ -350,6 +375,22 @@
           </div>
         </a>
 
+
+        <a class="tool-card" href="fabrication.html">
+          <div class="tool-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="#4f9cf9" stroke-width="1.4"/>
+              <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="#4f9cf9" stroke-width="1.4"/>
+              <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="#4f9cf9" stroke-width="1.4"/>
+              <path d="M12 14h4M14 12v4" stroke="#4f9cf9" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-name">Fabrication</div>
+            <div class="tool-desc">3D printing tolerances, laser cutting references, and build docs.</div>
+          </div>
+        </a>
+
       </div>
     </section>
 
@@ -361,15 +402,21 @@
   </div>
 
   <script>
+    const SESSION_KEY = 'etrb_auth';
     const CORRECT_USER = 'member';
     const CORRECT_PASS = 'rktpass1';
-    const SESSION_KEY  = 'etrb_auth';
+
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      const pill = document.getElementById('member-pages-pill');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      if (pill) pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
+    }
 
     function tryLogin() {
       const user = document.getElementById('username').value.trim();
       const pass = document.getElementById('password').value;
       const err  = document.getElementById('error-msg');
-
       if (user === CORRECT_USER && pass === CORRECT_PASS) {
         sessionStorage.setItem(SESSION_KEY, '1');
         err.classList.remove('visible');
@@ -381,37 +428,26 @@
       }
     }
 
-    function setMemberNavState(isLoggedIn) {
-      const lockIcon = document.getElementById('member-lock-icon');
-      const pill = document.getElementById('member-pages-pill');
-      lockIcon.classList.toggle('unlocked', isLoggedIn);
-      pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
-    }
-
     function logout() {
       sessionStorage.removeItem(SESSION_KEY);
       document.getElementById('member-content').style.display = 'none';
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
-      document.getElementById('quick-learn-nav').style.display = 'none';
+      setMemberNavState(false);
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
-      document.getElementById('quick-learn-nav').style.display = 'list-item';
+      setMemberNavState(true);
     }
 
-    // persist login for the browser session
-    setMemberNavState(false);
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
+    else setMemberNavState(false);
 
-    // allow Enter key to submit
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') {
-        tryLogin();
-      }
+      if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') tryLogin();
     });
   </script>
 
