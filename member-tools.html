@@ -45,9 +45,9 @@
       border-bottom: 0.5px solid var(--border);
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
+    .nav-logo img { width: 26px; height: 26px; flex-shrink: 0; object-fit: contain; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a {
       font-size: 13px; color: var(--text-muted);
       text-decoration: none; font-family: var(--mono);
@@ -55,6 +55,33 @@
     }
     .nav-links a:hover { color: var(--accent); }
     .nav-links a.active { color: var(--accent); }
+    .member-entry {
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lock-icon {
+      width: 13px; height: 13px; display: inline-flex;
+      color: rgba(255, 90, 90, 0.92);
+      transition: color 0.2s;
+    }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
+    .member-pill {
+      display: none; align-items: center; gap: 12px;
+      border: 0.5px solid var(--accent-border);
+      background: var(--accent-dim);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .member-pill .member-pill-label {
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 10px;
+    }
+    .member-pill a { color: var(--text-muted); font-size: 11px; }
+    .member-pill a.active, .member-pill a:hover { color: var(--accent); }
 
     /* ── LOGIN GATE ── */
     #login-gate {
@@ -191,8 +218,10 @@
     .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
     .footer-right { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
 
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
       nav { padding: 0 20px; }
+      .nav-links { gap: 14px; }
+      .member-pill { gap: 8px; padding: 4px 10px; }
       .login-card { padding: 28px 24px; }
       .page-header { padding: 36px 20px 28px; flex-direction: column; align-items: flex-start; gap: 16px; }
       .section { padding: 36px 20px; }
@@ -205,17 +234,29 @@
 
   <nav>
     <a class="nav-logo" href="home.html">
-      <svg viewBox="0 0 26 26" fill="none">
-        <path d="M13 2L13 20M13 2L9 8M13 2L17 8" stroke="#4f9cf9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M7 20C7 20 9 17 13 17C17 17 19 20 19 20" stroke="#4f9cf9" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="13" cy="22" r="1.5" fill="#4f9cf9" opacity="0.6"/>
-      </svg>
+      <img src="etrb-logo.png" alt="E-Town Rocket Bureau logo" />
       <span class="nav-brand">E-Town Rocket Bureau</span>
     </a>
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="member-tools.html" class="active">member tools</a></li>
+      <li>
+        <a href="member-tools.html" class="active member-entry">
+          <span>member tools</span>
+          <span class="lock-icon" id="member-lock-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </a>
+      </li>
+      <li class="member-pill" id="member-pages-pill">
+        <span class="member-pill-label">members</span>
+        <a href="member-tools.html" class="active">tools</a>
+        <a href="quick-learn.html">quick learn</a>
+        <a href="fabrication.html">fabrication</a>
+      </li>
     </ul>
   </nav>
 
@@ -311,6 +352,33 @@
           </div>
         </a>
 
+        <a class="tool-card" href="quick-learn.html">
+          <div class="tool-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M5 4h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="#4f9cf9" stroke-width="1.4"/>
+              <path d="M7 8h6M7 11h6M7 14h4" stroke="#4f9cf9" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-name">Quick learn</div>
+            <div class="tool-desc">Short-form learning notes and references for key subsystems.</div>
+          </div>
+        </a>
+
+
+        <a class="tool-card" href="fabrication.html">
+          <div class="tool-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M4 6h12M6 6v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="#4f9cf9" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M8 4h4" stroke="#4f9cf9" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-name">Fabrication</div>
+            <div class="tool-desc">Manufacturing quick references for 3D printing and laser cutting work.</div>
+          </div>
+        </a>
+
       </div>
     </section>
 
@@ -342,20 +410,30 @@
       }
     }
 
+    function setMemberNavState(isLoggedIn) {
+      const lockIcon = document.getElementById('member-lock-icon');
+      const pill = document.getElementById('member-pages-pill');
+      lockIcon.classList.toggle('unlocked', isLoggedIn);
+      pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
+    }
+
     function logout() {
       sessionStorage.removeItem(SESSION_KEY);
       document.getElementById('member-content').style.display = 'none';
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
+      setMemberNavState(false);
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
+      setMemberNavState(true);
     }
 
     // persist login for the browser session
+    setMemberNavState(false);
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
 
     // allow Enter key to submit
