@@ -67,6 +67,26 @@
     .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
     .member-only { display: none; }
 
+    /* ── SEARCH BAR ── */
+    .search-container { margin-top: 24px; max-width: 400px; }
+    #info-search {
+      width: 100%;
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    #info-search:focus {
+      border-color: var(--accent-border);
+      background: var(--surface-hover);
+      box-shadow: 0 0 12px var(--accent-dim);
+    }
+
     /* ── LOGIN GATE ── */
     #login-gate { 
       position: relative;
@@ -180,6 +200,9 @@
       <div>
         <div class="page-eyebrow">Members only</div>
         <h1>Info base</h1>
+        <div class="search-container">
+          <input type="text" id="info-search" placeholder="Search entries..." onkeyup="filterEntries()">
+        </div>
       </div>
       <button class="logout-btn" onclick="logout()">Sign out</button>
     </div>
@@ -202,6 +225,29 @@
       if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
     }
 
+    // --- SEARCH FILTER ---
+    function filterEntries() {
+      const query = document.getElementById('info-search').value.toLowerCase();
+      const entries = document.querySelectorAll('.doc-list li');
+      const sections = document.querySelectorAll('.section');
+
+      entries.forEach(entry => {
+        const title = entry.querySelector('.doc-title').textContent.toLowerCase();
+        const desc = entry.querySelector('.doc-desc').textContent.toLowerCase();
+        
+        if (title.includes(query) || desc.includes(query)) {
+          entry.style.display = "";
+        } else {
+          entry.style.display = "none";
+        }
+      });
+
+      sections.forEach(section => {
+        const visibleItems = section.querySelectorAll('li:not([style*="display: none"])');
+        section.style.display = visibleItems.length === 0 && query !== "" ? "none" : "";
+      });
+    }
+
     // --- PARSER ENGINE ---
     async function loadInfoBase() {
       const container = document.getElementById('dynamic-content');
@@ -216,7 +262,7 @@
 
         lines.forEach(line => {
           line = line.trim();
-          if (!line || line.startsWith('//')) return; // Ignore empty or comment lines
+          if (!line || line.startsWith('//')) return;
 
           const headingMatch = line.match(/^heading\((.*)\)$/);
           const linkMatch = line.match(/^link\((.*),\s*(.*),\s*(.*),\s*(.*)\)$/);
@@ -282,7 +328,6 @@
       loadInfoBase();
     }
 
-    // Initialize
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
     else setMemberNavState(false);
 
