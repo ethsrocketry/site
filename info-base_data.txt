@@ -3,4 +3,4 @@ link(Electronics Notes, Quick guide to arduino-style electronics, DOC, https://d
 
 heading(fabrication)
 link(3D Printing Tolerance Sheet, Dimensional and fit guidance for printed parts, DOC, https://docs.google.com/document/d/1o35jaJcufN3r2FYCSSN3ju66eLskUaP5I9Abqzxr5Nw/edit)
-link(Laser Cutting, Setup notes and cut planning references, DOC, https://docs.google.com/document/d/1fdLBoLlA14ZmZz34XSjDOz9xr1uwUYBFo4vrAvqtSec/edit)
+link(Laser Cutting, Cut template file and guide to using it, DOC, https://docs.google.com/document/d/1fdLBoLlA14ZmZz34XSjDOz9xr1uwUYBFo4vrAvqtSec/edit)
