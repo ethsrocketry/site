@@ -68,54 +68,53 @@
     /* ── HERO ── */
     .hero {
       position: relative;
-      padding: 80px 40px 72px;
       overflow: hidden;
       background: var(--bg2);
-      display: flex; align-items: center; gap: 48px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      min-height: 480px;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      padding: 72px 48px 72px 40px;
+      display: flex; flex-direction: column; justify-content: center;
     }
     .hero-img-wrap {
-      position: relative; z-index: 1;
-      flex: 0 0 360px;
-      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
     .hero-img-wrap img {
-      width: 100%; max-width: 360px;
-      border-radius: 12px;
-      border: 0.5px solid var(--border);
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
-      filter: drop-shadow(0 0 48px rgba(79,156,249,0.12));
     }
     .hero-img-caption {
-      margin-top: 10px;
-      text-align: center;
+      position: absolute; bottom: 12px; right: 14px;
       font-family: var(--mono); font-size: 10px;
-      color: var(--text-faint); letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2); letter-spacing: 0.08em;
       text-transform: uppercase;
     }
     .hero::before {
       content: '';
-      position: absolute; inset: 0;
+      position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(79,156,249,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(63,214,160,0.04) 0%, transparent 60%);
+        radial-gradient(ellipse 50% 80% at 30% 50%, rgba(79,156,249,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 5% 80%, rgba(63,214,160,0.04) 0%, transparent 60%);
       pointer-events: none;
     }
-    /* star field */
     .hero::after {
       content: '';
-      position: absolute; inset: 0;
+      position: absolute; inset: 0; z-index: 0;
       background-image:
-        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
-        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.35) 0%, transparent 100%),
-        radial-gradient(1px 1px at 70% 75%, rgba(255,255,255,0.25) 0%, transparent 100%),
-        radial-gradient(1px 1px at 88% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
-        radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,0.2) 0%, transparent 100%),
-        radial-gradient(1px 1px at 25% 85%, rgba(255,255,255,0.2) 0%, transparent 100%),
-        radial-gradient(1px 1px at 48% 45%, rgba(255,255,255,0.15) 0%, transparent 100%);
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 65%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 12%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 85%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 45%, rgba(255,255,255,0.15) 0%, transparent 100%);
       pointer-events: none;
     }
-    .hero-inner { position: relative; z-index: 1; flex: 1; min-width: 0; }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
@@ -305,10 +304,11 @@
     .hero-stats   { animation-delay: 0.35s; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       nav { padding: 0 20px; }
-      .hero { padding: 52px 20px 48px; flex-direction: column; }
-      .hero-img-wrap { flex: none; width: 100%; }
+      .hero { grid-template-columns: 1fr; min-height: unset; }
+      .hero-inner { padding: 48px 20px 36px; }
+      .hero-img-wrap { height: 260px; }
       .section { padding: 40px 20px; }
       .pid-grid, .specs-grid { grid-template-columns: 1fr; }
       .hero-stats { flex-direction: column; width: 100%; border-radius: 8px; }
@@ -331,7 +331,7 @@
       <span class="nav-brand">E-Town Rocket Bureau</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#">home</a></li>
+      <li><a href="home.html">home</a></li>
       <li><a href="#" class="active">arc 2026</a></li>
       <li><a href="#">member tools</a></li>
     </ul>
@@ -362,10 +362,8 @@
       </div>
     </div>
     <div class="hero-img-wrap">
-      <div>
-        <img src="full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
-        <div class="hero-img-caption">Full assembly render · ARC 2026</div>
-      </div>
+      <img src="full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+      <div class="hero-img-caption">Full assembly · ARC 2026</div>
     </div>
   </section>
 
@@ -481,7 +479,7 @@
         <div class="step-num">01</div>
         <div class="step-body">
           <h3>Constant tuning via Python SIL sim</h3>
-          <p>Before flight, our Python software-in-the-loop simulation runs the physics model with active airbrake dynamics. A binary search script finds optimal Kp, Ki, and Kd constants across thousands of simulated flights.</p>
+          <p>Before flight, our Python software-in-the-loop simulation runs the physics model with active airbrake dynamics. A binary search script finds optimal Kp, Ki, and Kd constants across dozens of simulated flights.</p>
         </div>
       </div>
       <div class="pipeline-step">
