@@ -211,11 +211,12 @@
     .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
     .lock-icon svg { width: 13px; height: 13px; }
     .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill { display: none; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
     .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
     .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .member-pill a:hover, .member-pill a.active { color: var(--accent); }
     .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
+    .member-only { display: none; }
 
     /* ── PID CARDS ── */
     .pid-grid {
@@ -367,17 +368,13 @@
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html" class="active">arc 2026</a></li>
       <li><a href="join-us.html">join us</a></li>
-      <li>
+      <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
-      </li>
-      <li class="member-pill" id="member-pages-pill">
-        <span class="member-pill-label">members</span>
-        <span class="member-pill-sep"></span>
-        <a href="member-tools.html">tools</a>
-        <a href="info-base.html">info base</a>
+        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
+        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
       </li>
     </ul>
   </nav>
@@ -569,9 +566,11 @@
 
     function setMemberNavState(isLoggedIn) {
       const icon = document.getElementById('member-lock-icon');
-      const pill = document.getElementById('member-pages-pill');
+      const infoLink = document.getElementById('member-info-link');
+      const pillSep = document.getElementById('member-pill-sep');
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      if (pill) pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
     }
 
     // Reflect login state on every page load (non-gated pages)
