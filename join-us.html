@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Us · E-Town Rocket Bureau</title>
+  <link rel="icon" type="image/png" href="etrb-logo.png">
+  <link rel="apple-touch-icon" href="etrb-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #4f9cf9; --border: rgba(255,255,255,0.08);
+      --bg: #08090f; --bg2: #0d0f1a; --text: #e8ecf8; --text-muted: rgba(232,236,248,0.45);
+      --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 58px;
+      background: rgba(8,9,15,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
+    .nav-brand { font-size: 14px; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .empty-shell { min-height: calc(100vh - 58px); background: var(--bg2); }
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="home.html">
+      <img src="etrb-logo.png" alt="E-Town Rocket Bureau logo" />
+      <span class="nav-brand">E-Town Rocket Bureau</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="home.html">home</a></li>
+      <li><a href="arc-2026.html">arc 2026</a></li>
+      <li><a href="join-us.html" class="active">join us</a></li>
+      <li><a href="member-tools.html">member tools</a></li>
+    </ul>
+  </nav>
+
+  <main class="empty-shell" aria-label="join us page"></main>
+</body>
+</html>
