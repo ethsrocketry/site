@@ -46,6 +46,7 @@
     .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
       font-size: 13px; color: var(--text-muted);
       text-decoration: none; font-family: var(--mono);
@@ -97,12 +98,53 @@
     .page-eyebrow::before { content: '> '; opacity: 0.5; }
     .page-header h1 { font-size: 32px; font-weight: 700; color: #f0f4ff; }
     .logout-btn { font-family: var(--mono); font-size: 12px; color: var(--text-faint); background: none; border: 0.5px solid var(--border); border-radius: 6px; padding: 8px 16px; cursor: pointer; }
+    .field label {
+      display: block; font-family: var(--mono); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%; padding: 10px 14px;
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 13px;
+    }
+    .error-msg {
+      font-family: var(--mono); font-size: 12px; color: var(--red);
+      margin-bottom: 14px; display: none; padding: 8px 12px;
+      background: rgba(255,90,90,0.08); border: 0.5px solid rgba(255,90,90,0.25); border-radius: 6px;
+    }
+    .error-msg.visible { display: block; }
+    .login-btn {
+      width: 100%; padding: 11px;
+      background: var(--accent-dim); border: 0.5px solid var(--accent-border);
+      border-radius: 6px; color: var(--accent);
+      font-family: var(--mono); font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+
+    #member-content { display: none; }
+    .page-header {
+      padding: 52px 40px 32px;
+      background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .page-eyebrow {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    }
+    .page-eyebrow::before { content: '> '; opacity: 0.5; }
+    .page-header h1 { font-size: 32px; font-weight: 700; color: #f0f4ff; }
+    .logout-btn {
+      font-family: var(--mono); font-size: 12px; color: var(--text-faint);
+      background: none; border: 0.5px solid var(--border); border-radius: 6px;
+      padding: 8px 16px; cursor: pointer;
+    }
 
     .section { padding: 40px; }
     .section h2 { font-size: 22px; margin-bottom: 16px; }
     .doc-list { list-style: none; display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
     .doc-link {
       display: flex; justify-content: space-between; gap: 14px; align-items: center;
+      display: block;
       background: var(--surface); border: 0.5px solid var(--border);
       border-radius: 10px; padding: 18px 20px;
       color: var(--text); text-decoration: none;
@@ -117,6 +159,9 @@
       nav { padding: 0 20px; }
       .nav-links { gap: 14px; }
       .member-pill { gap: 8px; padding: 4px 10px; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
       .page-header { padding: 36px 20px 28px; flex-direction: column; align-items: flex-start; gap: 16px; }
       .section { padding: 28px 20px 36px; }
       .login-card { padding: 28px 24px; }
@@ -153,6 +198,8 @@
         <a href="quick-learn.html" class="active">quick learn</a>
         <a href="fabrication.html">fabrication</a>
       </li>
+      <li><a href="member-tools.html">member tools</a></li>
+      <li><a href="quick-learn.html" class="active">quick learn</a></li>
     </ul>
   </nav>
 
@@ -195,6 +242,8 @@
               <rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
               <path d="M7 7H13M7 10H13M7 13H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
             </svg>
+            <div class="doc-title">Electronics Notes</div>
+            <div class="doc-desc">Open the current electronics quick-learn document.</div>
           </a>
         </li>
       </ul>
@@ -245,6 +294,8 @@
     }
 
     setMemberNavState(false);
+    }
+
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
 
     document.addEventListener('keydown', e => {

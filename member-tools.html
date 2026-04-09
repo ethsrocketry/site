@@ -261,6 +261,8 @@
         <a href="quick-learn.html">quick learn</a>
         <a href="fabrication.html">fabrication</a>
       </li>
+      <li><a href="member-tools.html" class="active">member tools</a></li>
+      <li id="quick-learn-nav" style="display: none;"><a href="quick-learn.html">quick learn</a></li>
     </ul>
   </nav>
 
@@ -428,12 +430,14 @@
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
       setMemberNavState(false);
+      document.getElementById('quick-learn-nav').style.display = 'none';
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
       setMemberNavState(true);
+      document.getElementById('quick-learn-nav').style.display = 'list-item';
     }
 
     // persist login for the browser session
