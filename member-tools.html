@@ -216,6 +216,7 @@
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
       <li><a href="member-tools.html" class="active">member tools</a></li>
+      <li id="quick-learn-nav" style="display: none;"><a href="quick-learn.html">quick learn</a></li>
     </ul>
   </nav>
 
@@ -311,6 +312,19 @@
           </div>
         </a>
 
+        <a class="tool-card" href="quick-learn.html">
+          <div class="tool-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M5 4h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="#4f9cf9" stroke-width="1.4"/>
+              <path d="M7 8h6M7 11h6M7 14h4" stroke="#4f9cf9" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-name">Quick learn</div>
+            <div class="tool-desc">Short-form learning notes and references for key subsystems.</div>
+          </div>
+        </a>
+
       </div>
     </section>
 
@@ -348,11 +362,13 @@
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
+      document.getElementById('quick-learn-nav').style.display = 'none';
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
+      document.getElementById('quick-learn-nav').style.display = 'list-item';
     }
 
     // persist login for the browser session
