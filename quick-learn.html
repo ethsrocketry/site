@@ -43,31 +43,15 @@
       border-bottom: 0.5px solid var(--border);
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 26px; height: 26px; flex-shrink: 0; object-fit: contain; }
+    .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
-    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
       font-size: 13px; color: var(--text-muted);
       text-decoration: none; font-family: var(--mono);
       transition: color 0.2s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    .member-entry { display: inline-flex; align-items: center; gap: 8px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255, 90, 90, 0.92); transition: color 0.2s; }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill {
-      display: none; align-items: center; gap: 12px;
-      border: 0.5px solid var(--accent-border);
-      background: var(--accent-dim);
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-    .member-pill .member-pill-label { color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
-    .member-pill a { color: var(--text-muted); font-size: 11px; }
-    .member-pill a.active, .member-pill a:hover { color: var(--accent); }
 
     #login-gate {
       min-height: calc(100vh - 58px);
@@ -85,24 +69,52 @@
     .login-card h1 { font-size: 20px; margin-bottom: 6px; }
     .login-card p { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 28px; }
     .field { margin-bottom: 16px; }
-    .field label { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 7px; }
-    .field input { width: 100%; padding: 10px 14px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 13px; }
-    .error-msg { font-family: var(--mono); font-size: 12px; color: var(--red); margin-bottom: 14px; display: none; padding: 8px 12px; background: rgba(255,90,90,0.08); border: 0.5px solid rgba(255,90,90,0.25); border-radius: 6px; }
+    .field label {
+      display: block; font-family: var(--mono); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%; padding: 10px 14px;
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 13px;
+    }
+    .error-msg {
+      font-family: var(--mono); font-size: 12px; color: var(--red);
+      margin-bottom: 14px; display: none; padding: 8px 12px;
+      background: rgba(255,90,90,0.08); border: 0.5px solid rgba(255,90,90,0.25); border-radius: 6px;
+    }
     .error-msg.visible { display: block; }
-    .login-btn { width: 100%; padding: 11px; background: var(--accent-dim); border: 0.5px solid var(--accent-border); border-radius: 6px; color: var(--accent); font-family: var(--mono); font-size: 13px; font-weight: 700; cursor: pointer; }
+    .login-btn {
+      width: 100%; padding: 11px;
+      background: var(--accent-dim); border: 0.5px solid var(--accent-border);
+      border-radius: 6px; color: var(--accent);
+      font-family: var(--mono); font-size: 13px; font-weight: 700; cursor: pointer;
+    }
 
     #member-content { display: none; }
-    .page-header { padding: 52px 40px 32px; background: var(--bg2); border-bottom: 0.5px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; }
-    .page-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .page-header {
+      padding: 52px 40px 32px;
+      background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .page-eyebrow {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    }
     .page-eyebrow::before { content: '> '; opacity: 0.5; }
     .page-header h1 { font-size: 32px; font-weight: 700; color: #f0f4ff; }
-    .logout-btn { font-family: var(--mono); font-size: 12px; color: var(--text-faint); background: none; border: 0.5px solid var(--border); border-radius: 6px; padding: 8px 16px; cursor: pointer; }
+    .logout-btn {
+      font-family: var(--mono); font-size: 12px; color: var(--text-faint);
+      background: none; border: 0.5px solid var(--border); border-radius: 6px;
+      padding: 8px 16px; cursor: pointer;
+    }
 
     .section { padding: 40px; }
     .section h2 { font-size: 22px; margin-bottom: 16px; }
     .doc-list { list-style: none; display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
     .doc-link {
-      display: flex; justify-content: space-between; gap: 14px; align-items: center;
+      display: block;
       background: var(--surface); border: 0.5px solid var(--border);
       border-radius: 10px; padding: 18px 20px;
       color: var(--text); text-decoration: none;
@@ -111,12 +123,9 @@
     .doc-link:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.14); }
     .doc-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .doc-desc { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
-    .doc-icon { width: 22px; height: 22px; flex-shrink: 0; color: var(--accent); }
 
-    @media (max-width: 900px) {
+    @media (max-width: 700px) {
       nav { padding: 0 20px; }
-      .nav-links { gap: 14px; }
-      .member-pill { gap: 8px; padding: 4px 10px; }
       .page-header { padding: 36px 20px 28px; flex-direction: column; align-items: flex-start; gap: 16px; }
       .section { padding: 28px 20px 36px; }
       .login-card { padding: 28px 24px; }
@@ -126,29 +135,18 @@
 <body>
   <nav>
     <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="E-Town Rocket Bureau logo" />
+      <svg viewBox="0 0 26 26" fill="none">
+        <path d="M13 2L13 20M13 2L9 8M13 2L17 8" stroke="#4f9cf9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7 20C7 20 9 17 13 17C17 17 19 20 19 20" stroke="#4f9cf9" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="13" cy="22" r="1.5" fill="#4f9cf9" opacity="0.6"/>
+      </svg>
       <span class="nav-brand">E-Town Rocket Bureau</span>
     </a>
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li>
-        <a href="member-tools.html" class="member-entry">
-          <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon" aria-hidden="true">
-            <svg viewBox="0 0 20 20" fill="none">
-              <rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/>
-              <path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </span>
-        </a>
-      </li>
-      <li class="member-pill" id="member-pages-pill">
-        <span class="member-pill-label">members</span>
-        <a href="member-tools.html">tools</a>
-        <a href="quick-learn.html" class="active">quick learn</a>
-        <a href="fabrication.html">fabrication</a>
-      </li>
+      <li><a href="member-tools.html">member tools</a></li>
+      <li><a href="quick-learn.html" class="active">quick learn</a></li>
     </ul>
   </nav>
 
@@ -183,14 +181,8 @@
       <ul class="doc-list">
         <li>
           <a class="doc-link" href="https://docs.google.com/document/d/1epr-BBOIx0zVUhN5aM855oR_4kyLSvjc7tyNIKxZ7uQ/edit?tab=t.0#heading=h.cvg39ae44yen" target="_blank" rel="noopener noreferrer">
-            <div>
-              <div class="doc-title">Electronics Notes</div>
-              <div class="doc-desc">A quick guide to arduino-style electronics</div>
-            </div>
-            <svg class="doc-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M7 7H13M7 10H13M7 13H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            </svg>
+            <div class="doc-title">Electronics Notes</div>
+            <div class="doc-desc">Open the current electronics quick-learn document.</div>
           </a>
         </li>
       </ul>
@@ -201,13 +193,6 @@
     const CORRECT_USER = 'member';
     const CORRECT_PASS = 'rktpass1';
     const SESSION_KEY  = 'etrb_auth';
-
-    function setMemberNavState(isLoggedIn) {
-      const lockIcon = document.getElementById('member-lock-icon');
-      const pill = document.getElementById('member-pages-pill');
-      lockIcon.classList.toggle('unlocked', isLoggedIn);
-      pill.style.display = isLoggedIn ? 'inline-flex' : 'none';
-    }
 
     function tryLogin() {
       const user = document.getElementById('username').value.trim();
@@ -231,16 +216,13 @@
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
-      setMemberNavState(false);
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
-      setMemberNavState(true);
     }
 
-    setMemberNavState(false);
     if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
 
     document.addEventListener('keydown', e => {

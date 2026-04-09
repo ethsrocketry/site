@@ -240,23 +240,8 @@
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li>
-        <a href="member-tools.html" class="active member-entry">
-          <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon" aria-hidden="true">
-            <svg viewBox="0 0 20 20" fill="none">
-              <rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/>
-              <path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </span>
-        </a>
-      </li>
-      <li class="member-pill" id="member-pages-pill">
-        <span class="member-pill-label">members</span>
-        <a href="member-tools.html" class="active">tools</a>
-        <a href="quick-learn.html">quick learn</a>
-        <a href="fabrication.html">fabrication</a>
-      </li>
+      <li><a href="member-tools.html" class="active">member tools</a></li>
+      <li id="quick-learn-nav" style="display: none;"><a href="quick-learn.html">quick learn</a></li>
     </ul>
   </nav>
 
@@ -365,20 +350,6 @@
           </div>
         </a>
 
-
-        <a class="tool-card" href="fabrication.html">
-          <div class="tool-icon">
-            <svg viewBox="0 0 20 20" fill="none">
-              <path d="M4 6h12M6 6v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="#4f9cf9" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M8 4h4" stroke="#4f9cf9" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div>
-            <div class="tool-name">Fabrication</div>
-            <div class="tool-desc">Manufacturing quick references for 3D printing and laser cutting work.</div>
-          </div>
-        </a>
-
       </div>
     </section>
 
@@ -423,13 +394,13 @@
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
       document.getElementById('password').value = '';
-      setMemberNavState(false);
+      document.getElementById('quick-learn-nav').style.display = 'none';
     }
 
     function showContent() {
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('member-content').style.display = 'block';
-      setMemberNavState(true);
+      document.getElementById('quick-learn-nav').style.display = 'list-item';
     }
 
     // persist login for the browser session
