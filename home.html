@@ -220,6 +220,20 @@
       transition: transform 0.2s; flex-shrink: 0;
     }
     .program-card:hover .program-arrow { transform: translateX(5px); }
+    .result-highlight {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(246, 196, 83, 0.45);
+      background: rgba(246, 196, 83, 0.14);
+      color: #f6c453;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -392,7 +406,7 @@
     </div>
     <a class="program-card" href="arc-2026.html">
       <div>
-        <div class="program-tag">Premier program · 2026</div>
+        <div class="program-tag">Competition program · 2026</div>
         <div class="program-name">American Rocketry Challenge</div>
         <div class="program-desc">
           Using PID control and active airbrakes to hit a precise 750 ft apogee.
@@ -409,6 +423,7 @@
         <div class="program-desc">
           A dedicated program track focused on practical design-build-fly experience and foundational competition prep.
         </div>
+        <div class="result-highlight">🏆 R4S earned [ ] place nationally in 2025</div>
       </div>
       <div class="program-arrow">→</div>
     </a>
