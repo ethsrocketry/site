@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-Town Rocket Bureau</title>
+  <title>ETHS Rocketry</title>
   <link rel="icon" type="image/png" href="etrb-logo.png">
   <link rel="apple-touch-icon" href="etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -279,6 +279,79 @@
       letter-spacing: 0.03em;
     }
 
+
+    .media-carousel {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .media-carousel h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+    .media-carousel p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .carousel-frame {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+      background: #05060c;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-slide { display: none; width: 100%; }
+    .carousel-slide.active { display: block; }
+    .carousel-slide img,
+    .carousel-slide video {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      display: block;
+      background: #05060c;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 0.5px solid var(--accent-border);
+      background: rgba(8,9,15,0.8);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+    .carousel-btn:hover { background: rgba(79, 156, 249, 0.25); }
+    #arc26-prev { left: 10px; }
+    #arc26-next { right: 10px; }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.24);
+      cursor: pointer;
+    }
+    .carousel-dot.active { background: var(--accent); }
+
     /* ── SPECS ── */
     .specs-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -375,8 +448,8 @@
 
   <nav>
     <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="E-Town Rocket Bureau logo" />
-      <span class="nav-brand">E-Town Rocket Bureau</span>
+      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
+      <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
@@ -419,7 +492,7 @@
       </div>
     </div>
     <div class="hero-img-wrap">
-      <img src="full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
       <div class="hero-img-caption">Full assembly · ARC 2026</div>
     </div>
   </section>
@@ -470,13 +543,29 @@
       <span class="tag">real-time avionics</span>
     </div>
 
-    <div class="video-panel">
-      <h3>Airbrake control numerical test</h3>
-      <p>Latest ARC-2026 control-loop validation clip with numerical input playback.</p>
-      <video controls preload="metadata">
-        <source src="Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div class="media-carousel" aria-label="ARC 2026 media carousel">
+      <h3>ARC 2026 media carousel</h3>
+      <p>Airbrake control test footage plus current rocket build and avionics assembly snapshots.</p>
+      <div class="carousel-frame" id="arc26-carousel-frame">
+        <button class="carousel-btn" id="arc26-prev" aria-label="Previous media">&#10094;</button>
+        <div class="carousel-slide active" data-type="video">
+          <video controls preload="metadata">
+            <source src="arc26-media/Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/Full_Rocket_Assembly_2 (1).jpg" alt="ARC 2026 full rocket assembly" />
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg" alt="ARC 2026 fully assembled AV bay" />
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+        </div>
+        <button class="carousel-btn" id="arc26-next" aria-label="Next media">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="arc26-dots" aria-label="carousel indicators"></div>
     </div>
   </section>
 
@@ -581,7 +670,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">E-Town Rocket Bureau · Evanston Township High School</div>
+    <div class="footer-left">ETHS Rocketry · Evanston Township High School</div>
     <div class="footer-right">ARC 2026 season</div>
   </footer>
 
@@ -596,6 +685,37 @@
       if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
       if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
     }
+
+
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const dotsWrap = document.getElementById('arc26-dots');
+    let activeSlide = 0;
+
+    function showSlide(index) {
+      activeSlide = (index + slides.length) % slides.length;
+      slides.forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === activeSlide);
+        if (idx !== activeSlide) {
+          const vid = slide.querySelector('video');
+          if (vid) vid.pause();
+        }
+      });
+      dotsWrap.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeSlide);
+      });
+    }
+
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', `Show slide ${idx + 1}`);
+      dot.addEventListener('click', () => showSlide(idx));
+      dotsWrap.appendChild(dot);
+    });
+
+    document.getElementById('arc26-prev').addEventListener('click', () => showSlide(activeSlide - 1));
+    document.getElementById('arc26-next').addEventListener('click', () => showSlide(activeSlide + 1));
+    showSlide(0);
 
     // Reflect login state on every page load (non-gated pages)
     setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
