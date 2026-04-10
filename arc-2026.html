@@ -66,6 +66,20 @@
     }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
 
+    .nav-links a.join-us-link {
+      background: linear-gradient(90deg, #4f9cf9, #3fd6a0, #f6c453, #ff7aa2, #4f9cf9);
+      background-size: 280% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: joinUsGradientShift 6s linear infinite;
+    }
+    @keyframes joinUsGradientShift {
+      from { background-position: 0% 50%; }
+      to { background-position: 280% 50%; }
+    }
+
+
     /* ── HERO ── */
     .hero {
       position: relative;
@@ -367,7 +381,8 @@
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html" class="active">arc 2026</a></li>
-      <li><a href="join-us.html">join us</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="join-us.html" class="join-us-link">join us</a></li>
       <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
@@ -453,6 +468,15 @@
       <span class="tag">binary search tuning</span>
       <span class="tag">active airbrakes</span>
       <span class="tag">real-time avionics</span>
+    </div>
+
+    <div class="video-panel">
+      <h3>Airbrake control numerical test</h3>
+      <p>Latest ARC-2026 control-loop validation clip with numerical input playback.</p>
+      <video controls preload="metadata">
+        <source src="Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
   </section>
 
