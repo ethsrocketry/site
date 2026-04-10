@@ -248,31 +248,47 @@
       font-family: var(--mono); font-size: 32px; font-weight: 700;
       margin-bottom: 12px; display: block;
     }
+    .pid-card.p .pid-letter { color: var(--accent); }
+    .pid-card.i .pid-letter { color: var(--green); }
+    .pid-card.d .pid-letter { color: var(--orange); }
     .pid-name {
-      font-size: 15px; font-weight: 600;
-      margin-bottom: 8px;
+      font-size: 13px; font-weight: 600;
+      color: var(--text); margin-bottom: 8px;
     }
     .pid-desc {
-      font-size: 13px; color: var(--text-muted); line-height: 1.6;
+      font-size: 12px; color: var(--text-muted);
+      line-height: 1.65; font-family: var(--mono);
     }
 
-    /* ── TAGS ── */
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 32px;
-    }
+    /* ── TECH TAGS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .tag {
-      padding: 4px 12px;
-      border-radius: 999px;
-      background: var(--accent-dim);
-      border: 0.5px solid var(--accent-border);
-      font-size: 11px; color: var(--accent);
-      font-family: var(--mono);
+      font-family: var(--mono); font-size: 11px;
+      padding: 5px 13px; border-radius: 4px;
+      border: 0.5px solid var(--border);
+      color: var(--text-muted);
+      background: var(--surface);
+      letter-spacing: 0.03em;
     }
 
-    /* ── CAROUSEL ── */
+
+    .media-carousel {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .media-carousel h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+    .media-carousel p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
     .carousel-frame {
       position: relative;
       border-radius: 10px;
@@ -311,146 +327,156 @@
       width: 36px;
       height: 36px;
       border-radius: 999px;
-      border: none;
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
+      border: 0.5px solid var(--accent-border);
+      background: rgba(8,9,15,0.8);
+      color: var(--text);
       cursor: pointer;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
+      font-size: 20px;
+      line-height: 1;
     }
-    .carousel-btn:hover { background: rgba(0, 0, 0, 0.6); }
-    .carousel-btn:first-of-type { left: 12px; }
-    .carousel-btn:last-of-type { right: 12px; }
+    .carousel-btn:hover { background: rgba(79, 156, 249, 0.25); }
+    #arc26-prev { left: 10px; }
+    #arc26-next { right: 10px; }
     .carousel-dots {
       display: flex;
-      gap: 8px;
       justify-content: center;
-      margin-top: 16px;
+      gap: 8px;
+      margin-top: 12px;
     }
     .carousel-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.2);
       border: none;
+      background: rgba(255,255,255,0.24);
       cursor: pointer;
-      transition: background 0.2s;
     }
     .carousel-dot.active { background: var(--accent); }
 
     /* ── SPECS ── */
     .specs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
     .spec-card {
-      padding: 20px;
-      border: 0.5px solid var(--border);
-      border-radius: 10px;
       background: var(--surface);
-      transition: background 0.2s, border-color 0.2s;
+      border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: background 0.2s;
     }
-    .spec-card:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-accent);
-    }
+    .spec-card:hover { background: var(--surface-hover); }
     .spec-icon-wrap {
-      width: 40px; height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
+      width: 38px; height: 38px; border-radius: 8px;
+      background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
     }
-    .spec-icon-wrap svg { width: 100%; height: 100%; }
+    .spec-icon-wrap svg { width: 20px; height: 20px; }
     .spec-label {
-      font-size: 10px; color: var(--text-faint);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin-bottom: 4px;
+      font-family: var(--mono); font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-faint); margin-bottom: 4px;
     }
     .spec-val {
-      font-size: 18px; font-weight: 600; color: var(--text);
+      font-family: var(--mono); font-size: 18px; font-weight: 700;
+      color: var(--text);
     }
 
-    /* ── PIPELINE ── */
+    /* ── HOW IT WORKS ── */
     .pipeline {
-      display: flex; flex-direction: column; gap: 32px;
+      display: flex; flex-direction: column; gap: 0;
     }
     .pipeline-step {
-      display: grid; grid-template-columns: 80px 1fr; gap: 24px;
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 22px 0;
+      border-bottom: 0.5px solid var(--border);
     }
+    .pipeline-step:last-child { border-bottom: none; }
     .step-num {
-      font-family: var(--mono); font-size: 24px; font-weight: 700;
-      color: var(--accent);
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.08em;
+      width: 32px; flex-shrink: 0; padding-top: 3px;
     }
     .step-body h3 {
-      font-size: 16px; font-weight: 600; margin-bottom: 8px;
+      font-size: 15px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px;
     }
     .step-body p {
-      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      font-size: 13px; color: var(--text-muted);
+      line-height: 1.7; font-family: var(--mono);
     }
 
     /* ── FOOTER ── */
     footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 40px;
       border-top: 0.5px solid var(--border);
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-faint);
+      padding: 22px 40px;
+      display: flex; align-items: center; justify-content: space-between;
     }
+    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
+    .footer-right { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
 
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; }
-      .specs-grid { grid-template-columns: 1fr; }
-      .pid-grid { grid-template-columns: 1fr; }
-      .pipeline-step { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-inner > * {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .hero-eyebrow { animation-delay: 0.05s; }
+    .hero h1      { animation-delay: 0.15s; }
+    .hero-desc    { animation-delay: 0.25s; }
+    .hero-stats   { animation-delay: 0.35s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .hero { grid-template-columns: 1fr; min-height: unset; }
+      .hero-inner { padding: 48px 20px 36px; }
+      .hero-img-wrap { height: 260px; }
+      .section { padding: 40px 20px; }
+      .pid-grid, .specs-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; width: 100%; border-radius: 8px; }
+      .stat { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      footer { flex-direction: column; gap: 8px; padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <!-- HEADER/NAV -->
+
   <nav>
-    <a class="nav-logo" href="#home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
+    <a class="nav-logo" href="home.html">
+      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#specs">Specs</a></li>
-      <li><a href="#how">How it works</a></li>
-      <li class="member-entry">
-        <svg class="lock-icon" id="member-lock-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 6V4.5C11 2.57 9.43 1 7.5 1S4 2.57 4 4.5V6M3.5 6H11.5C12.3284 6 13 6.67157 13 7.5V13.5C13 14.3284 12.3284 15 11.5 15H3.5C2.67157 15 2 14.3284 2 13.5V7.5C2 6.67157 2.67157 6 3.5 6Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <div class="member-pill">
-          <span class="member-pill-label">Member Area</span>
-          <span class="member-pill-sep"></span>
-          <a href="#member-dash" id="member-info-link" style="display: none;">Dashboard</a>
-        </div>
+      <li><a href="home.html">home</a></li>
+      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
+      <li><a href="r4s.html">r4s</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="join-us.html" class="join-us-link">join us</a></li>
+      <li class="member-pill" id="member-pages-pill">
+        <a href="member-tools.html" class="member-entry">
+          <span>member tools</span>
+          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        </a>
+        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
+        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
       </li>
     </ul>
   </nav>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="home">
+  <!-- HERO -->
+  <section class="hero">
     <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <span>ARC Mission 2026</span>
-      </div>
-      <h1>
-        Active Airbrake <em>Altitude Control</em>
-      </h1>
+      <div class="hero-eyebrow">American Rocketry Challenge 2026</div>
+      <h1>Built to hit<br><em>750 feet.</em></h1>
       <p class="hero-desc">
-        A PID-controlled servo system that extends airbrakes in real time to hit a 750-foot apogee target, protect a raw egg payload, and demonstrate systems integration at scale.
+        One rocket, one egg, one shot —<br>
+        reach apogee, return in 36–39 seconds, and land safely.
       </p>
       <div class="hero-stats">
         <div class="stat">
@@ -463,23 +489,24 @@
         </div>
         <div class="stat">
           <span class="stat-val">1 egg</span>
-          <span class="stat-label">Payload</span>
+          <span class="stat-label">Payload (intact)</span>
         </div>
       </div>
     </div>
     <div class="hero-img-wrap">
-      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 full assembly render" />
-      <div class="hero-img-caption">Full assembly render</div>
+      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+      <div class="hero-img-caption">Full assembly · ARC 2026</div>
     </div>
   </section>
 
-  <!-- OVERVIEW SECTION -->
-  <section class="section" id="overview">
+  <!-- PID SECTION -->
+  <section class="section" id="pid">
     <div class="section-header">
-      <div class="section-tag">System overview</div>
-      <h2>PID control fundamentals</h2>
+      <div class="section-tag">Avionics</div>
+      <h2>PID control</h2>
       <p class="section-desc">
-        Three corrective forces work together in our feedback loop: tracking error (P), accumulated drift (I), and smoothing oscillation (D).
+        Our airbrake system runs a Proportional-Integral-Derivative controller in C++ onboard.
+        Each term contributes a different input to compute the precise airbrake extension needed.
       </p>
     </div>
 
@@ -693,7 +720,11 @@
     showSlide(0);
 
     // Reflect login state on every page load (non-gated pages)
-    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+    (function setMemberNavStateOnLoad() {
+      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+    })();
   </script>
 </body>
 </html>
