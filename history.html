@@ -62,7 +62,7 @@
       background: var(--bg2);
       border-bottom: 0.5px solid var(--border);
     }
-    .page-header h1 { font-size: 34px; margin-bottom: 10px; }
+    .page-header h1 { font-size: 34px; margin-bottom: 10px; color: #f0f4ff; }
     .page-header p { font-family: var(--mono); color: var(--text-muted); font-size: 13px; }
 
     .history-wrap { padding: 36px 40px 56px; }
@@ -74,7 +74,7 @@
       padding: 24px;
     }
     .history-card h1, .history-card h2 { margin-bottom: 10px; }
-    .history-card h1 { font-size: 28px; }
+    .history-card h1 { font-size: 28px; color: #f0f4ff; }
     .history-card h2 { font-size: 20px; color: var(--accent); margin-top: 18px; }
     .history-card p, .history-card li {
       font-family: var(--mono);
@@ -154,53 +154,15 @@
     html.light-mode .history-card h2 {
       color: #1a2332;
     }
+    html.light-mode .history-card h2 {
+      color: #2980b9;
+    }
     html.light-mode .history-card p,
     html.light-mode .history-card li {
       color: #5a6c7d;
     }
     html.light-mode .history-card hr {
       border-top-color: #d4dce8;
-    }
-    html.light-mode .skill-card {
-      background: #f8fafc;
-      border-color: #d4dce8;
-    }
-    html.light-mode .skill-card:hover {
-      background: #f0f4f9;
-      border-color: #b8d4f1;
-    }
-    html.light-mode .skill-card h3 {
-      color: #1a2332;
-    }
-    html.light-mode .skill-card p {
-      color: #5a6c7d;
-    }
-    html.light-mode .discord-cta {
-      color: #2980b9;
-      border-color: #b8d4f1;
-      background: #e8f4fd;
-    }
-    html.light-mode .discord-cta:hover {
-      background: #d4e8fb;
-      border-color: #2980b9;
-    }
-    html.light-mode .page-eyebrow {
-      color: #2980b9;
-    }
-    html.light-mode .hero-inner {
-      background: rgba(255, 255, 255, 0.95);
-      border-color: #d4dce8;
-    }
-    html.light-mode .wip-note {
-      color: #5a6c7d;
-    }
-    html.light-mode .status-list {
-      color: #5a6c7d;
-    }
-    html.light-mode .result-highlight {
-      border-color: #f6c453;
-      background: #fff9e6;
-      color: #c99a00;
     }
     html.light-mode nav {
       background: rgba(245, 247, 250, 0.88);
@@ -249,26 +211,28 @@
       <li><a href="r4s.html">r4s</a></li>
       <li><a href="history.html" class="active">history</a></li>
       <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li class="member-pill">
+      <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
+        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
+        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
       </li>
     </ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
   </nav>
 
   <header class="page-header">
@@ -280,122 +244,111 @@
     <article class="history-card" id="history-content">Loading history…</article>
   </main>
 
+  <footer style="display: flex; gap: 40px; padding: 40px; border-top: 0.5px solid var(--border); font-family: var(--mono); font-size: 12px;">
+    <div class="footer-left">ETHS Rocketry · Evanston Township High School</div>
+    <div class="footer-right">2025 – 2026</div>
+  </footer>
+
   <script>
+    const SESSION_KEY = 'etrb_auth';
+
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      const infoLink = document.getElementById('member-info-link');
+      const pillSep = document.getElementById('member-pill-sep');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
+    }
+
+    // Reflect login state on every page load (non-gated pages)
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
+
+  <script>
+    // Markdown renderer for history
     function renderMarkdown(md) {
       const lines = md.split('\n');
       const out = [];
       let inList = false;
 
       for (const line of lines) {
-        if (line.startsWith('# ')) { if (inList) { out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>'); inList = false; } out.push(`<h1>${line.slice(2)}</h1>`); continue; }
-        if (line.startsWith('## ')) { if (inList) { out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>'); inList = false; } out.push(`<h2>${line.slice(3)}</h2>`); continue; }
-        if (line.startsWith('- ')) {
-          if (!inList) { out.push('<ul>'); inList = true; }
-          out.push(`<li>${line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`);
+        if (line.startsWith('# ')) {
+          if (inList) {
+            out.push('</ul>');
+            inList = false;
+          }
+          out.push(`<h1>${line.slice(2)}</h1>`);
           continue;
         }
-        if (line.trim() === '---') { if (inList) { out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>'); inList = false; } out.push('<hr />'); continue; }
-        if (line.trim() === '') { if (inList) { out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>'); inList = false; } continue; }
-        if (inList) { out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>'); inList = false; }
-        out.push(`<p>${line.replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`);
+        if (line.startsWith('## ')) {
+          if (inList) {
+            out.push('</ul>');
+            inList = false;
+          }
+          out.push(`<h2>${line.slice(3)}</h2>`);
+          continue;
+        }
+        if (line.startsWith('- ')) {
+          if (!inList) {
+            out.push('<ul>');
+            inList = true;
+          }
+          const content = line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          out.push(`<li>${content}</li>`);
+          continue;
+        }
+        if (line.startsWith('---')) {
+          if (inList) {
+            out.push('</ul>');
+            inList = false;
+          }
+          out.push('<hr>');
+          continue;
+        }
+        if (line.trim() === '') {
+          if (inList) {
+            out.push('</ul>');
+            inList = false;
+          }
+          continue;
+        }
+        if (inList) {
+          out.push('</ul>');
+          inList = false;
+        }
+        if (line.trim()) {
+          out.push(`<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`);
+        }
       }
-      if (inList) out.push('</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>');
+
+      if (inList) {
+        out.push('</ul>');
+      }
+
       return out.join('');
     }
 
-    fetch('history_data.md')
-      .then((res) => res.text())
-      .then((md) => { document.getElementById('history-content').innerHTML = renderMarkdown(md); })
-      .catch(() => {
-        document.getElementById('history-content').innerHTML = '<p>Could not load history data.</p>';
-      });
-  </script>
+    // Load markdown file
+    async function loadHistory() {
+      try {
+        const response = await fetch('history_data.md');
+        if (!response.ok) throw new Error('Failed to load history');
+        const md = await response.text();
+        const html = renderMarkdown(md);
+        document.getElementById('history-content').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading history:', error);
+        document.getElementById('history-content').innerHTML = '<p>Unable to load history data.</p>';
+      }
+    }
 
-  <script>
-    const SESSION_KEY = 'etrb_auth';
-    (function setMemberNavState() {
-      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
-      const icon = document.getElementById('member-lock-icon');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-    })();
+    // Load history when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadHistory);
+    } else {
+      loadHistory();
+    }
   </script>
 
   <script>
