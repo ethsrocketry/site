@@ -34,8 +34,14 @@
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
-    .nav-brand { font-size: 14px; font-weight: 600; color: var(--text); }
+    .nav-brand { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+
+    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
+    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
     .nav-links a.join-us-link {
@@ -95,9 +101,15 @@
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
+      <li><a href="r4s.html">r4s</a></li>
       <li><a href="history.html" class="active">history</a></li>
       <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li><a href="member-tools.html">member tools</a></li>
+      <li class="member-pill">
+        <a href="member-tools.html" class="member-entry">
+          <span>member tools</span>
+          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        </a>
+      </li>
     </ul>
   </nav>
 
@@ -139,6 +151,15 @@
       .catch(() => {
         document.getElementById('history-content').innerHTML = '<p>Could not load history data.</p>';
       });
+  </script>
+
+  <script>
+    const SESSION_KEY = 'etrb_auth';
+    (function setMemberNavState() {
+      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+    })();
   </script>
 </body>
 </html>
