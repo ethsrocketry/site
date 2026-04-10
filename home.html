@@ -276,75 +276,6 @@
     .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
     .member-only { display: none; }
 
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border-radius: 6px;
-      border: 0.5px solid var(--border);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--mono); font-size: 12px;
-      color: var(--text-muted);
-    }
-    .theme-toggle:hover {
-      background: var(--surface);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .theme-toggle svg { width: 16px; height: 16px; }
-
-    /* LIGHT MODE - Main overrides */
-    html.light-mode {
-      --bg: #f5f7fa;
-      --bg2: #fff;
-      --bg3: #f8fafc;
-      --surface: #f8fafc;
-      --surface-hover: #f0f4f9;
-      --border: #d4dce8;
-      --border-accent: #b8d4f1;
-      --text: #1a2332;
-      --text-muted: #5a6c7d;
-      --text-faint: #7a8a99;
-      --accent: #2980b9;
-      --accent-dim: #e8f4fd;
-      --accent-border: rgba(41, 128, 185, 0.35);
-      --green: #27ae60;
-    }
-
-    html.light-mode .theme-toggle {
-      border-color: #d4dce8;
-      color: #5a6c7d;
-    }
-    html.light-mode .theme-toggle:hover {
-      background: #f0f4f9;
-      border-color: #2980b9;
-      color: #2980b9;
-    }
-
-    html.light-mode .section h2,
-    html.light-mode .hero h1 {
-      color: #1a2332;
-    }
-
-    html.light-mode .hero-desc,
-    html.light-mode .section-desc,
-    html.light-mode .pillar-desc {
-      color: #5a6c7d;
-    }
-
-    html.light-mode .pillar {
-      background: #f8fafc;
-      border-color: #d4dce8;
-    }
-    html.light-mode .pillar:hover {
-      background: #f0f4f9;
-    }
-
-    html.light-mode footer {
-      color: #7a8a99;
-    }
-
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
@@ -388,19 +319,7 @@
         <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
       </li>
     </ul>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-    </button>
+  </nav>
 
   <!-- HERO -->
   <section class="hero">
@@ -530,34 +449,6 @@
 
     // Reflect login state on every page load (non-gated pages)
     setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
-  </script>
-
-  <script>
-    const THEME_KEY = 'etrb-theme';
-    const htmlEl = document.documentElement;
-    const toggleBtn = document.getElementById('theme-toggle');
-    
-    // Initialize theme from localStorage
-    function initTheme() {
-      const saved = localStorage.getItem(THEME_KEY);
-      const isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      
-      if (!isDark) {
-        htmlEl.classList.add('light-mode');
-      }
-    }
-    
-    // Toggle theme
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
-        htmlEl.classList.toggle('light-mode');
-        const isLight = htmlEl.classList.contains('light-mode');
-        localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
-      });
-    }
-    
-    // Initialize on load
-    initTheme();
   </script>
 </body>
 </html>
