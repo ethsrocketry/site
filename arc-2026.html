@@ -79,126 +79,109 @@
       to { background-position: 280% 50%; }
     }
 
-    /* ── HERO (SKY THEMED) ── */
+
+    /* ── HERO ── */
     .hero {
       position: relative;
       overflow: hidden;
-      /* Sky blue gradient replaces dark background */
-      background: linear-gradient(180deg, #4f9cf9 0%, #a5cfff 100%);
+      background: linear-gradient(180deg, #87ceeb 0%, #e0f6ff 100%);
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(500px, 48vw);
       min-height: 480px;
     }
-    
     .hero-inner {
-      position: relative; z-index: 4;
+      position: relative; z-index: 1;
       padding: 72px 48px 72px 40px;
       display: flex; flex-direction: column; justify-content: center;
     }
-
-    /* Cloud Animation */
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 0%, transparent 20%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.3) 0%, transparent 25%),
-        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.4) 0%, transparent 20%);
-      filter: blur(40px);
-      animation: cloudDrift 20s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-
-    @keyframes cloudDrift {
-      from { transform: translateX(-5%); }
-      to { transform: translateX(5%); }
-    }
-
-    /* Transparent Atmosphere Layer in front of Rocket */
-    .atmo-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      background: linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.1) 100%);
-      pointer-events: none;
-    }
-
     .hero-img-wrap {
       position: relative;
-      z-index: 3;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 18px 30px 18px 18px;
     }
-    
     .hero-img-wrap img {
       width: min(100%, 620px);
       max-height: 500px;
       height: 100%;
       object-fit: contain;
       display: block;
-      /* Slow Wiggle Animation */
-      animation: rocketWiggle 6s ease-in-out infinite;
+      animation: rocketWiggle 3s ease-in-out infinite;
     }
-
     @keyframes rocketWiggle {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-8px) rotate(0.5deg); }
-      75% { transform: translateY(8px) rotate(-0.5deg); }
+      0%, 100% { transform: translateX(0px) rotate(0deg); }
+      25% { transform: translateX(3px) rotate(0.5deg); }
+      50% { transform: translateX(-3px) rotate(-0.5deg); }
+      75% { transform: translateX(2px) rotate(0.3deg); }
     }
-
     .hero-img-caption {
       position: absolute; bottom: 12px;
       font-family: var(--mono); font-size: 10px;
-      color: rgba(255,255,255,0.6); letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2); letter-spacing: 0.08em;
       text-transform: uppercase; text-align: center;
     }
-
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 2;
+      background:
+        radial-gradient(circle 120px at 15% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle 150px at 75% 35%, rgba(255, 255, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(circle 100px at 85% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 35%),
+        radial-gradient(circle 130px at 25% 65%, rgba(255, 255, 255, 0.13) 0%, transparent 42%);
+      pointer-events: none;
+      animation: cloudDrift 8s ease-in-out infinite;
+    }
+    @keyframes cloudDrift {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(20px); }
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 3;
+      background: linear-gradient(180deg, transparent 0%, rgba(135, 206, 235, 0.15) 50%, rgba(200, 230, 250, 0.2) 100%);
+      pointer-events: none;
+    }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: #ffffff;
-      border: 0.5px solid rgba(255,255,255,0.4);
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(4px);
+      text-transform: uppercase; color: var(--accent);
+      border: 0.5px solid var(--accent-border);
+      background: var(--accent-dim);
       padding: 5px 14px; border-radius: 4px; margin-bottom: 22px;
       width: fit-content;
     }
-
+    .hero-eyebrow::before { content: '//'; opacity: 0.6; }
     .hero h1 {
       font-size: clamp(36px, 5vw, 54px);
       font-weight: 700; line-height: 1.1;
-      color: #ffffff;
+      color: #2c3e50;
       margin-bottom: 18px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .hero h1 em { font-style: normal; color: #111420; }
+    .hero h1 em { font-style: normal; color: #2980b9; }
     .hero-desc {
-      font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.75;
+      font-size: 15px; color: #5a6c7d; line-height: 1.75;
       max-width: 520px; margin-bottom: 36px;
       font-family: var(--mono);
     }
     .hero-stats {
       display: flex; gap: 0;
-      border: 0.5px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(8px);
+      border: 0.5px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px; overflow: hidden;
       width: fit-content;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
     }
     .stat {
       padding: 16px 28px;
-      border-right: 0.5px solid rgba(255,255,255,0.2);
+      border-right: 0.5px solid rgba(0, 0, 0, 0.1);
     }
     .stat:last-child { border-right: none; }
     .stat-val {
       font-family: var(--mono); font-size: 20px; font-weight: 700;
-      color: #ffffff; display: block;
+      color: #2980b9; display: block;
     }
     .stat-label {
-      font-size: 11px; color: rgba(255,255,255,0.7);
+      font-size: 11px; color: #5a6c7d;
       text-transform: uppercase; letter-spacing: 0.08em;
       margin-top: 3px; display: block;
     }
@@ -212,176 +195,233 @@
     .section-tag {
       font-family: var(--mono); font-size: 11px;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 10px;
+      color: var(--accent); margin-bottom: 12px; display: block;
     }
-    .section-tag::before { content: '> '; opacity: 0.5; }
     .section h2 {
-      font-size: 28px; font-weight: 700;
-      color: #f0f4ff; margin-bottom: 8px;
+      font-size: clamp(32px, 4vw, 42px);
+      font-weight: 700; margin-bottom: 12px; line-height: 1.2;
     }
     .section-desc {
-      font-size: 14px; color: var(--text-muted);
-      line-height: 1.75; max-width: 560px;
-      font-family: var(--mono);
+      font-size: 14px; color: var(--text-muted); max-width: 680px;
     }
 
-    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
-    .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
-    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
-    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
-    .member-only { display: none; }
-
-    /* ── PID CARDS ── */
-    .pid-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px; margin-bottom: 24px;
-    }
-    .pid-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 10px; padding: 24px;
-      transition: background 0.2s, border-color 0.2s;
-      position: relative; overflow: hidden;
-    }
-    .pid-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    }
-    .pid-card.p::before { background: var(--accent); }
-    .pid-card.i::before { background: var(--green); }
-    .pid-card.d::before { background: var(--orange); }
-    .pid-card:hover { background: var(--surface-hover); }
-    .pid-letter {
-      font-family: var(--mono); font-size: 32px; font-weight: 700;
-      margin-bottom: 12px; display: block;
-    }
-    .pid-card.p .pid-letter { color: var(--accent); }
-    .pid-card.i .pid-letter { color: var(--green); }
-    .pid-card.d .pid-letter { color: var(--orange); }
-    .pid-name {
-      font-size: 13px; font-weight: 600;
-      color: var(--text); margin-bottom: 8px;
-    }
-    .pid-desc {
-      font-size: 12px; color: var(--text-muted);
-      line-height: 1.65; font-family: var(--mono);
-    }
-
-    /* ── TECH TAGS ── */
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-    .tag {
-      font-family: var(--mono); font-size: 11px;
-      padding: 5px 13px; border-radius: 4px;
-      border: 0.5px solid var(--border);
-      color: var(--text-muted);
-      background: var(--surface);
-      letter-spacing: 0.03em;
-    }
-
+    /* ── MEDIA CAROUSEL ── */
     .media-carousel {
-      margin-top: 28px;
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 0.5px solid var(--border);
+    }
+    .media-carousel h3 {
+      font-size: 18px; font-weight: 600; margin-bottom: 8px;
+    }
+    .media-carousel > p {
+      font-size: 14px; color: var(--text-muted); margin-bottom: 24px;
     }
     .carousel-frame {
       position: relative;
-      border-radius: 10px;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg3);
       border: 0.5px solid var(--border);
-      background: #05060c;
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      max-width: 1000px;
     }
-    .carousel-slide { display: none; width: 100%; }
-    .carousel-slide.active { display: block; }
-    .carousel-slide img,
-    .carousel-slide video {
-      width: 100%;
-      max-height: 420px;
+    .carousel-slide {
+      position: absolute; inset: 0;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .carousel-slide.active {
+      opacity: 1; pointer-events: auto;
+    }
+    .carousel-slide img, .carousel-slide video {
+      width: 100%; height: 100%;
       object-fit: contain;
-      display: block;
+    }
+    .carousel-slide[data-type="image"] img {
+      animation: renderWiggle 3s ease-in-out infinite;
+    }
+    @keyframes renderWiggle {
+      0%, 100% { transform: translateX(0px) rotate(0deg); }
+      25% { transform: translateX(2px) rotate(0.3deg); }
+      50% { transform: translateX(-2px) rotate(-0.3deg); }
+      75% { transform: translateX(1px) rotate(0.2deg); }
     }
     .carousel-btn {
-      position: absolute;
-      top: 50%;
+      position: absolute; top: 50%; z-index: 10;
       transform: translateY(-50%);
-      z-index: 2;
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      border: 0.5px solid var(--accent-border);
-      background: rgba(8,9,15,0.8);
-      color: var(--text);
-      cursor: pointer;
+      background: rgba(0,0,0,0.4); color: white;
+      border: none; padding: 12px 16px; cursor: pointer;
+      font-size: 18px; border-radius: 4px;
+      transition: background 0.2s;
     }
+    .carousel-btn:hover { background: rgba(0,0,0,0.6); }
+    .carousel-btn:first-of-type { left: 12px; }
+    .carousel-btn:last-of-type { right: 12px; }
+    .carousel-dots {
+      display: flex; gap: 8px; justify-content: center;
+      margin-top: 16px;
+    }
+    .carousel-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-dot.active { background: var(--accent); }
 
     /* ── SPECS ── */
     .specs-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
     .spec-card {
-      background: var(--surface);
+      padding: 24px; border: 0.5px solid var(--border);
+      border-radius: 8px; background: var(--surface);
+      display: flex; align-items: flex-start; gap: 16px;
+      transition: all 0.2s;
+    }
+    .spec-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-accent);
+    }
+    .spec-icon-wrap {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .spec-icon-wrap svg { width: 100%; height: 100%; }
+    .spec-label {
+      font-size: 11px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .spec-val {
+      font-size: 18px; font-weight: 600;
+      margin-top: 4px; color: var(--text);
+    }
+
+    /* ── PID CARDS ── */
+    .pid-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px; margin-bottom: 40px;
+    }
+    .pid-card {
+      padding: 20px; border-radius: 8px;
       border: 0.5px solid var(--border);
-      border-radius: 10px; padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 14px;
+      background: linear-gradient(135deg, var(--surface) 0%, transparent 100%);
+    }
+    .pid-letter {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 4px;
+      font-weight: 700; font-size: 14px;
+      color: white; margin-bottom: 12px;
+    }
+    .pid-card.p .pid-letter { background: #4f9cf9; }
+    .pid-card.i .pid-letter { background: #3fd6a0; }
+    .pid-card.d .pid-letter { background: #f09060; }
+    .pid-name {
+      font-size: 16px; font-weight: 600; margin-bottom: 8px;
+    }
+    .pid-desc {
+      font-size: 13px; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* ── TAGS ── */
+    .tags {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 40px;
+    }
+    .tag {
+      padding: 6px 14px; border-radius: 20px;
+      background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border);
+      font-size: 12px; color: var(--accent);
+      font-family: var(--mono);
     }
 
     /* ── PIPELINE ── */
+    .pipeline {
+      display: flex; flex-direction: column; gap: 32px;
+    }
     .pipeline-step {
-      display: flex; gap: 24px; align-items: flex-start;
-      padding: 22px 0;
-      border-bottom: 0.5px solid var(--border);
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 24px; align-items: start;
+    }
+    .step-num {
+      font-family: var(--mono); font-size: 24px; font-weight: 700;
+      color: var(--accent);
+    }
+    .step-body h3 {
+      font-size: 16px; font-weight: 600; margin-bottom: 8px;
+      color: var(--text);
+    }
+    .step-body p {
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
     }
 
     /* ── FOOTER ── */
     footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 32px 40px;
       border-top: 0.5px solid var(--border);
-      padding: 22px 40px;
-      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--text-faint);
+      background: var(--bg2);
     }
 
-    @media (max-width: 700px) {
-      .hero { grid-template-columns: 1fr; }
-      .pid-grid, .specs-grid { grid-template-columns: 1fr; }
-      .hero-stats { flex-direction: column; width: 100%; }
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .hero-img-wrap {
+        padding: 24px;
+        max-width: 100%;
+      }
+      .hero-img-wrap img {
+        max-width: 100%;
+        max-height: 300px;
+      }
+      .hero-inner {
+        padding: 48px 24px;
+      }
+      nav { padding: 0 24px; }
+      .section { padding: 48px 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .pipeline-step {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-
+  <!-- HEADER/NAV -->
   <nav>
-    <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
+    <a class="nav-logo" href="#home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="home.html">home</a></li>
-      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
-      <li><a href="r4s.html">r4s</a></li>
-      <li><a href="history.html">history</a></li>
-      <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
-          <span>member tools</span>
-        </a>
-      </li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#footer" class="join-us-link">Our mission</a></li>
     </ul>
   </nav>
 
-  <section class="hero">
-    <div class="atmo-overlay"></div>
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
     <div class="hero-inner">
-      <div class="hero-eyebrow">American Rocketry Challenge 2026</div>
-      <h1>Built to hit<br><em>750 feet.</em></h1>
+      <div class="hero-eyebrow">
+        <span>ARC Mission 2026</span>
+      </div>
+      <h1>
+        Active Airbrake <em>Altitude Control</em>
+      </h1>
       <p class="hero-desc">
-        One rocket, one egg, one shot —<br>
-        reach apogee, return in 36–39 seconds, and land safely.
+        A PID-controlled servo system that extends airbrakes in real time to hit a 750-foot apogee target, protect a raw egg payload, and demonstrate systems integration at scale.
       </p>
       <div class="hero-stats">
         <div class="stat">
@@ -394,49 +434,237 @@
         </div>
         <div class="stat">
           <span class="stat-val">1 egg</span>
-          <span class="stat-label">Payload (intact)</span>
+          <span class="stat-label">Payload</span>
         </div>
       </div>
     </div>
     <div class="hero-img-wrap">
-      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
-      <div class="hero-img-caption">Full assembly · ARC 2026</div>
+      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 full assembly render" />
+      <div class="hero-img-caption">Full assembly render</div>
     </div>
   </section>
 
-  <section class="section" id="pid">
+  <!-- MEDIA & TECHNICAL DETAILS SECTION -->
+  <section class="section" id="media">
     <div class="section-header">
-      <div class="section-tag">Avionics</div>
-      <h2>PID control</h2>
+      <div class="section-tag">System overview</div>
+      <h2>PID control fundamentals</h2>
       <p class="section-desc">
-        Our airbrake system runs a Proportional-Integral-Derivative controller in C++ onboard.
+        Three corrective forces work together in our feedback loop: tracking error (P), accumulating drift (I), and smoothing oscillation (D).
       </p>
     </div>
 
-    <div class="pid-grid">
-      <div class="pid-card p"><span class="pid-letter">P</span><div class="pid-name">Proportional</div><p class="pid-desc">Altitude error mapping.</p></div>
-      <div class="pid-card i"><span class="pid-letter">I</span><div class="pid-name">Integral</div><p class="pid-desc">Accumulated drift correction.</p></div>
-      <div class="pid-card d"><span class="pid-letter">D</span><div class="pid-name">Derivative</div><p class="pid-desc">Smoothing and damping.</p></div>
+    <div class="pid-cards">
+      <div class="pid-card p">
+        <span class="pid-letter">P</span>
+        <div class="pid-name">Proportional</div>
+        <p class="pid-desc">
+          Directly corrects the error: the farther from target altitude, the more the servo extends the airbrakes.
+          Fast but can overshoot.
+        </p>
+      </div>
+      <div class="pid-card i">
+        <span class="pid-letter">I</span>
+        <div class="pid-name">Integral</div>
+        <p class="pid-desc">
+          Accumulates error over time to catch slow drift that P and D alone miss.
+          Forces corrections when the rocket persistently over- or under-shoots.
+        </p>
+      </div>
+      <div class="pid-card d">
+        <span class="pid-letter">D</span>
+        <div class="pid-name">Derivative</div>
+        <p class="pid-desc">
+          Tracks how fast error is changing to smooth servo movement, reduce
+          wear, and eliminate oscillation around target.
+        </p>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">C++ controller</span>
+      <span class="tag">Python SIL sim</span>
+      <span class="tag">binary search tuning</span>
+      <span class="tag">active airbrakes</span>
+      <span class="tag">real-time avionics</span>
+    </div>
+
+    <div class="media-carousel" aria-label="ARC 2026 media carousel">
+      <h3>ARC 2026 media carousel</h3>
+      <p>Airbrake control test footage plus current rocket build and avionics assembly snapshots.</p>
+      <div class="carousel-frame" id="arc26-carousel-frame">
+        <button class="carousel-btn" id="arc26-prev" aria-label="Previous media">&#10094;</button>
+        <div class="carousel-slide active" data-type="video">
+          <video controls preload="metadata">
+            <source src="arc26-media/Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/Full_Rocket_Assembly_2 (1).jpg" alt="ARC 2026 full rocket assembly" />
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg" alt="ARC 2026 fully assembled AV bay" />
+        </div>
+        <div class="carousel-slide" data-type="image">
+          <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+        </div>
+        <button class="carousel-btn" id="arc26-next" aria-label="Next media">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="arc26-dots" aria-label="carousel indicators"></div>
     </div>
   </section>
 
+  <!-- SPECS SECTION -->
   <section class="section" id="specs">
     <div class="section-header">
       <div class="section-tag">Mission requirements</div>
       <h2>Flight envelope</h2>
+      <p class="section-desc">
+        ARC defines a tight success window. Our avionics are designed to hit all three.
+      </p>
     </div>
 
     <div class="specs-grid">
-      <div class="spec-card"><div class="spec-label">Apogee target</div><div class="spec-val">750 ft</div></div>
-      <div class="spec-card"><div class="spec-label">Flight duration</div><div class="spec-val">36 – 39 s</div></div>
-      <div class="spec-card"><div class="spec-label">Payload</div><div class="spec-val">1 raw egg</div></div>
+      <div class="spec-card">
+        <div class="spec-icon-wrap">
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M10 2L10 15M10 2L7 7M10 2L13 7" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 17H16" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="spec-label">Apogee target</div>
+          <div class="spec-val">750 ft</div>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon-wrap">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#4f9cf9" stroke-width="1.6"/>
+            <path d="M10 6V10.5L12.5 13" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="spec-label">Flight duration</div>
+          <div class="spec-val">36 – 39 s</div>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon-wrap">
+          <svg viewBox="0 0 20 20" fill="none">
+            <ellipse cx="10" cy="10" rx="4.5" ry="6" stroke="#4f9cf9" stroke-width="1.6"/>
+            <path d="M5.5 10H14.5" stroke="#4f9cf9" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="spec-label">Payload</div>
+          <div class="spec-val">1 raw egg</div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-header">
+      <div class="section-tag">Control loop</div>
+      <h2>How the system works</h2>
+      <p class="section-desc">
+        From launch to landing, here's how our PID controller keeps us on target.
+      </p>
+    </div>
+
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Constant tuning via Python SIL sim</h3>
+          <p>Before flight, our Python software-in-the-loop simulation runs the physics model with active airbrake dynamics. A binary search script finds optimal Kp, Ki, and Kd constants across dozens of simulated flights.</p>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Liftoff & sensor read</h3>
+          <p>At launch, the onboard altimeter starts reading pressure data. Altitude and velocity are computed in real time by the C++ flight computer.</p>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>C++ PID controller runs onboard</h3>
+          <p>The controller reads sensor data, computes the P, I, and D terms using the pre-tuned constants, and outputs the target airbrake extension angle to the servo — all in real time.</p>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>Airbrakes modulate drag</h3>
+          <p>The servo extends the airbrakes by the commanded angle, increasing drag to bleed off excess energy. The loop runs continuously until apogee is reached.</p>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h3>Recovery & payload check</h3>
+          <p>Chutes deploy at apogee. Flight time is logged to confirm the 36–39 second window. The egg is inspected post-landing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
     <div class="footer-left">ETHS Rocketry · Evanston Township High School</div>
     <div class="footer-right">ARC 2026 season</div>
   </footer>
 
+  <script>
+    const SESSION_KEY = 'etrb_auth';
+
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      const infoLink = document.getElementById('member-info-link');
+      const pillSep = document.getElementById('member-pill-sep');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
+    }
+
+
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const dotsWrap = document.getElementById('arc26-dots');
+    let activeSlide = 0;
+
+    function showSlide(index) {
+      activeSlide = (index + slides.length) % slides.length;
+      slides.forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === activeSlide);
+        if (idx !== activeSlide) {
+          const vid = slide.querySelector('video');
+          if (vid) vid.pause();
+        }
+      });
+      dotsWrap.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeSlide);
+      });
+    }
+
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', `Show slide ${idx + 1}`);
+      dot.addEventListener('click', () => showSlide(idx));
+      dotsWrap.appendChild(dot);
+    });
+
+    document.getElementById('arc26-prev').addEventListener('click', () => showSlide(activeSlide - 1));
+    document.getElementById('arc26-next').addEventListener('click', () => showSlide(activeSlide + 1));
+    showSlide(0);
+
+    // Reflect login state on every page load (non-gated pages)
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
 </body>
 </html>
