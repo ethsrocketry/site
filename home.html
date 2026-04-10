@@ -237,6 +237,20 @@
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    .nav-links a.join-us-link {
+      background: linear-gradient(90deg, #4f9cf9, #3fd6a0, #f6c453, #ff7aa2, #4f9cf9);
+      background-size: 280% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: joinUsGradientShift 6s linear infinite;
+    }
+    @keyframes joinUsGradientShift {
+      from { background-position: 0% 50%; }
+      to { background-position: 280% 50%; }
+    }
+
     .member-entry { display: inline-flex; align-items: center; gap: 7px; }
     .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
     .lock-icon svg { width: 13px; height: 13px; }
@@ -279,7 +293,8 @@
     <ul class="nav-links">
       <li><a href="home.html" class="active">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="join-us.html">join us</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="join-us.html" class="join-us-link">join us</a></li>
       <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>

@@ -30,6 +30,20 @@
     .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    .nav-links a.join-us-link {
+      background: linear-gradient(90deg, #4f9cf9, #3fd6a0, #f6c453, #ff7aa2, #4f9cf9);
+      background-size: 280% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: joinUsGradientShift 6s linear infinite;
+    }
+    @keyframes joinUsGradientShift {
+      from { background-position: 0% 50%; }
+      to { background-position: 280% 50%; }
+    }
+
     .empty-shell { min-height: calc(100vh - 58px); background: var(--bg2); }
     @media (max-width: 700px) {
       nav { padding: 0 20px; }
@@ -46,7 +60,8 @@
     <ul class="nav-links">
       <li><a href="home.html">home</a></li>
       <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="join-us.html" class="active">join us</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="join-us.html" class="join-us-link active">join us</a></li>
       <li><a href="member-tools.html">member tools</a></li>
     </ul>
   </nav>
