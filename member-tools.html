@@ -46,6 +46,8 @@
       backdrop-filter: blur(12px);
       border-bottom: 0.5px solid var(--border);
     }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 32px; height: 32px; flex-shrink: 0; object-fit: contain; }
     .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a {
@@ -55,40 +57,6 @@
     }
     .nav-links a:hover { color: var(--accent); }
     .nav-links a.active { color: var(--accent); }
-    .member-entry {
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .lock-icon {
-      width: 13px; height: 13px; display: inline-flex;
-      color: rgba(255, 90, 90, 0.92);
-      transition: color 0.2s;
-    }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill {
-      display: none; align-items: center; gap: 12px;
-      border: 0.5px solid var(--accent-border);
-      background: var(--accent-dim);
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-    .member-pill .member-pill-label {
-      color: var(--text-faint);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 10px;
-    }
-    .member-pill a { color: var(--text-muted); font-size: 11px; }
-    .member-pill a.active, .member-pill a:hover { color: var(--accent); }
-
-
-    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
-    .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
-    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
-    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
 
     .nav-links a.join-us-link {
       background: linear-gradient(90deg, #4f9cf9, #3fd6a0, #f6c453, #ff7aa2, #4f9cf9);
@@ -104,7 +72,7 @@
     }
 
     .member-entry { display: inline-flex; align-items: center; gap: 7px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: var(--red); transition: color 0.3s; flex-shrink: 0; }
     .lock-icon svg { width: 13px; height: 13px; }
     .lock-icon.unlocked { color: #3fd6a0; }
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
@@ -195,7 +163,6 @@
       border-bottom: 0.5px solid var(--border);
       display: flex; align-items: flex-end; justify-content: space-between;
     }
-    .page-header-left {}
     .page-eyebrow {
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
@@ -221,6 +188,7 @@
     .section h2 { font-size: 22px; font-weight: 700; color: #f0f4ff; margin-bottom: 20px; }
     .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .tool-card {
+      position: relative;
       display: flex; gap: 16px; align-items: flex-start;
       padding: 22px; background: var(--surface);
       border: 0.5px solid var(--border); border-radius: 10px;
@@ -237,8 +205,17 @@
       display: flex; align-items: center; justify-content: center;
     }
     .tool-icon svg { width: 19px; height: 19px; }
-    .tool-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .tool-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
     .tool-desc { font-family: var(--mono); font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+    /* WIP BADGE */
+    .wip-badge {
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      color: var(--red); background: rgba(255, 90, 90, 0.12);
+      border: 0.5px solid rgba(255, 90, 90, 0.3);
+      padding: 1px 6px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -285,7 +262,6 @@
     </ul>
   </nav>
 
-  <!-- LOGIN GATE -->
   <div id="login-gate">
     <div class="login-card">
       <div class="login-icon">
@@ -310,7 +286,6 @@
     </div>
   </div>
 
-  <!-- MEMBER CONTENT -->
   <div id="member-content">
 
     <div class="page-header">
@@ -333,7 +308,7 @@
             </svg>
           </div>
           <div>
-            <div class="tool-name">Library search</div>
+            <div class="tool-name">Library search <span class="wip-badge">WIP</span></div>
             <div class="tool-desc">Search the club's reference library for technical resources and documents.</div>
           </div>
         </a>
@@ -346,7 +321,7 @@
             </svg>
           </div>
           <div>
-            <div class="tool-name">Flight logs</div>
+            <div class="tool-name">Flight logs <span class="wip-badge">WIP</span></div>
             <div class="tool-desc">Past launch data, altimeter readouts, and post-flight analysis.</div>
           </div>
         </a>
@@ -359,7 +334,7 @@
             </svg>
           </div>
           <div>
-            <div class="tool-name">Meeting notes</div>
+            <div class="tool-name">Meeting notes <span class="wip-badge">WIP</span></div>
             <div class="tool-desc">Agendas, decisions, and action items from club meetings.</div>
           </div>
         </a>
@@ -372,7 +347,7 @@
             </svg>
           </div>
           <div>
-            <div class="tool-name">Schedule</div>
+            <div class="tool-name">Schedule <span class="wip-badge">WIP</span></div>
             <div class="tool-desc">Upcoming meetings, launch dates, and competition deadlines.</div>
           </div>
         </a>
@@ -389,7 +364,6 @@
             <div class="tool-desc">Quick-learn and fabrication resources in one shared page.</div>
           </div>
         </a>
-
 
         <a class="tool-card" href="join-us.html">
           <div class="tool-icon">
