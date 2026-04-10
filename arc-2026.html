@@ -79,151 +79,8 @@
       to { background-position: 280% 50%; }
     }
 
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border-radius: 6px;
-      border: 0.5px solid rgba(255,255,255,0.08);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--mono); font-size: 12px;
-      color: var(--text-muted);
-    }
-    .theme-toggle:hover {
-      background: rgba(255,255,255,0.04);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .theme-toggle svg { width: 16px; height: 16px; }
 
-    /* ── LIGHT MODE ── */
-    html.light-mode {
-      --bg: #f5f7fa;
-      --bg2: #fff;
-      --text: #1a2332;
-      --text-muted: #5a6c7d;
-      --accent: #2980b9;
-      --accent-dim: #e8f4fd;
-    }
-
-    /* Keep nav/hero always dark in light mode */
-    html.light-mode nav {
-      background: rgba(8,9,15,0.88);
-      border-bottom-color: rgba(255,255,255,0.08);
-    }
-    html.light-mode .nav-brand,
-    html.light-mode .nav-links a {
-      color: rgba(232,236,248,0.45);
-    }
-    html.light-mode .nav-links a:hover,
-    html.light-mode .nav-links a.active {
-      color: #4f9cf9;
-    }
-    html.light-mode .hero {
-      background: linear-gradient(180deg, #87ceeb 0%, #e0f6ff 100%);
-    }
-    html.light-mode .hero-eyebrow {
-      color: #2c5aa0;
-      border-color: rgba(44, 90, 160, 0.3);
-      background: rgba(79, 156, 249, 0.2);
-    }
-    html.light-mode .hero h1 {
-      color: #1a3a52;
-    }
-    html.light-mode .hero h1 em {
-      color: #2980b9;
-    }
-    html.light-mode .hero-desc {
-      color: #3d5a73;
-    }
-    html.light-mode .hero-stats {
-      background: rgba(255, 255, 255, 0.85);
-      border-color: rgba(26, 58, 82, 0.2);
-    }
-    html.light-mode .stat-val {
-      color: #2980b9;
-    }
-    html.light-mode .stat-label {
-      color: #5a6c7d;
-    }
-    /* End of hero/nav light mode */
-
-    html.light-mode .section {
-      background: #fff;
-      border-top-color: #d4dce8;
-    }
-    html.light-mode .section h2 {
-      color: #1a2332;
-    }
-    html.light-mode .section-tag {
-      color: #2980b9;
-    }
-    html.light-mode .section-desc {
-      color: #5a6c7d;
-    }
-    html.light-mode .spec-card {
-      background: #f8fafc;
-      border-color: #d4dce8;
-    }
-    html.light-mode .spec-card:hover {
-      background: #f0f4f9;
-    }
-    html.light-mode .spec-label {
-      color: #7a8a99;
-    }
-    html.light-mode .spec-val {
-      color: #2980b9;
-    }
-    html.light-mode .pipeline-step h3 {
-      color: #1a2332;
-    }
-    html.light-mode .pipeline-step p {
-      color: #5a6c7d;
-    }
-    html.light-mode .pid-card {
-      background: #f8fafc;
-      border-color: #d4dce8;
-    }
-    html.light-mode .pid-card p {
-      color: #5a6c7d;
-    }
-    html.light-mode .tag {
-      background: #e8f4fd;
-      color: #2980b9;
-      border-color: #b8d4f1;
-    }
-    html.light-mode .carousel-dots {
-      background: transparent;
-    }
-    html.light-mode .carousel-dot {
-      background: #d4dce8;
-    }
-    html.light-mode .carousel-dot.active {
-      background: #2980b9;
-    }
-    html.light-mode .carousel-btn {
-      border-color: #b8d4f1;
-      background: rgba(41, 128, 185, 0.12);
-      color: #2980b9;
-    }
-    html.light-mode .carousel-btn:hover {
-      background: rgba(41, 128, 185, 0.25);
-    }
-    html.light-mode .theme-toggle {
-      border-color: #d4dce8;
-      color: #5a6c7d;
-    }
-    html.light-mode .theme-toggle:hover {
-      background: #f0f4f9;
-      border-color: #2980b9;
-      color: #2980b9;
-    }
-    html.light-mode footer {
-      color: #5a6c7d;
-    }
-
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    /* ── HERO ── */
     .hero {
       position: relative;
       overflow: hidden;
@@ -287,9 +144,9 @@
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: #2c5aa0;
-      border: 0.5px solid rgba(44, 90, 160, 0.3);
-      background: rgba(79, 156, 249, 0.2);
+      text-transform: uppercase; color: var(--accent);
+      border: 0.5px solid var(--accent-border);
+      background: var(--accent-dim);
       padding: 5px 14px; border-radius: 4px; margin-bottom: 22px;
       width: fit-content;
     }
@@ -297,26 +154,26 @@
     .hero h1 {
       font-size: clamp(36px, 5vw, 54px);
       font-weight: 700; line-height: 1.1;
-      color: #1a3a52;
+      color: #2c3e50;
       margin-bottom: 18px;
     }
     .hero h1 em { font-style: normal; color: #2980b9; }
     .hero-desc {
-      font-size: 15px; color: #3d5a73; line-height: 1.75;
+      font-size: 15px; color: #5a6c7d; line-height: 1.75;
       max-width: 520px; margin-bottom: 36px;
       font-family: var(--mono);
     }
     .hero-stats {
       display: flex; gap: 0;
-      border: 0.5px solid rgba(26, 58, 82, 0.2);
+      border: 0.5px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px; overflow: hidden;
       width: fit-content;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(8px);
     }
     .stat {
       padding: 16px 28px;
-      border-right: 0.5px solid rgba(26, 58, 82, 0.1);
+      border-right: 0.5px solid rgba(0, 0, 0, 0.1);
     }
     .stat:last-child { border-right: none; }
     .stat-val {
@@ -333,130 +190,56 @@
     .section {
       padding: 56px 40px;
       border-top: 0.5px solid var(--border);
-      background: var(--bg);
     }
     .section-header { margin-bottom: 32px; }
     .section-tag {
       font-family: var(--mono); font-size: 11px;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 10px;
+      color: var(--accent); margin-bottom: 12px; display: block;
     }
-    .section-tag::before { content: '> '; opacity: 0.5; }
     .section h2 {
-      font-size: 28px; font-weight: 700;
-      color: #f0f4ff; margin-bottom: 8px;
+      font-size: clamp(32px, 4vw, 42px);
+      font-weight: 700; margin-bottom: 12px; line-height: 1.2;
     }
     .section-desc {
-      font-size: 14px; color: var(--text-muted);
-      line-height: 1.75; max-width: 560px;
-      font-family: var(--mono);
+      font-size: 14px; color: var(--text-muted); max-width: 680px;
     }
 
-
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
-    .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
-    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
-    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
-    .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
-    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
-    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
-    .member-only { display: none; }
-
-    /* ── PID CARDS ── */
-    .pid-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px; margin-bottom: 24px;
-    }
-    .pid-card {
-      background: #f8fafc;
-      border: 0.5px solid #d4dce8;
-      border-radius: 10px; padding: 24px;
-      transition: background 0.2s, border-color 0.2s;
-      position: relative; overflow: hidden;
-    }
-    .pid-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    }
-    .pid-card.p::before { background: #2980b9; }
-    .pid-card.i::before { background: #27ae60; }
-    .pid-card.d::before { background: #e67e22; }
-    .pid-card:hover { background: #f0f4f9; }
-    .pid-letter {
-      font-family: var(--mono); font-size: 32px; font-weight: 700;
-      margin-bottom: 12px; display: block;
-    }
-    .pid-card.p .pid-letter { color: #2980b9; }
-    .pid-card.i .pid-letter { color: #27ae60; }
-    .pid-card.d .pid-letter { color: #e67e22; }
-    .pid-name {
-      font-size: 13px; font-weight: 600;
-      color: #1a2332; margin-bottom: 8px;
-    }
-    .pid-desc {
-      font-size: 12px; color: #5a6c7d;
-      line-height: 1.65; font-family: var(--mono);
-    }
-
-    /* ── TECH TAGS ── */
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-    .tag {
-      font-family: var(--mono); font-size: 11px;
-      padding: 5px 13px; border-radius: 4px;
-      border: 0.5px solid #b8d4f1;
-      color: #2980b9;
-      background: #e8f4fd;
-      letter-spacing: 0.03em;
-    }
-
+    /* ── MEDIA CAROUSEL ── */
     .media-carousel {
-      margin-top: 28px;
-      background: #f8fafc;
-      border: 0.5px solid #d4dce8;
-      border-radius: 12px;
-      padding: 20px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 0.5px solid var(--border);
     }
     .media-carousel h3 {
-      font-size: 17px;
-      margin-bottom: 6px;
-      color: #1a2332;
+      font-size: 18px; font-weight: 600; margin-bottom: 8px;
     }
-    .media-carousel p {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: #5a6c7d;
-      margin-bottom: 12px;
+    .media-carousel > p {
+      font-size: 14px; color: var(--text-muted); margin-bottom: 24px;
     }
     .carousel-frame {
       position: relative;
-      border-radius: 10px;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg3);
       border: 0.5px solid var(--border);
-      background: #05060c;
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      max-width: 1000px;
     }
-    .carousel-slide { display: none; width: 100%; }
-    .carousel-slide.active { display: block; }
-    .carousel-slide img,
-    .carousel-slide video {
-      width: 100%;
-      max-height: 420px;
+    .carousel-slide {
+      position: absolute; inset: 0;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .carousel-slide.active {
+      opacity: 1; pointer-events: auto;
+    }
+    .carousel-slide img, .carousel-slide video {
+      width: 100%; height: 100%;
       object-fit: contain;
-      display: block;
-      background: #05060c;
     }
-    .carousel-slide img {
+    .carousel-slide[data-type="image"] img {
       animation: renderWiggle 3s ease-in-out infinite;
     }
     @keyframes renderWiggle {
@@ -466,177 +249,179 @@
       75% { transform: translateX(1px) rotate(0.2deg); }
     }
     .carousel-btn {
-      position: absolute;
-      top: 50%;
+      position: absolute; top: 50%; z-index: 10;
       transform: translateY(-50%);
-      z-index: 2;
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      border: 0.5px solid #b8d4f1;
-      background: rgba(79, 156, 249, 0.12);
-      color: #2980b9;
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 1;
+      background: rgba(0,0,0,0.4); color: white;
+      border: none; padding: 12px 16px; cursor: pointer;
+      font-size: 18px; border-radius: 4px;
+      transition: background 0.2s;
     }
-    .carousel-btn:hover { background: rgba(79, 156, 249, 0.25); }
-    #arc26-prev { left: 10px; }
-    #arc26-next { right: 10px; }
+    .carousel-btn:hover { background: rgba(0,0,0,0.6); }
+    .carousel-btn:first-of-type { left: 12px; }
+    .carousel-btn:last-of-type { right: 12px; }
     .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 12px;
+      display: flex; gap: 8px; justify-content: center;
+      margin-top: 16px;
     }
     .carousel-dot {
-      width: 8px;
-      height: 8px;
+      width: 10px; height: 10px;
       border-radius: 50%;
-      border: none;
-      background: #d4dce8;
-      cursor: pointer;
+      background: var(--border);
+      border: none; cursor: pointer;
+      transition: background 0.2s;
     }
-    .carousel-dot.active { background: #2980b9; }
+    .carousel-dot.active { background: var(--accent); }
 
     /* ── SPECS ── */
     .specs-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
     .spec-card {
-      background: #f8fafc;
-      border: 0.5px solid #d4dce8;
-      border-radius: 10px; padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 14px;
-      transition: background 0.2s;
+      padding: 24px; border: 0.5px solid var(--border);
+      border-radius: 8px; background: var(--surface);
+      display: flex; align-items: flex-start; gap: 16px;
+      transition: all 0.2s;
     }
-    .spec-card:hover { background: #f0f4f9; }
+    .spec-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-accent);
+    }
     .spec-icon-wrap {
-      width: 38px; height: 38px; border-radius: 8px;
-      background: #e8f4fd;
-      border: 0.5px solid #b8d4f1;
+      width: 40px; height: 40px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
     }
-    .spec-icon-wrap svg { width: 20px; height: 20px; stroke: #2980b9; }
+    .spec-icon-wrap svg { width: 100%; height: 100%; }
     .spec-label {
-      font-family: var(--mono); font-size: 10px;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: #7a8a99; margin-bottom: 4px;
+      font-size: 11px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
     .spec-val {
-      font-family: var(--mono); font-size: 18px; font-weight: 700;
-      color: #1a2332;
+      font-size: 18px; font-weight: 600;
+      margin-top: 4px; color: var(--text);
     }
 
-    /* ── HOW IT WORKS ── */
+    /* ── PID CARDS ── */
+    .pid-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px; margin-bottom: 40px;
+    }
+    .pid-card {
+      padding: 20px; border-radius: 8px;
+      border: 0.5px solid var(--border);
+      background: linear-gradient(135deg, var(--surface) 0%, transparent 100%);
+    }
+    .pid-letter {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 4px;
+      font-weight: 700; font-size: 14px;
+      color: white; margin-bottom: 12px;
+    }
+    .pid-card.p .pid-letter { background: #4f9cf9; }
+    .pid-card.i .pid-letter { background: #3fd6a0; }
+    .pid-card.d .pid-letter { background: #f09060; }
+    .pid-name {
+      font-size: 16px; font-weight: 600; margin-bottom: 8px;
+    }
+    .pid-desc {
+      font-size: 13px; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* ── TAGS ── */
+    .tags {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 40px;
+    }
+    .tag {
+      padding: 6px 14px; border-radius: 20px;
+      background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border);
+      font-size: 12px; color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    /* ── PIPELINE ── */
     .pipeline {
-      display: flex; flex-direction: column; gap: 0;
+      display: flex; flex-direction: column; gap: 32px;
     }
     .pipeline-step {
-      display: flex; gap: 24px; align-items: flex-start;
-      padding: 22px 0;
-      border-bottom: 0.5px solid #d4dce8;
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 24px; align-items: start;
     }
-    .pipeline-step:last-child { border-bottom: none; }
     .step-num {
-      font-family: var(--mono); font-size: 11px; font-weight: 700;
-      color: #2980b9; letter-spacing: 0.08em;
-      width: 32px; flex-shrink: 0; padding-top: 3px;
+      font-family: var(--mono); font-size: 24px; font-weight: 700;
+      color: var(--accent);
     }
     .step-body h3 {
-      font-size: 15px; font-weight: 600;
-      color: #1a2332; margin-bottom: 4px;
+      font-size: 16px; font-weight: 600; margin-bottom: 8px;
+      color: var(--text);
     }
     .step-body p {
-      font-size: 13px; color: #5a6c7d;
-      line-height: 1.7; font-family: var(--mono);
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
     }
 
     /* ── FOOTER ── */
     footer {
-      border-top: 0.5px solid #d4dce8;
-      padding: 22px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: #f5f7fa;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 32px 40px;
+      border-top: 0.5px solid var(--border);
+      font-size: 12px; color: var(--text-faint);
+      background: var(--bg2);
     }
-    .footer-left { font-family: var(--mono); font-size: 12px; color: #7a8a99; }
-    .footer-right { font-family: var(--mono); font-size: 11px; color: #7a8a99; }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .hero-inner > * {
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards;
-    }
-    .hero-eyebrow { animation-delay: 0.05s; }
-    .hero h1      { animation-delay: 0.15s; }
-    .hero-desc    { animation-delay: 0.25s; }
-    .hero-stats   { animation-delay: 0.35s; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      nav { padding: 0 20px; }
-      .hero { grid-template-columns: 1fr; min-height: unset; }
-      .hero-inner { padding: 48px 20px 36px; }
-      .hero-img-wrap { height: 260px; }
-      .section { padding: 40px 20px; }
-      .pid-grid, .specs-grid { grid-template-columns: 1fr; }
-      .hero-stats { flex-direction: column; width: 100%; border-radius: 8px; }
-      .stat { border-right: none; border-bottom: 0.5px solid var(--border); }
-      .stat:last-child { border-bottom: none; }
-      footer { flex-direction: column; gap: 8px; padding: 20px; }
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .hero-img-wrap {
+        padding: 24px;
+        max-width: 100%;
+      }
+      .hero-img-wrap img {
+        max-width: 100%;
+        max-height: 300px;
+      }
+      .hero-inner {
+        padding: 48px 24px;
+      }
+      nav { padding: 0 24px; }
+      .section { padding: 48px 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .pipeline-step {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-
+  <!-- HEADER/NAV -->
   <nav>
-    <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
+    <a class="nav-logo" href="#home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="home.html">home</a></li>
-      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
-      <li><a href="r4s.html">r4s</a></li>
-      <li><a href="history.html">history</a></li>
-      <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
-          <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        </a>
-        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
-        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
-      </li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#footer" class="join-us-link">Our mission</a></li>
     </ul>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-    </button>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
     <div class="hero-inner">
-      <div class="hero-eyebrow">American Rocketry Challenge 2026</div>
-      <h1>Built to hit<br><em>750 feet.</em></h1>
+      <div class="hero-eyebrow">
+        <span>ARC Mission 2026</span>
+      </div>
+      <h1>
+        Active Airbrake <em>Altitude Control</em>
+      </h1>
       <p class="hero-desc">
-        One rocket, one egg, one shot —<br>
-        reach apogee, return in 36–39 seconds, and land safely.
+        A PID-controlled servo system that extends airbrakes in real time to hit a 750-foot apogee target, protect a raw egg payload, and demonstrate systems integration at scale.
       </p>
       <div class="hero-stats">
         <div class="stat">
@@ -649,34 +434,33 @@
         </div>
         <div class="stat">
           <span class="stat-val">1 egg</span>
-          <span class="stat-label">Payload (intact)</span>
+          <span class="stat-label">Payload</span>
         </div>
       </div>
     </div>
     <div class="hero-img-wrap">
-      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
-      <div class="hero-img-caption">Full assembly · ARC 2026</div>
+      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 full assembly render" />
+      <div class="hero-img-caption">Full assembly render</div>
     </div>
   </section>
 
-  <!-- PID SECTION -->
-  <section class="section" id="pid">
+  <!-- MEDIA & TECHNICAL DETAILS SECTION -->
+  <section class="section" id="media">
     <div class="section-header">
-      <div class="section-tag">Avionics</div>
-      <h2>PID control</h2>
+      <div class="section-tag">System overview</div>
+      <h2>PID control fundamentals</h2>
       <p class="section-desc">
-        Our airbrake system runs a Proportional-Integral-Derivative controller in C++ onboard.
-        Each term contributes a different input to compute the precise airbrake extension needed.
+        Three corrective forces work together in our feedback loop: tracking error (P), accumulating drift (I), and smoothing oscillation (D).
       </p>
     </div>
 
-    <div class="pid-grid">
+    <div class="pid-cards">
       <div class="pid-card p">
         <span class="pid-letter">P</span>
         <div class="pid-name">Proportional</div>
         <p class="pid-desc">
-          Reads current altitude error from the 750 ft target and outputs a proportional
-          airbrake extension. Bigger error = more drag.
+          Directly corrects the error: the farther from target altitude, the more the servo extends the airbrakes.
+          Fast but can overshoot.
         </p>
       </div>
       <div class="pid-card i">
@@ -880,39 +664,7 @@
     showSlide(0);
 
     // Reflect login state on every page load (non-gated pages)
-    (function setMemberNavStateOnLoad() {
-      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
-      const icon = document.getElementById('member-lock-icon');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-    })();
-  </script>
-
-  <script>
-    const THEME_KEY = 'etrb-theme';
-    const htmlEl = document.documentElement;
-    const toggleBtn = document.getElementById('theme-toggle');
-    
-    // Initialize theme from localStorage
-    function initTheme() {
-      const saved = localStorage.getItem(THEME_KEY);
-      const isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      
-      if (!isDark) {
-        htmlEl.classList.add('light-mode');
-      }
-    }
-    
-    // Toggle theme
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
-        htmlEl.classList.toggle('light-mode');
-        const isLight = htmlEl.classList.contains('light-mode');
-        localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
-      });
-    }
-    
-    // Initialize on load
-    initTheme();
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
   </script>
 </body>
 </html>

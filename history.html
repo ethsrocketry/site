@@ -62,7 +62,7 @@
       background: var(--bg2);
       border-bottom: 0.5px solid var(--border);
     }
-    .page-header h1 { font-size: 34px; margin-bottom: 10px; color: #f0f4ff; }
+    .page-header h1 { font-size: 34px; margin-bottom: 10px; }
     .page-header p { font-family: var(--mono); color: var(--text-muted); font-size: 13px; }
 
     .history-wrap { padding: 36px 40px 56px; }
@@ -74,7 +74,7 @@
       padding: 24px;
     }
     .history-card h1, .history-card h2 { margin-bottom: 10px; }
-    .history-card h1 { font-size: 28px; color: #f0f4ff; }
+    .history-card h1 { font-size: 28px; }
     .history-card h2 { font-size: 20px; color: var(--accent); margin-top: 18px; }
     .history-card p, .history-card li {
       font-family: var(--mono);
@@ -90,113 +90,6 @@
       .page-header, .history-wrap { padding-left: 20px; padding-right: 20px; }
       .nav-links { gap: 16px; }
     }
-
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border-radius: 6px;
-      border: 0.5px solid var(--border);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--mono); font-size: 12px;
-      color: var(--text-muted);
-    }
-    .theme-toggle:hover {
-      background: var(--surface);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .theme-toggle svg { width: 16px; height: 16px; }
-
-    /* LIGHT MODE - Main overrides */
-    html.light-mode {
-      --bg: #f5f7fa;
-      --bg2: #fff;
-      --bg3: #f8fafc;
-      --surface: #f8fafc;
-      --surface-hover: #f0f4f9;
-      --border: #d4dce8;
-      --border-accent: #b8d4f1;
-      --text: #1a2332;
-      --text-muted: #5a6c7d;
-      --text-faint: #7a8a99;
-      --accent: #2980b9;
-      --accent-dim: #e8f4fd;
-    }
-
-    html.light-mode .theme-toggle {
-      border-color: #d4dce8;
-      color: #5a6c7d;
-    }
-    html.light-mode .theme-toggle:hover {
-      background: #f0f4f9;
-      border-color: #2980b9;
-      color: #2980b9;
-    }
-
-    /* Page-specific light mode overrides */
-    html.light-mode .page-header {
-      background: #fff;
-      border-bottom-color: #d4dce8;
-    }
-    html.light-mode .page-header h1 {
-      color: #1a2332;
-    }
-    html.light-mode .page-header p {
-      color: #5a6c7d;
-    }
-    html.light-mode .history-card {
-      background: #fff;
-      border-color: #d4dce8;
-    }
-    html.light-mode .history-card h1,
-    html.light-mode .history-card h2 {
-      color: #1a2332;
-    }
-    html.light-mode .history-card h2 {
-      color: #2980b9;
-    }
-    html.light-mode .history-card p,
-    html.light-mode .history-card li {
-      color: #5a6c7d;
-    }
-    html.light-mode .history-card hr {
-      border-top-color: #d4dce8;
-    }
-    html.light-mode nav {
-      background: rgba(245, 247, 250, 0.88);
-      border-bottom-color: #d4dce8;
-    }
-    html.light-mode .nav-brand {
-      color: #1a2332;
-    }
-    html.light-mode .nav-links a {
-      color: #5a6c7d;
-    }
-    html.light-mode .nav-links a:hover,
-    html.light-mode .nav-links a.active {
-      color: #2980b9;
-    }
-    html.light-mode .member-pill {
-      border-color: #b8d4f1;
-      background: #e8f4fd;
-    }
-    html.light-mode .member-pill a {
-      color: #2980b9;
-    }
-    html.light-mode .member-pill-sep {
-      background: #d4dce8;
-    }
-    html.light-mode footer {
-      border-top-color: #d4dce8;
-      background: #f5f7fa;
-    }
-    html.light-mode .footer-left,
-    html.light-mode .footer-right {
-      color: #7a8a99;
-    }
-
   </style>
 </head>
 <body>
@@ -211,28 +104,13 @@
       <li><a href="r4s.html">r4s</a></li>
       <li><a href="history.html" class="active">history</a></li>
       <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li class="member-pill" id="member-pages-pill">
+      <li class="member-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
-        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
-        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
       </li>
     </ul>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-    </button>
   </nav>
 
   <header class="page-header">
@@ -244,140 +122,44 @@
     <article class="history-card" id="history-content">Loading history…</article>
   </main>
 
-  <footer style="display: flex; gap: 40px; padding: 40px; border-top: 0.5px solid var(--border); font-family: var(--mono); font-size: 12px;">
-    <div class="footer-left">ETHS Rocketry · Evanston Township High School</div>
-    <div class="footer-right">2025 – 2026</div>
-  </footer>
-
   <script>
-    const SESSION_KEY = 'etrb_auth';
-
-    function setMemberNavState(isLoggedIn) {
-      const icon = document.getElementById('member-lock-icon');
-      const infoLink = document.getElementById('member-info-link');
-      const pillSep = document.getElementById('member-pill-sep');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
-      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
-    }
-
-    // Reflect login state on every page load (non-gated pages)
-    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
-  </script>
-
-  <script>
-    // Markdown renderer for history
     function renderMarkdown(md) {
       const lines = md.split('\n');
       const out = [];
       let inList = false;
 
       for (const line of lines) {
-        if (line.startsWith('# ')) {
-          if (inList) {
-            out.push('</ul>');
-            inList = false;
-          }
-          out.push(`<h1>${line.slice(2)}</h1>`);
-          continue;
-        }
-        if (line.startsWith('## ')) {
-          if (inList) {
-            out.push('</ul>');
-            inList = false;
-          }
-          out.push(`<h2>${line.slice(3)}</h2>`);
-          continue;
-        }
+        if (line.startsWith('# ')) { if (inList) { out.push('</ul>'); inList = false; } out.push(`<h1>${line.slice(2)}</h1>`); continue; }
+        if (line.startsWith('## ')) { if (inList) { out.push('</ul>'); inList = false; } out.push(`<h2>${line.slice(3)}</h2>`); continue; }
         if (line.startsWith('- ')) {
-          if (!inList) {
-            out.push('<ul>');
-            inList = true;
-          }
-          const content = line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-          out.push(`<li>${content}</li>`);
+          if (!inList) { out.push('<ul>'); inList = true; }
+          out.push(`<li>${line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`);
           continue;
         }
-        if (line.startsWith('---')) {
-          if (inList) {
-            out.push('</ul>');
-            inList = false;
-          }
-          out.push('<hr>');
-          continue;
-        }
-        if (line.trim() === '') {
-          if (inList) {
-            out.push('</ul>');
-            inList = false;
-          }
-          continue;
-        }
-        if (inList) {
-          out.push('</ul>');
-          inList = false;
-        }
-        if (line.trim()) {
-          out.push(`<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`);
-        }
+        if (line.trim() === '---') { if (inList) { out.push('</ul>'); inList = false; } out.push('<hr />'); continue; }
+        if (line.trim() === '') { if (inList) { out.push('</ul>'); inList = false; } continue; }
+        if (inList) { out.push('</ul>'); inList = false; }
+        out.push(`<p>${line.replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`);
       }
-
-      if (inList) {
-        out.push('</ul>');
-      }
-
+      if (inList) out.push('</ul>');
       return out.join('');
     }
 
-    // Load markdown file
-    async function loadHistory() {
-      try {
-        const response = await fetch('history_data.md');
-        if (!response.ok) throw new Error('Failed to load history');
-        const md = await response.text();
-        const html = renderMarkdown(md);
-        document.getElementById('history-content').innerHTML = html;
-      } catch (error) {
-        console.error('Error loading history:', error);
-        document.getElementById('history-content').innerHTML = '<p>Unable to load history data.</p>';
-      }
-    }
-
-    // Load history when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadHistory);
-    } else {
-      loadHistory();
-    }
+    fetch('history_data.md')
+      .then((res) => res.text())
+      .then((md) => { document.getElementById('history-content').innerHTML = renderMarkdown(md); })
+      .catch(() => {
+        document.getElementById('history-content').innerHTML = '<p>Could not load history data.</p>';
+      });
   </script>
 
   <script>
-    const THEME_KEY = 'etrb-theme';
-    const htmlEl = document.documentElement;
-    const toggleBtn = document.getElementById('theme-toggle');
-    
-    // Initialize theme from localStorage
-    function initTheme() {
-      const saved = localStorage.getItem(THEME_KEY);
-      const isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      
-      if (!isDark) {
-        htmlEl.classList.add('light-mode');
-      }
-    }
-    
-    // Toggle theme
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
-        htmlEl.classList.toggle('light-mode');
-        const isLight = htmlEl.classList.contains('light-mode');
-        localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
-      });
-    }
-    
-    // Initialize on load
-    initTheme();
+    const SESSION_KEY = 'etrb_auth';
+    (function setMemberNavState() {
+      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+    })();
   </script>
-
 </body>
 </html>
