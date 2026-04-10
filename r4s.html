@@ -122,6 +122,151 @@
       .member-pill { padding: 4px 10px; }
       .hero-inner { padding: 24px; }
     }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 6px;
+      border: 0.5px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--mono); font-size: 12px;
+      color: var(--text-muted);
+    }
+    .theme-toggle:hover {
+      background: var(--surface);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .theme-toggle svg { width: 16px; height: 16px; }
+
+    /* LIGHT MODE - Main overrides */
+    html.light-mode {
+      --bg: #f5f7fa;
+      --bg2: #fff;
+      --bg3: #f8fafc;
+      --surface: #f8fafc;
+      --surface-hover: #f0f4f9;
+      --border: #d4dce8;
+      --border-accent: #b8d4f1;
+      --text: #1a2332;
+      --text-muted: #5a6c7d;
+      --text-faint: #7a8a99;
+      --accent: #2980b9;
+      --accent-dim: #e8f4fd;
+    }
+
+    html.light-mode .theme-toggle {
+      border-color: #d4dce8;
+      color: #5a6c7d;
+    }
+    html.light-mode .theme-toggle:hover {
+      background: #f0f4f9;
+      border-color: #2980b9;
+      color: #2980b9;
+    }
+
+    /* Page-specific light mode overrides */
+    html.light-mode .page-header {
+      background: #fff;
+      border-bottom-color: #d4dce8;
+    }
+    html.light-mode .page-header h1 {
+      color: #1a2332;
+    }
+    html.light-mode .page-header p {
+      color: #5a6c7d;
+    }
+    html.light-mode .history-card {
+      background: #fff;
+      border-color: #d4dce8;
+    }
+    html.light-mode .history-card h1,
+    html.light-mode .history-card h2 {
+      color: #1a2332;
+    }
+    html.light-mode .history-card p,
+    html.light-mode .history-card li {
+      color: #5a6c7d;
+    }
+    html.light-mode .history-card hr {
+      border-top-color: #d4dce8;
+    }
+    html.light-mode .skill-card {
+      background: #f8fafc;
+      border-color: #d4dce8;
+    }
+    html.light-mode .skill-card:hover {
+      background: #f0f4f9;
+      border-color: #b8d4f1;
+    }
+    html.light-mode .skill-card h3 {
+      color: #1a2332;
+    }
+    html.light-mode .skill-card p {
+      color: #5a6c7d;
+    }
+    html.light-mode .discord-cta {
+      color: #2980b9;
+      border-color: #b8d4f1;
+      background: #e8f4fd;
+    }
+    html.light-mode .discord-cta:hover {
+      background: #d4e8fb;
+      border-color: #2980b9;
+    }
+    html.light-mode .page-eyebrow {
+      color: #2980b9;
+    }
+    html.light-mode .hero-inner {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: #d4dce8;
+    }
+    html.light-mode .wip-note {
+      color: #5a6c7d;
+    }
+    html.light-mode .status-list {
+      color: #5a6c7d;
+    }
+    html.light-mode .result-highlight {
+      border-color: #f6c453;
+      background: #fff9e6;
+      color: #c99a00;
+    }
+    html.light-mode nav {
+      background: rgba(245, 247, 250, 0.88);
+      border-bottom-color: #d4dce8;
+    }
+    html.light-mode .nav-brand {
+      color: #1a2332;
+    }
+    html.light-mode .nav-links a {
+      color: #5a6c7d;
+    }
+    html.light-mode .nav-links a:hover,
+    html.light-mode .nav-links a.active {
+      color: #2980b9;
+    }
+    html.light-mode .member-pill {
+      border-color: #b8d4f1;
+      background: #e8f4fd;
+    }
+    html.light-mode .member-pill a {
+      color: #2980b9;
+    }
+    html.light-mode .member-pill-sep {
+      background: #d4dce8;
+    }
+    html.light-mode footer {
+      border-top-color: #d4dce8;
+      background: #f5f7fa;
+    }
+    html.light-mode .footer-left,
+    html.light-mode .footer-right {
+      color: #7a8a99;
+    }
+
   </style>
 </head>
 <body>
@@ -143,6 +288,19 @@
         </a>
       </li>
     </ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
   </nav>
 
   <main class="hero" aria-label="Rockets 4 Schools page">
@@ -159,6 +317,19 @@
         <li>Vehicle configuration and testing log (in progress)</li>
         <li>Team workflow, recovery, and flight recap (coming soon)</li>
       </ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
       <div class="result-highlight">🏆 R4S earned [ ] place nationally in 2025</div>
     </section>
   </main>
@@ -171,5 +342,34 @@
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
     })();
   </script>
+
+  <script>
+    const THEME_KEY = 'etrb-theme';
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    
+    // Initialize theme from localStorage
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      const isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      
+      if (!isDark) {
+        htmlEl.classList.add('light-mode');
+      }
+    }
+    
+    // Toggle theme
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        htmlEl.classList.toggle('light-mode');
+        const isLight = htmlEl.classList.contains('light-mode');
+        localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
+      });
+    }
+    
+    // Initialize on load
+    initTheme();
+  </script>
+
 </body>
 </html>
