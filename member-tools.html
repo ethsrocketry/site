@@ -474,7 +474,7 @@
       const pass = document.getElementById('password').value;
       const err  = document.getElementById('error-msg');
       if (user === CORRECT_USER && pass === CORRECT_PASS) {
-        sessionStorage.setItem(SESSION_KEY, '1');
+        localStorage.setItem(SESSION_KEY, '1');
         err.classList.remove('visible');
         showContent();
       } else {
@@ -485,7 +485,7 @@
     }
 
     function logout() {
-      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
       document.getElementById('member-content').style.display = 'none';
       document.getElementById('login-gate').style.display = 'flex';
       document.getElementById('username').value = '';
@@ -499,7 +499,7 @@
       setMemberNavState(true);
     }
 
-    if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
+    if (localStorage.getItem(SESSION_KEY) === '1') showContent();
     else setMemberNavState(false);
 
     document.addEventListener('keydown', e => {

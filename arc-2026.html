@@ -162,6 +162,54 @@
     html.light-mode .section-desc {
       color: #5a6c7d;
     }
+    html.light-mode .spec-card {
+      background: #f8fafc;
+      border-color: #d4dce8;
+    }
+    html.light-mode .spec-card:hover {
+      background: #f0f4f9;
+    }
+    html.light-mode .spec-label {
+      color: #7a8a99;
+    }
+    html.light-mode .spec-val {
+      color: #2980b9;
+    }
+    html.light-mode .pipeline-step h3 {
+      color: #1a2332;
+    }
+    html.light-mode .pipeline-step p {
+      color: #5a6c7d;
+    }
+    html.light-mode .pid-card {
+      background: #f8fafc;
+      border-color: #d4dce8;
+    }
+    html.light-mode .pid-card p {
+      color: #5a6c7d;
+    }
+    html.light-mode .tag {
+      background: #e8f4fd;
+      color: #2980b9;
+      border-color: #b8d4f1;
+    }
+    html.light-mode .carousel-dots {
+      background: transparent;
+    }
+    html.light-mode .carousel-dot {
+      background: #d4dce8;
+    }
+    html.light-mode .carousel-dot.active {
+      background: #2980b9;
+    }
+    html.light-mode .carousel-btn {
+      border-color: #b8d4f1;
+      background: rgba(41, 128, 185, 0.12);
+      color: #2980b9;
+    }
+    html.light-mode .carousel-btn:hover {
+      background: rgba(41, 128, 185, 0.25);
+    }
     html.light-mode .theme-toggle {
       border-color: #d4dce8;
       color: #5a6c7d;
@@ -284,22 +332,22 @@
     /* ── SECTIONS ── */
     .section {
       padding: 56px 40px;
-      border-top: 0.5px solid #d4dce8;
-      background: #fff;
+      border-top: 0.5px solid var(--border);
+      background: var(--bg);
     }
     .section-header { margin-bottom: 32px; }
     .section-tag {
       font-family: var(--mono); font-size: 11px;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: #2980b9; margin-bottom: 10px;
+      color: var(--accent); margin-bottom: 10px;
     }
     .section-tag::before { content: '> '; opacity: 0.5; }
     .section h2 {
       font-size: 28px; font-weight: 700;
-      color: #1a2332; margin-bottom: 8px;
+      color: #f0f4ff; margin-bottom: 8px;
     }
     .section-desc {
-      font-size: 14px; color: #5a6c7d;
+      font-size: 14px; color: var(--text-muted);
       line-height: 1.75; max-width: 560px;
       font-family: var(--mono);
     }

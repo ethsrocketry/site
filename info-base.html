@@ -68,38 +68,16 @@
       to { background-position: 280% 50%; }
     }
 
-    
     .member-entry { display: inline-flex; align-items: center; gap: 7px; }
     .lock-icon { width: 13px; height: 13px; display: inline-flex; color: var(--red); transition: color 0.3s; flex-shrink: 0; }
     .lock-icon svg { width: 13px; height: 13px; }
     .lock-icon.unlocked { color: #3fd6a0; }
     
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
-    .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
     .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .member-pill a:hover, .member-pill a.active { color: var(--accent); }
     .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
     .member-only { display: none; }
-
-    /* ── SEARCH BAR ── */
-    .search-container { margin-top: 24px; max-width: 400px; }
-    #info-search {
-      width: 100%;
-      padding: 10px 16px;
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 13px;
-      outline: none;
-      transition: all 0.2s;
-    }
-    #info-search:focus {
-      border-color: var(--accent-border);
-      background: var(--surface-hover);
-      box-shadow: 0 0 12px var(--accent-dim);
-    }
 
     /* ── LOGIN GATE ── */
     #login-gate { 
@@ -110,7 +88,6 @@
       overflow: hidden;
     }
 
-    /* Starfield Effect */
     #login-gate::after {
       content: '';
       position: absolute; inset: 0;
@@ -132,13 +109,14 @@
     }
 
     .login-card { position: relative; z-index: 1; background: var(--bg); border: 0.5px solid var(--border); border-radius: 14px; padding: 40px; width: 100%; max-width: 380px; }
-    .login-card h1 { font-size: 20px; margin-bottom: 6px; }
+    .login-card h1 { font-size: 20px; margin-bottom: 6px; color: #f0f4ff; }
     .login-card p { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 28px; }
     
     .field { margin-bottom: 16px; }
     .field label { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 7px; }
     .field input { width: 100%; padding: 10px 14px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 13px; outline: none; transition: border-color 0.2s; }
     .field input:focus { border-color: var(--accent-border); }
+    .field input::placeholder { color: var(--text-faint); }
 
     .error-msg { font-family: var(--mono); font-size: 12px; color: var(--red); margin-bottom: 14px; display: none; padding: 8px 12px; background: rgba(255,90,90,0.08); border: 0.5px solid rgba(255,90,90,0.25); border-radius: 6px; }
     .error-msg.visible { display: block; }
@@ -168,13 +146,6 @@
     .doc-desc { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .doc-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--accent); }
 
-    @media (max-width: 700px) {
-      nav { padding: 0 20px; }
-      .page-header { padding: 36px 20px 28px; flex-direction: column; align-items: flex-start; gap: 16px; }
-      .section { padding: 28px 20px 36px; }
-      .login-card { padding: 28px 24px; }
-    }
-
     /* ── THEME TOGGLE ── */
     .theme-toggle {
       display: inline-flex; align-items: center; gap: 8px;
@@ -193,20 +164,19 @@
     }
     .theme-toggle svg { width: 16px; height: 16px; }
 
-    /* LIGHT MODE - Main overrides */
+    /* LIGHT MODE */
     html.light-mode {
       --bg: #f5f7fa;
       --bg2: #fff;
-      --bg3: #f8fafc;
       --surface: #f8fafc;
       --surface-hover: #f0f4f9;
       --border: #d4dce8;
-      --border-accent: #b8d4f1;
       --text: #1a2332;
       --text-muted: #5a6c7d;
       --text-faint: #7a8a99;
       --accent: #2980b9;
       --accent-dim: #e8f4fd;
+      --accent-border: rgba(41, 128, 185, 0.35);
     }
 
     html.light-mode .theme-toggle {
@@ -219,7 +189,6 @@
       color: #2980b9;
     }
 
-    /* Page-specific light mode overrides */
     html.light-mode .page-header {
       background: #fff;
       border-bottom-color: #d4dce8;
@@ -227,65 +196,71 @@
     html.light-mode .page-header h1 {
       color: #1a2332;
     }
-    html.light-mode .page-header p {
-      color: #5a6c7d;
-    }
-    html.light-mode .history-card {
-      background: #fff;
-      border-color: #d4dce8;
-    }
-    html.light-mode .history-card h1,
-    html.light-mode .history-card h2 {
-      color: #1a2332;
-    }
-    html.light-mode .history-card p,
-    html.light-mode .history-card li {
-      color: #5a6c7d;
-    }
-    html.light-mode .history-card hr {
-      border-top-color: #d4dce8;
-    }
-    html.light-mode .skill-card {
-      background: #f8fafc;
-      border-color: #d4dce8;
-    }
-    html.light-mode .skill-card:hover {
-      background: #f0f4f9;
-      border-color: #b8d4f1;
-    }
-    html.light-mode .skill-card h3 {
-      color: #1a2332;
-    }
-    html.light-mode .skill-card p {
-      color: #5a6c7d;
-    }
-    html.light-mode .discord-cta {
-      color: #2980b9;
-      border-color: #b8d4f1;
-      background: #e8f4fd;
-    }
-    html.light-mode .discord-cta:hover {
-      background: #d4e8fb;
-      border-color: #2980b9;
-    }
     html.light-mode .page-eyebrow {
       color: #2980b9;
     }
-    html.light-mode .hero-inner {
-      background: rgba(255, 255, 255, 0.95);
+    html.light-mode .logout-btn {
+      color: #7a8a99;
       border-color: #d4dce8;
     }
-    html.light-mode .wip-note {
+    html.light-mode .logout-btn:hover {
+      color: #1a2332;
+      border-color: #5a6c7d;
+    }
+
+    html.light-mode .section {
+      background: transparent;
+    }
+    html.light-mode .section h2 {
+      color: #1a2332;
+    }
+
+    html.light-mode .doc-link {
+      background: #f8fafc;
+      border-color: #d4dce8;
+      color: #1a2332;
+    }
+    html.light-mode .doc-link:hover {
+      background: #f0f4f9;
+      border-color: #b8d4f1;
+    }
+    html.light-mode .doc-title {
+      color: #1a2332;
+    }
+    html.light-mode .doc-desc {
       color: #5a6c7d;
     }
-    html.light-mode .status-list {
+
+    html.light-mode .login-card {
+      background: #fff;
+      border-color: #d4dce8;
+    }
+    html.light-mode .login-card h1 {
+      color: #1a2332;
+    }
+    html.light-mode .login-card p {
       color: #5a6c7d;
     }
-    html.light-mode .result-highlight {
-      border-color: #f6c453;
-      background: #fff9e6;
-      color: #c99a00;
+    html.light-mode .field input {
+      background: #f8fafc;
+      border-color: #d4dce8;
+      color: #1a2332;
     }
+    html.light-mode .field input:focus {
+      border-color: #2980b9;
+    }
+    html.light-mode .field label {
+      color: #7a8a99;
+    }
+    html.light-mode .login-btn {
+      background: #e8f4fd;
+      border-color: #b8d4f1;
+      color: #2980b9;
+    }
+    html.light-mode .login-btn:hover {
+      background: #d4e8fb;
+    }
+
     html.light-mode nav {
       background: rgba(245, 247, 250, 0.88);
       border-bottom-color: #d4dce8;
@@ -310,15 +285,13 @@
     html.light-mode .member-pill-sep {
       background: #d4dce8;
     }
-    html.light-mode footer {
-      border-top-color: #d4dce8;
-      background: #f5f7fa;
-    }
-    html.light-mode .footer-left,
-    html.light-mode .footer-right {
-      color: #7a8a99;
-    }
 
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .page-header { padding: 36px 20px 28px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .section { padding: 28px 20px 36px; }
+      .login-card { padding: 28px 24px; }
+    }
   </style>
 </head>
 <body>
@@ -343,19 +316,19 @@
         <a href="info-base.html" class="member-only active" id="member-info-link">info base</a>
       </li>
     </ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
   </nav>
 
   <div id="login-gate">
@@ -372,13 +345,10 @@
   <div id="member-content">
     <div class="page-header">
       <div>
-        <div class="page-eyebrow">Members only</div>
-        <h1>Info base</h1>
-        <div class="search-container">
-          <input type="text" id="info-search" placeholder="Search entries..." onkeyup="filterEntries()">
-        </div>
+        <div class="page-eyebrow">Member resources</div>
+        <h1>Info Base</h1>
       </div>
-      <button class="logout-btn" onclick="logout()">Sign out</button>
+      <button class="logout-btn" onclick="logout()">Log out</button>
     </div>
 
     <div id="dynamic-content"></div>
@@ -397,29 +367,6 @@
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
       if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
       if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
-    }
-
-    // --- SEARCH FILTER ---
-    function filterEntries() {
-      const query = document.getElementById('info-search').value.toLowerCase();
-      const entries = document.querySelectorAll('.doc-list li');
-      const sections = document.querySelectorAll('.section');
-
-      entries.forEach(entry => {
-        const title = entry.querySelector('.doc-title').textContent.toLowerCase();
-        const desc = entry.querySelector('.doc-desc').textContent.toLowerCase();
-        
-        if (title.includes(query) || desc.includes(query)) {
-          entry.style.display = "";
-        } else {
-          entry.style.display = "none";
-        }
-      });
-
-      sections.forEach(section => {
-        const visibleItems = section.querySelectorAll('li:not([style*="display: none"])');
-        section.style.display = visibleItems.length === 0 && query !== "" ? "none" : "";
-      });
     }
 
     // --- PARSER ENGINE ---
@@ -442,20 +389,7 @@
           const linkMatch = line.match(/^link\((.*),\s*(.*),\s*(.*),\s*(.*)\)$/);
 
           if (headingMatch) {
-            if (listOpen) { html += '</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button></section>'; }
+            if (listOpen) { html += '</ul></section>'; }
             html += `<section class="section"><h2>${headingMatch[1]}</h2><ul class="doc-list">`;
             listOpen = true;
           } 
@@ -480,20 +414,7 @@
           }
         });
 
-        if (listOpen) html += '</ul>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button></section>';
+        if (listOpen) html += '</ul></section>';
         container.innerHTML = html;
 
       } catch (err) {
@@ -507,7 +428,7 @@
       const pass = document.getElementById('password').value;
       const err  = document.getElementById('error-msg');
       if (user === CORRECT_USER && pass === CORRECT_PASS) {
-        sessionStorage.setItem(SESSION_KEY, '1');
+        localStorage.setItem(SESSION_KEY, '1');
         err.classList.remove('visible');
         showContent();
       } else {
@@ -517,7 +438,7 @@
     }
 
     function logout() {
-      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
       location.reload();
     }
 
@@ -528,8 +449,12 @@
       loadInfoBase();
     }
 
-    if (sessionStorage.getItem(SESSION_KEY) === '1') showContent();
-    else setMemberNavState(false);
+    // Check if already logged in via localStorage
+    if (localStorage.getItem(SESSION_KEY) === '1') {
+      showContent();
+    } else {
+      setMemberNavState(false);
+    }
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') tryLogin();
