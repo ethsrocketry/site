@@ -54,11 +54,12 @@
       display: flex; align-items: center; gap: 10px;
       text-decoration: none;
     }
+    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
     .nav-brand {
       font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
       color: var(--text);
     }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a {
       font-size: 13px; color: var(--text-muted);
       text-decoration: none; font-family: var(--mono);
@@ -79,7 +80,6 @@
       to { background-position: 280% 50%; }
     }
 
-
     /* ── HERO ── */
     .hero {
       position: relative;
@@ -90,65 +90,81 @@
       min-height: 480px;
     }
     .hero-inner {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
       padding: 72px 48px 72px 40px;
       display: flex; flex-direction: column; justify-content: center;
     }
     .hero-img-wrap {
       position: relative;
+      z-index: 2;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 18px 30px 18px 18px;
     }
+    
     .hero-img-wrap img {
       width: min(100%, 620px);
       max-height: 500px;
       height: 100%;
       object-fit: contain;
       display: block;
+      /* Rotate -55deg to point up and right (90 - 35 = 55 from horizontal) */
+      transform: rotate(-55deg);
+      animation: rocketShake 0.1s ease-in-out infinite;
     }
+
+    @keyframes rocketShake {
+      0% { transform: rotate(-55deg) translate(0, 0); }
+      25% { transform: rotate(-55deg) translate(0.8px, -0.8px); }
+      50% { transform: rotate(-55deg) translate(-0.4px, 0.8px); }
+      75% { transform: rotate(-55deg) translate(-0.8px, -0.4px); }
+      100% { transform: rotate(-55deg) translate(0, 0); }
+    }
+
     .hero-img-caption {
       position: absolute; bottom: 12px;
       font-family: var(--mono); font-size: 10px;
       color: rgba(255,255,255,0.2); letter-spacing: 0.08em;
       text-transform: uppercase; text-align: center;
     }
+
     .hero::before {
       content: '';
-      position: absolute; inset: 0; z-index: 0;
+      position: absolute; inset: 0; z-index: 1;
       background:
         radial-gradient(ellipse 50% 80% at 30% 50%, rgba(79,156,249,0.07) 0%, transparent 70%),
         radial-gradient(ellipse 40% 60% at 5% 80%, rgba(63,214,160,0.04) 0%, transparent 60%);
       pointer-events: none;
     }
+
+    /* Moving Stars */
     .hero::after {
       content: '';
-      position: absolute; inset: 0;
+      position: absolute; 
+      inset: -150px; /* Oversized to prevent gaps during animation */
+      z-index: 0;
       background-image:
-        /* Original set - brightened */
-        radial-gradient(1px 1px at 8%  15%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1.2px 1.2px at 22% 55%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 38% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 55% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 72% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1.2px 1.2px at 92% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 65% 90%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        /* New additions */
-        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 45% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 60% 40%, rgba(255,255,255,0.75) 0%, transparent 100%),
-        radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1.2px 1.2px at 95% 80%, rgba(255,255,255,0.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1.2px 1.2px at 50% 95%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 40% 85%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 20% 5%, rgba(255,255,255,0.8) 0%, transparent 100%);
+        radial-gradient(1px 1px at 8%  15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 22% 55%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 10%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 72% 25%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 92% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 90%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 40% 85%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 20% 5%, rgba(255,255,255,0.9) 0%, transparent 100%);
       pointer-events: none;
+      animation: starMove 25s linear infinite;
     }
+
+    @keyframes starMove {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-40px, 80px); } /* Diagonal drift relative to flight */
+    }
+
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
@@ -214,23 +230,15 @@
       font-family: var(--mono);
     }
 
-
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
-    .nav-brand { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
-    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
-    .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
     .member-pill-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
     .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .member-pill a:hover, .member-pill a.active { color: var(--accent); }
     .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
     .member-only { display: none; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
 
     /* ── PID CARDS ── */
     .pid-grid {
@@ -279,23 +287,13 @@
       letter-spacing: 0.03em;
     }
 
-
+    /* ── MEDIA CAROUSEL ── */
     .media-carousel {
       margin-top: 28px;
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: 12px;
       padding: 20px;
-    }
-    .media-carousel h3 {
-      font-size: 17px;
-      margin-bottom: 6px;
-    }
-    .media-carousel p {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
     }
     .carousel-frame {
       position: relative;
@@ -319,128 +317,56 @@
       background: #05060c;
     }
     .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 2;
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      border: 0.5px solid var(--accent-border);
-      background: rgba(8,9,15,0.8);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 1;
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+      width: 36px; height: 36px; border-radius: 999px;
+      border: 0.5px solid var(--accent-border); background: rgba(8,9,15,0.8);
+      color: var(--text); cursor: pointer; font-size: 20px;
     }
-    .carousel-btn:hover { background: rgba(79, 156, 249, 0.25); }
     #arc26-prev { left: 10px; }
     #arc26-next { right: 10px; }
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .carousel-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.24);
-      cursor: pointer;
-    }
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; border: none; background: rgba(255,255,255,0.24); cursor: pointer; }
     .carousel-dot.active { background: var(--accent); }
 
     /* ── SPECS ── */
-    .specs-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
+    .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .spec-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 10px; padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 14px;
-      transition: background 0.2s;
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px;
     }
-    .spec-card:hover { background: var(--surface-hover); }
     .spec-icon-wrap {
-      width: 38px; height: 38px; border-radius: 8px;
-      background: var(--accent-dim);
-      border: 0.5px solid var(--accent-border);
-      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 8px; background: var(--accent-dim);
+      border: 0.5px solid var(--accent-border); display: flex; align-items: center; justify-content: center;
     }
     .spec-icon-wrap svg { width: 20px; height: 20px; }
-    .spec-label {
-      font-family: var(--mono); font-size: 10px;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--text-faint); margin-bottom: 4px;
-    }
-    .spec-val {
-      font-family: var(--mono); font-size: 18px; font-weight: 700;
-      color: var(--text);
-    }
+    .spec-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); }
+    .spec-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
 
-    /* ── HOW IT WORKS ── */
-    .pipeline {
-      display: flex; flex-direction: column; gap: 0;
-    }
-    .pipeline-step {
-      display: flex; gap: 24px; align-items: flex-start;
-      padding: 22px 0;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .pipeline-step:last-child { border-bottom: none; }
-    .step-num {
-      font-family: var(--mono); font-size: 11px; font-weight: 700;
-      color: var(--accent); letter-spacing: 0.08em;
-      width: 32px; flex-shrink: 0; padding-top: 3px;
-    }
-    .step-body h3 {
-      font-size: 15px; font-weight: 600;
-      color: var(--text); margin-bottom: 4px;
-    }
-    .step-body p {
-      font-size: 13px; color: var(--text-muted);
-      line-height: 1.7; font-family: var(--mono);
-    }
+    /* ── PIPELINE ── */
+    .pipeline-step { display: flex; gap: 24px; align-items: flex-start; padding: 22px 0; border-bottom: 0.5px solid var(--border); }
+    .step-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); width: 32px; }
+    .step-body h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .step-body p { font-size: 13px; color: var(--text-muted); font-family: var(--mono); }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 0.5px solid var(--border);
-      padding: 22px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .footer-left { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
-    .footer-right { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
+    footer { border-top: 0.5px solid var(--border); padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left, .footer-right { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .hero-inner > * {
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards;
-    }
+    .hero-inner > * { opacity: 0; animation: fadeUp 0.6s ease forwards; }
     .hero-eyebrow { animation-delay: 0.05s; }
     .hero h1      { animation-delay: 0.15s; }
     .hero-desc    { animation-delay: 0.25s; }
     .hero-stats   { animation-delay: 0.35s; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       nav { padding: 0 20px; }
-      .hero { grid-template-columns: 1fr; min-height: unset; }
-      .hero-inner { padding: 48px 20px 36px; }
-      .hero-img-wrap { height: 260px; }
-      .section { padding: 40px 20px; }
+      .hero { grid-template-columns: 1fr; }
       .pid-grid, .specs-grid { grid-template-columns: 1fr; }
-      .hero-stats { flex-direction: column; width: 100%; border-radius: 8px; }
+      .hero-stats { flex-direction: column; width: 100%; }
       .stat { border-right: none; border-bottom: 0.5px solid var(--border); }
-      .stat:last-child { border-bottom: none; }
-      footer { flex-direction: column; gap: 8px; padding: 20px; }
     }
   </style>
 </head>
@@ -452,274 +378,3 @@
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="home.html">home</a></li>
-      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
-      <li><a href="r4s.html">r4s</a></li>
-      <li><a href="history.html">history</a></li>
-      <li><a href="join-us.html" class="join-us-link">join us</a></li>
-      <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
-          <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        </a>
-        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
-        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">American Rocketry Challenge 2026</div>
-      <h1>Built to hit<br><em>750 feet.</em></h1>
-      <p class="hero-desc">
-        One rocket, one egg, one shot —<br>
-        reach apogee, return in 36–39 seconds, and land safely.
-      </p>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-val">750 ft</span>
-          <span class="stat-label">Target apogee</span>
-        </div>
-        <div class="stat">
-          <span class="stat-val">36–39 s</span>
-          <span class="stat-label">Flight window</span>
-        </div>
-        <div class="stat">
-          <span class="stat-val">1 egg</span>
-          <span class="stat-label">Payload (intact)</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-img-wrap">
-      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
-      <div class="hero-img-caption">Full assembly · ARC 2026</div>
-    </div>
-  </section>
-
-  <!-- PID SECTION -->
-  <section class="section" id="pid">
-    <div class="section-header">
-      <div class="section-tag">Avionics</div>
-      <h2>PID control</h2>
-      <p class="section-desc">
-        Our airbrake system runs a Proportional-Integral-Derivative controller in C++ onboard.
-        Each term contributes a different input to compute the precise airbrake extension needed.
-      </p>
-    </div>
-
-    <div class="pid-grid">
-      <div class="pid-card p">
-        <span class="pid-letter">P</span>
-        <div class="pid-name">Proportional</div>
-        <p class="pid-desc">
-          Reads current altitude error from the 750 ft target and outputs a proportional
-          airbrake extension. Bigger error = more drag.
-        </p>
-      </div>
-      <div class="pid-card i">
-        <span class="pid-letter">I</span>
-        <div class="pid-name">Integral</div>
-        <p class="pid-desc">
-          Accumulates error over time to catch slow drift that P and D alone miss.
-          Forces corrections when the rocket persistently over- or under-shoots.
-        </p>
-      </div>
-      <div class="pid-card d">
-        <span class="pid-letter">D</span>
-        <div class="pid-name">Derivative</div>
-        <p class="pid-desc">
-          Tracks how fast error is changing to smooth servo movement, reduce
-          wear, and eliminate oscillation around target.
-        </p>
-      </div>
-    </div>
-
-    <div class="tags">
-      <span class="tag">C++ controller</span>
-      <span class="tag">Python SIL sim</span>
-      <span class="tag">binary search tuning</span>
-      <span class="tag">active airbrakes</span>
-      <span class="tag">real-time avionics</span>
-    </div>
-
-    <div class="media-carousel" aria-label="ARC 2026 media carousel">
-      <h3>ARC 2026 media carousel</h3>
-      <p>Airbrake control test footage plus current rocket build and avionics assembly snapshots.</p>
-      <div class="carousel-frame" id="arc26-carousel-frame">
-        <button class="carousel-btn" id="arc26-prev" aria-label="Previous media">&#10094;</button>
-        <div class="carousel-slide active" data-type="video">
-          <video controls preload="metadata">
-            <source src="arc26-media/Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div class="carousel-slide" data-type="image">
-          <img src="arc26-media/Full_Rocket_Assembly_2 (1).jpg" alt="ARC 2026 full rocket assembly" />
-        </div>
-        <div class="carousel-slide" data-type="image">
-          <img src="arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg" alt="ARC 2026 fully assembled AV bay" />
-        </div>
-        <div class="carousel-slide" data-type="image">
-          <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
-        </div>
-        <button class="carousel-btn" id="arc26-next" aria-label="Next media">&#10095;</button>
-      </div>
-      <div class="carousel-dots" id="arc26-dots" aria-label="carousel indicators"></div>
-    </div>
-  </section>
-
-  <!-- SPECS SECTION -->
-  <section class="section" id="specs">
-    <div class="section-header">
-      <div class="section-tag">Mission requirements</div>
-      <h2>Flight envelope</h2>
-      <p class="section-desc">
-        ARC defines a tight success window. Our avionics are designed to hit all three.
-      </p>
-    </div>
-
-    <div class="specs-grid">
-      <div class="spec-card">
-        <div class="spec-icon-wrap">
-          <svg viewBox="0 0 20 20" fill="none">
-            <path d="M10 2L10 15M10 2L7 7M10 2L13 7" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 17H16" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div>
-          <div class="spec-label">Apogee target</div>
-          <div class="spec-val">750 ft</div>
-        </div>
-      </div>
-      <div class="spec-card">
-        <div class="spec-icon-wrap">
-          <svg viewBox="0 0 20 20" fill="none">
-            <circle cx="10" cy="10" r="7" stroke="#4f9cf9" stroke-width="1.6"/>
-            <path d="M10 6V10.5L12.5 13" stroke="#4f9cf9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <div class="spec-label">Flight duration</div>
-          <div class="spec-val">36 – 39 s</div>
-        </div>
-      </div>
-      <div class="spec-card">
-        <div class="spec-icon-wrap">
-          <svg viewBox="0 0 20 20" fill="none">
-            <ellipse cx="10" cy="10" rx="4.5" ry="6" stroke="#4f9cf9" stroke-width="1.6"/>
-            <path d="M5.5 10H14.5" stroke="#4f9cf9" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
-          </svg>
-        </div>
-        <div>
-          <div class="spec-label">Payload</div>
-          <div class="spec-val">1 raw egg</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="section" id="how">
-    <div class="section-header">
-      <div class="section-tag">Control loop</div>
-      <h2>How the system works</h2>
-      <p class="section-desc">
-        From launch to landing, here's how our PID controller keeps us on target.
-      </p>
-    </div>
-
-    <div class="pipeline">
-      <div class="pipeline-step">
-        <div class="step-num">01</div>
-        <div class="step-body">
-          <h3>Constant tuning via Python SIL sim</h3>
-          <p>Before flight, our Python software-in-the-loop simulation runs the physics model with active airbrake dynamics. A binary search script finds optimal Kp, Ki, and Kd constants across dozens of simulated flights.</p>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-num">02</div>
-        <div class="step-body">
-          <h3>Liftoff & sensor read</h3>
-          <p>At launch, the onboard altimeter starts reading pressure data. Altitude and velocity are computed in real time by the C++ flight computer.</p>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-num">03</div>
-        <div class="step-body">
-          <h3>C++ PID controller runs onboard</h3>
-          <p>The controller reads sensor data, computes the P, I, and D terms using the pre-tuned constants, and outputs the target airbrake extension angle to the servo — all in real time.</p>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-num">04</div>
-        <div class="step-body">
-          <h3>Airbrakes modulate drag</h3>
-          <p>The servo extends the airbrakes by the commanded angle, increasing drag to bleed off excess energy. The loop runs continuously until apogee is reached.</p>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-num">05</div>
-        <div class="step-body">
-          <h3>Recovery & payload check</h3>
-          <p>Chutes deploy at apogee. Flight time is logged to confirm the 36–39 second window. The egg is inspected post-landing.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-left">ETHS Rocketry · Evanston Township High School</div>
-    <div class="footer-right">ARC 2026 season</div>
-  </footer>
-
-  <script>
-    const SESSION_KEY = 'etrb_auth';
-
-    function setMemberNavState(isLoggedIn) {
-      const icon = document.getElementById('member-lock-icon');
-      const infoLink = document.getElementById('member-info-link');
-      const pillSep = document.getElementById('member-pill-sep');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
-      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
-    }
-
-
-    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
-    const dotsWrap = document.getElementById('arc26-dots');
-    let activeSlide = 0;
-
-    function showSlide(index) {
-      activeSlide = (index + slides.length) % slides.length;
-      slides.forEach((slide, idx) => {
-        slide.classList.toggle('active', idx === activeSlide);
-        if (idx !== activeSlide) {
-          const vid = slide.querySelector('video');
-          if (vid) vid.pause();
-        }
-      });
-      dotsWrap.querySelectorAll('.carousel-dot').forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === activeSlide);
-      });
-    }
-
-    slides.forEach((_, idx) => {
-      const dot = document.createElement('button');
-      dot.className = 'carousel-dot';
-      dot.setAttribute('aria-label', `Show slide ${idx + 1}`);
-      dot.addEventListener('click', () => showSlide(idx));
-      dotsWrap.appendChild(dot);
-    });
-
-    document.getElementById('arc26-prev').addEventListener('click', () => showSlide(activeSlide - 1));
-    document.getElementById('arc26-next').addEventListener('click', () => showSlide(activeSlide + 1));
-    showSlide(0);
-
-    // Reflect login state on every page load (non-gated pages)
-    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
-  </script>
-</body>
-</html>
