@@ -8,6 +8,15 @@
   <link rel="apple-touch-icon" href="etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_theme';
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,6 +41,7 @@
       --sans: 'Syne', sans-serif;
     }
 
+    :root[data-theme="light"],
     body[data-theme="light"] {
       --bg: #f5f7fb;
       --bg2: #ffffff;
@@ -739,6 +749,7 @@
       const label = toggleBtn.querySelector('.theme-toggle-label');
 
       function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
         document.body.setAttribute('data-theme', theme);
         toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
         if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
