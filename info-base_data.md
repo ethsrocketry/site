@@ -1,6 +1,9 @@
 // Supported link types: DOC, PDF, CSV, TXT, PPTX, VIDEO, IMAGE
 // IMAGE aliases also supported in info-base: IMG, JPG, JPEG, PNG, GIF, WEBP, SVG
 
+heading(getting started)
+link(Using the Rocketry Website, A guide to using and maintaining this website, DOC, https://docs.google.com/document/d/12gRNPaZGAlTICXUV52kFTW7cqM-3rsZHIYmJUNRoMXM/edit?tab=t.0#heading=h.yp0w4xn10ih7)
+
 heading(quick-learn)
 link(Electronics Notes, Quick guide to arduino-style electronics, DOC, https://docs.google.com/document/d/1epr-BBOIx0zVUhN5aM855oR_4kyLSvjc7tyNIKxZ7uQ/edit?tab=t.0)
 //
