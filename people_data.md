@@ -10,16 +10,27 @@
 // - For Email, use a mailto: link (example: mailto:name@example.com).
 
 section(current members)
-person(Example Member One, people-media/wip-square.svg, Senior propulsion lead focused on test operations and reliable recovery systems.)
-contact(LinkedIn, https://www.linkedin.com/)
-contact(Email, mailto:member.one@example.com)
+person(Riley Fortune, people-media/wip-square.svg, Club facilitator and teacher.)
+contact(Email, mailto:fortuner@eths202.org)
 endperson
 
-person(Example Member Two, people-media/wip-square.svg, Avionics and software contributor working on telemetry and mission dashboards.)
-contact(GitHub, https://github.com/)
+person(Kevin Duffy, people-media/wip-square.svg, Club facilitator and teacher.)
+contact(Email, mailto:duffyk@eths202.org)
+endperson
+
+person(Prady Manur, people-media/wip-square.svg, ARC 2025 and 2026 chief and systems engineer working on organization architecture, GNC, and systems integration.)
+contact(LinkedIn, https://www.linkedin.com/in/prady-m/)
+endperson
+
+person(Peter Elbakian, people-media/wip-square.svg, Lead structures engineer for Lil' Willy (2026) and Wildkit SRB MK3 (2025).)
+contact(LinkedIn, https://www.linkedin.com/in/peter-elbakian-2a66453b0/)
+endperson
+
+person(Peter Elbakian, people-media/wip-square.svg, Lead structures engineer for Lil' Willy (2026) and Wildkit SRB MK3 (2025).)
+contact(LinkedIn, https://www.linkedin.com/in/peter-elbakian-2a66453b0/)
 endperson
 
 section(alumni)
-person(Example Alumni, people-media/wip-square.svg, Former structures captain who helped launch the first high-power student vehicle.)
-contact(LinkedIn, https://www.linkedin.com/)
+person(Eli Corr, people-media/wip-square.svg, Founder of E-Town Rocket Bureau and ETHS's ARC program, engineered critical systems for Wildkit SRB MK3 (2025). Currently studying aerospace engineering at Rensselaer Polytechnic Institute)
+contact(LinkedIn, https://www.linkedin.com/in/eli-corr-486847392/)
 endperson
