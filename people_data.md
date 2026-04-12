@@ -10,7 +10,7 @@
 // - For Email, use a mailto: link (example: mailto:name@example.com).
 
 section(current members)
-person(Riley Fortune, people-media/wip-square.svg, Club facilitator and teacher.)
+person(Riley Fortune, people-media/wip-square.svg, "Club facilitator and teacher.")
 contact(Email, mailto:fortuner@eths202.org)
 endperson
 
@@ -18,7 +18,7 @@ person(Kevin Duffy, people-media/wip-square.svg, Club facilitator and teacher.)
 contact(Email, mailto:duffyk@eths202.org)
 endperson
 
-person(Prady Manur, people-media/wip-square.svg, ARC 2025 and 2026 chief and systems engineer working on organization architecture/GNC/systems integration.)
+person(Prady Manur, people-media/wip-square.svg, "ARC 2025 and 2026 chief and systems engineer working on organization architecture, GNC, and systems integration.")
 contact(LinkedIn, https://www.linkedin.com/in/prady-m/)
 endperson
 
