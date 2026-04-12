@@ -212,7 +212,13 @@
     .doc-link:hover { background: var(--surface-hover); border-color: var(--accent-border); }
     .doc-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .doc-desc { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
-    .doc-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--accent); }
+    .doc-icon-wrap { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
+    .doc-icon { width: 20px; height: 20px; }
+    .doc-icon-wrap.type-pdf,
+    .doc-icon-wrap.type-video { color: #ff4d4f; }
+    .doc-icon-wrap.type-pptx,
+    .doc-icon-wrap.type-slides { color: #f2c94c; }
+    .doc-icon-wrap.type-csv { color: #27ae60; }
 
     @media (max-width: 700px) {
       nav { padding: 0 20px; }
@@ -348,7 +354,7 @@
             const normalizedType = type.trim().toUpperCase();
             const iconByType = {
               DOC: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7H13M7 10H13M7 13H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
-              PDF: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8V12M7 8H8.2C9 8 9.5 8.5 9.5 9.3C9.5 10.1 9 10.6 8.2 10.6H7M11 12V8H12.2C13 8 13.5 8.5 13.5 9.3V10.7C13.5 11.5 13 12 12.2 12H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+              PDF: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><text x="10" y="12" text-anchor="middle" font-size="4.2" font-family="Inter, sans-serif" font-weight="700" fill="currentColor">PDF</text></svg>`,
               CSV: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8H13M7 10.5H13M7 13H13M9.2 7.2V14.8M11.8 7.2V14.8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>`,
               TXT: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8H13M7 10.5H13M7 13H12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
               PPTX: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7.2 12V8H8.6C9.3 8 9.8 8.4 9.8 9.1C9.8 9.8 9.3 10.2 8.6 10.2H7.2M10.7 12L12 10L13.3 12M11.2 11.2H12.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -356,8 +362,12 @@
               IMAGE: `<svg class="doc-icon" viewBox="0 0 20 20" fill="none"><rect x="3.8" y="4" width="12.4" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><path d="M5.5 14L9.2 10.3C9.6 9.9 10.2 9.9 10.6 10.3L12 11.7L13.1 10.6C13.5 10.2 14.1 10.2 14.5 10.6L16 12.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
             };
             const imageTypes = ['IMG', 'JPG', 'JPEG', 'PNG', 'GIF', 'WEBP', 'SVG'];
-            const effectiveType = imageTypes.includes(normalizedType) ? 'IMAGE' : normalizedType;
+            const presentationTypes = ['SLIDES', 'PPT'];
+            const effectiveType = imageTypes.includes(normalizedType)
+              ? 'IMAGE'
+              : (presentationTypes.includes(normalizedType) ? 'PPTX' : normalizedType);
             const iconSVG = iconByType[effectiveType] || iconByType.DOC;
+            const iconTypeClass = `type-${effectiveType.toLowerCase()}`;
 
             html += `
               <li>
@@ -366,7 +376,7 @@
                     <div class="doc-title">${title.trim()}</div>
                     <div class="doc-desc">${desc.trim()}</div>
                   </div>
-                  ${iconSVG}
+                  <span class="doc-icon-wrap ${iconTypeClass}">${iconSVG}</span>
                 </a>
               </li>`;
           }
