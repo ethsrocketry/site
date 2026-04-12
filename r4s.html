@@ -8,6 +8,15 @@
   <link rel="apple-touch-icon" href="etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_theme';
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -26,6 +35,7 @@
       --mono: 'Space Mono', monospace;
       --sans: 'Syne', sans-serif;
     }
+    :root[data-theme="light"],
     body[data-theme="light"] {
       --bg: #f5f7fb;
       --bg2: #ffffff;
@@ -35,8 +45,9 @@
       --text-muted: rgba(15,23,42,0.72);
       --accent-dim: rgba(79,156,249,0.14);
       --accent-border: rgba(79,156,249,0.38);
-      --gold-dim: rgba(246, 196, 83, 0.2);
-      --gold-border: rgba(202, 138, 4, 0.5);
+      --gold: #a16207;
+      --gold-dim: rgba(217, 119, 6, 0.16);
+      --gold-border: rgba(161, 98, 7, 0.4);
     }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
     nav {
@@ -206,7 +217,7 @@
   <script>
     const SESSION_KEY = 'etrb_auth';
     (function setMemberNavState() {
-      const isLoggedIn = localStorage.getItem(SESSION_KEY) === 'true';
+      const isLoggedIn = sessionStorage.getItem(SESSION_KEY) === '1';
       const icon = document.getElementById('member-lock-icon');
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
     })();
@@ -221,6 +232,7 @@
       const label = toggleBtn.querySelector('.theme-toggle-label');
 
       function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
         document.body.setAttribute('data-theme', theme);
         toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
         if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
