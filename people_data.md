@@ -18,7 +18,7 @@ person(Kevin Duffy, people-media/wip-square.svg, Club facilitator and teacher.)
 contact(Email, mailto:duffyk@eths202.org)
 endperson
 
-person(Prady Manur, people-media/wip-square.svg, ARC 2025 and 2026 chief and systems engineer working on organization architecture, GNC, and systems integration.)
+person(Prady Manur, people-media/wip-square.svg, ARC 2025 and 2026 chief and systems engineer working on organization architecture/GNC/systems integration.)
 contact(LinkedIn, https://www.linkedin.com/in/prady-m/)
 endperson
 
