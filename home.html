@@ -298,6 +298,32 @@
       letter-spacing: 0.03em;
     }
 
+
+    /* ── SPONSORS ── */
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      align-items: center;
+      max-width: 900px;
+    }
+    .sponsor-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .sponsor-card img {
+      width: 100%;
+      max-height: 80px;
+      object-fit: contain;
+      filter: saturate(1.05);
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 0.5px solid var(--border);
@@ -498,6 +524,27 @@
       </div>
       <div class="program-arrow">→</div>
     </a>
+  </section>
+
+
+  <!-- SPONSORS -->
+  <section class="section" id="sponsors">
+    <div class="section-header">
+      <div class="section-tag">Support</div>
+      <h2>Our sponsors</h2>
+      <p class="section-desc">Thank you to our supporters for helping power ETHS Rocketry.</p>
+    </div>
+    <div class="sponsors-grid">
+      <div class="sponsor-card">
+        <img src="sponsors-images/epl.png" alt="EPL sponsor logo" loading="lazy" />
+      </div>
+      <div class="sponsor-card">
+        <img src="sponsors-images/eths-boosters.jpg" alt="ETHS Boosters sponsor logo" loading="lazy" />
+      </div>
+      <div class="sponsor-card">
+        <img src="sponsors-images/eths-engineering-dept.png" alt="ETHS Engineering Department sponsor logo" loading="lazy" />
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->

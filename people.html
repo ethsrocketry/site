@@ -115,6 +115,24 @@
     }
     .page-header h1 { font-size: 34px; margin-bottom: 10px; }
     .page-header p { font-family: var(--mono); color: var(--text-muted); font-size: 13px; }
+    .search-container { margin-top: 18px; max-width: 400px; }
+    #people-search {
+      width: 100%;
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    #people-search:focus {
+      border-color: var(--accent-border);
+      background: var(--surface-hover);
+      box-shadow: 0 0 12px var(--accent-dim);
+    }
 
     .people-wrap { padding: 36px 40px 56px; display: flex; flex-direction: column; gap: 34px; }
     .people-section h2 {
@@ -122,6 +140,19 @@
       margin-bottom: 16px;
       text-transform: lowercase;
       color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      border: 0.5px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 3px 10px;
+      text-transform: none;
     }
     .people-grid {
       display: grid;
@@ -186,6 +217,11 @@
       color: var(--accent);
       border-color: var(--accent-border);
     }
+    .no-results {
+      font-family: var(--mono);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
 
     @media (max-width: 700px) {
       nav { padding: 0 20px; }
@@ -230,7 +266,10 @@
 
   <header class="page-header">
     <h1>People</h1>
-    <p>Current members and alumni. Update <code>people_data.md</code> to edit entries.</p>
+    <p>Current members and alumni.</p>
+    <div class="search-container">
+      <input type="text" id="people-search" placeholder="Search entries..." aria-label="Search people entries">
+    </div>
   </header>
 
   <main class="people-wrap" id="people-content">Loading people data…</main>
@@ -274,7 +313,7 @@
       return '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h7v7h-2V6.41l-8.29 8.3-1.42-1.42 8.3-8.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/></svg>';
     }
 
-    function renderPeople(md) {
+    function parsePeople(md) {
       const lines = md.split('\n');
       const sections = [];
       let currentSection = null;
@@ -324,8 +363,18 @@
         }
       }
       pushPerson();
+      return sections;
+    }
 
-      if (!sections.length) return '<p>No people data found.</p>';
+    function sectionCountLabel(title, count) {
+      const t = title.toLowerCase();
+      if (t.includes('alumni')) return `${count} alumni`;
+      if (t.includes('member')) return `${count} members`;
+      return `${count} entries`;
+    }
+
+    function renderPeopleSections(sections) {
+      if (!sections.length) return '<p class="no-results">No people data found.</p>';
 
       return sections.map((section) => {
         const peopleHtml = section.people.map((person) => {
@@ -341,18 +390,48 @@
         }).join('');
 
         return `<section class="people-section">
-          <h2>${escapeHtml(section.title)}</h2>
+          <h2>${escapeHtml(section.title)} <span class="section-count">${sectionCountLabel(section.title, section.totalCount)}</span></h2>
           <div class="people-grid">${peopleHtml}</div>
         </section>`;
       }).join('');
     }
 
+    let allSections = [];
+
+    function filterPeople() {
+      const query = (document.getElementById('people-search')?.value || '').trim().toLowerCase();
+      const filteredSections = allSections
+        .map((section) => {
+          const filteredPeople = query
+            ? section.people.filter((person) => {
+                const searchBlob = `${section.title} ${person.name} ${person.bio}`.toLowerCase();
+                return searchBlob.includes(query);
+              })
+            : section.people;
+          return {
+            title: section.title,
+            people: filteredPeople,
+            totalCount: section.people.length
+          };
+        })
+        .filter((section) => section.people.length > 0);
+
+      document.getElementById('people-content').innerHTML = filteredSections.length
+        ? renderPeopleSections(filteredSections)
+        : '<p class="no-results">No matching people entries found.</p>';
+    }
+
     fetch('people_data.md')
       .then((res) => res.text())
-      .then((md) => { document.getElementById('people-content').innerHTML = renderPeople(md); })
+      .then((md) => {
+        allSections = parsePeople(md);
+        filterPeople();
+      })
       .catch(() => {
-        document.getElementById('people-content').innerHTML = '<p>Could not load people data.</p>';
+        document.getElementById('people-content').innerHTML = '<p class="no-results">Could not load people data.</p>';
       });
+
+    document.getElementById('people-search')?.addEventListener('input', filterPeople);
   </script>
 
   <script>
