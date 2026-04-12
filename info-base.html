@@ -20,6 +20,7 @@
       --accent-border: rgba(79, 156, 249, 0.35);
       --bg: #08090f; 
       --bg2: #0d0f1a; 
+      --nav-bg: rgba(8,9,15,0.88);
       --surface: rgba(255,255,255,0.04); 
       --surface-hover: rgba(255,255,255,0.07);
       --border: rgba(255,255,255,0.08); 
@@ -33,6 +34,7 @@
     body[data-theme="light"] {
       --bg: #f5f7fb;
       --bg2: #ffffff;
+      --nav-bg: rgba(245,247,251,0.92);
       --surface: rgba(15,24,42,0.05);
       --surface-hover: rgba(15,24,42,0.09);
       --border: rgba(15,24,42,0.14);
@@ -57,7 +59,7 @@
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px; height: 58px;
-      background: rgba(8,9,15,0.88);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 0.5px solid var(--border);
     }
@@ -184,7 +186,7 @@
     .page-header { padding: 52px 40px 32px; background: var(--bg2); border-bottom: 0.5px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; }
     .page-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
     .page-eyebrow::before { content: '> '; opacity: 0.5; }
-    .page-header h1 { font-size: 32px; font-weight: 700; color: #f0f4ff; }
+    .page-header h1 { font-size: 32px; font-weight: 700; color: var(--text); }
     .logout-btn { font-family: var(--mono); font-size: 12px; color: var(--text-faint); background: none; border: 0.5px solid var(--border); border-radius: 6px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
     .logout-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
@@ -197,7 +199,7 @@
       padding: 18px 20px; color: var(--text); text-decoration: none; 
       transition: background 0.2s, border-color 0.2s; 
     }
-    .doc-link:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.14); }
+    .doc-link:hover { background: var(--surface-hover); border-color: var(--accent-border); }
     .doc-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .doc-desc { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
     .doc-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--accent); }
