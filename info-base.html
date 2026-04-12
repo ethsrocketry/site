@@ -30,6 +30,19 @@
       --mono: 'Space Mono', monospace; 
       --sans: 'Syne', sans-serif;
     }
+    body[data-theme="light"] {
+      --bg: #f5f7fb;
+      --bg2: #ffffff;
+      --surface: rgba(15,24,42,0.05);
+      --surface-hover: rgba(15,24,42,0.09);
+      --border: rgba(15,24,42,0.14);
+      --text: #0f172a;
+      --text-muted: rgba(15,23,42,0.72);
+      --text-faint: rgba(15,23,42,0.5);
+      --accent-dim: rgba(79,156,249,0.14);
+      --accent-border: rgba(79,156,249,0.38);
+      --red: #b91c1c;
+    }
 
     body { 
       background: var(--bg); 
@@ -66,6 +79,27 @@
     @keyframes joinUsGradientShift {
       from { background-position: 0% 50%; }
       to { background-position: 280% 50%; }
+    }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 0.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent-border);
+      background: var(--accent-dim);
     }
 
     
@@ -189,6 +223,12 @@
       <li><a href="r4s.html">r4s</a></li>
       <li><a href="history.html">history</a></li>
       <li><a href="join-us.html" class="join-us-link">join us</a></li>
+      <li>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle-label">dark</span>
+        </button>
+      </li>
       <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
@@ -350,6 +390,33 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && document.getElementById('login-gate').style.display !== 'none') tryLogin();
     });
+  </script>
+
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_theme';
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const icon = toggleBtn.querySelector('.theme-toggle-icon');
+      const label = toggleBtn.querySelector('.theme-toggle-label');
+
+      function applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+        if (label) label.textContent = theme;
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+      toggleBtn.addEventListener('click', () => {
+        const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem(THEME_KEY, nextTheme);
+        applyTheme(nextTheme);
+      });
+    })();
   </script>
 </body>
 </html>

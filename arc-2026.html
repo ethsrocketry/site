@@ -31,6 +31,21 @@
       --sans: 'Syne', sans-serif;
     }
 
+    body[data-theme="light"] {
+      --bg: #f5f7fb;
+      --bg2: #ffffff;
+      --bg3: #eef3fb;
+      --surface: rgba(15, 24, 42, 0.05);
+      --surface-hover: rgba(15, 24, 42, 0.09);
+      --border: rgba(15, 24, 42, 0.14);
+      --border-accent: rgba(79,156,249,0.42);
+      --text: #0f172a;
+      --text-muted: rgba(15,23,42,0.72);
+      --text-faint: rgba(15,23,42,0.5);
+      --accent-dim: rgba(79,156,249,0.14);
+      --accent-border: rgba(79,156,249,0.38);
+    }
+
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
@@ -54,11 +69,12 @@
       display: flex; align-items: center; gap: 10px;
       text-decoration: none;
     }
+    .nav-logo img { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
     .nav-brand {
       font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
       color: var(--text);
     }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
     .nav-links a {
       font-size: 13px; color: var(--text-muted);
       text-decoration: none; font-family: var(--mono);
@@ -78,7 +94,39 @@
       from { background-position: 0% 50%; }
       to { background-position: 280% 50%; }
     }
+    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
+    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
+    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
+    .member-only { display: none; }
 
+
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 0.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent-border);
+      background: var(--accent-dim);
+    }
 
     /* ── HERO ── */
     .hero {
@@ -397,17 +445,30 @@
 <body>
   <!-- HEADER/NAV -->
   <nav>
-    <a class="nav-logo" href="#home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
+    <a class="nav-logo" href="home.html">
+      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#media">Media</a></li>
-      <li><a href="#specs">Specs</a></li>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#footer" class="join-us-link">Our mission</a></li>
+      <li><a href="home.html">home</a></li>
+      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
+      <li><a href="r4s.html">r4s</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="join-us.html" class="join-us-link">join us</a></li>
+      <li>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle-label">dark</span>
+        </button>
+      </li>
+      <li class="member-pill" id="member-pages-pill">
+        <a href="member-tools.html" class="member-entry">
+          <span>member tools</span>
+          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        </a>
+        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
+        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
+      </li>
     </ul>
   </nav>
 
@@ -665,6 +726,33 @@
 
     // Reflect login state on every page load (non-gated pages)
     setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
+
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_theme';
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const icon = toggleBtn.querySelector('.theme-toggle-icon');
+      const label = toggleBtn.querySelector('.theme-toggle-label');
+
+      function applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+        if (label) label.textContent = theme;
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+      toggleBtn.addEventListener('click', () => {
+        const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem(THEME_KEY, nextTheme);
+        applyTheme(nextTheme);
+      });
+    })();
   </script>
 </body>
 </html>
