@@ -31,6 +31,10 @@ contact(LinkedIn, https://www.linkedin.com/in/peter-elbakian-2a66453b0/)
 endperson
 
 section(alumni)
-person(Eli Corr, people-media/wip-square.svg, Founder of E-Town Rocket Bureau and ETHS's ARC program, engineered critical systems for Wildkit SRB MK3 (2025). Currently studying aerospace engineering at Rensselaer Polytechnic Institute)
+person(Eli Corr, people-media/eli-corr.jpg, Founder of E-Town Rocket Bureau and ETHS's ARC program, engineered critical systems for Wildkit SRB MK3 (2025). Currently studying aerospace engineering at Rensselaer Polytechnic Institute)
+contact(LinkedIn, https://www.linkedin.com/in/eli-corr-486847392/)
+endperson
+
+person(Tristan Schultz, people-media/tristan-schultz.jpg, Co-founder of E-Town Rocket Bureau and ETHS's ARC program, engineered critical systems for Wildkit SRB MK3 (2025). Currently studying aerospace engineering at the University of Colorado, Boulder)
 contact(LinkedIn, https://www.linkedin.com/in/eli-corr-486847392/)
 endperson
