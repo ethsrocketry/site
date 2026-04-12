@@ -102,6 +102,10 @@
     .lock-icon svg { width: 13px; height: 13px; }
     .lock-icon.unlocked { color: #3fd6a0; }
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
+    .member-pill-sep { width: 0.5px; height: 12px; background: var(--border); display: inline-block; }
+    .member-only { display: none; }
     .hero {
       min-height: calc(100vh - 58px);
       display: flex;
@@ -187,11 +191,17 @@
           <span class="theme-toggle-label">dark</span>
         </button>
       </li>
-      <li class="member-pill">
+      <li class="member-pill" id="member-pages-pill">
         <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="info-base.html" class="member-only">info base</a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="arc-org.html" class="member-only">arc org</a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="r4s-org.html" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
@@ -220,6 +230,9 @@
       const isLoggedIn = sessionStorage.getItem(SESSION_KEY) === '1';
       const icon = document.getElementById('member-lock-icon');
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      });
     })();
   </script>
 
@@ -233,8 +246,7 @@
 
       function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        document.body.setAttribute('data-theme', theme);
-        toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+                toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
         if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
         if (label) label.textContent = theme;
       }
@@ -244,7 +256,7 @@
       applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
 
       toggleBtn.addEventListener('click', () => {
-        const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         localStorage.setItem(THEME_KEY, nextTheme);
         applyTheme(nextTheme);
       });

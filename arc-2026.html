@@ -37,6 +37,10 @@
       --text-faint: rgba(232,236,248,0.22);
       --green: #3fd6a0;
       --orange: #f09060;
+      --arc-hero-eyebrow-bg: rgba(79, 156, 249, 0.14);
+      --arc-hero-eyebrow-border: rgba(79,156,249,0.38);
+      --arc-hero-eyebrow-text: #1d4ed8;
+      --arc-hero-title: #1e293b;
       --mono: 'Space Mono', monospace;
       --sans: 'Syne', sans-serif;
     }
@@ -56,6 +60,10 @@
       --text-faint: rgba(15,23,42,0.5);
       --accent-dim: rgba(79,156,249,0.14);
       --accent-border: rgba(79,156,249,0.38);
+      --arc-hero-eyebrow-bg: rgba(79,156,249,0.16);
+      --arc-hero-eyebrow-border: rgba(79,156,249,0.35);
+      --arc-hero-eyebrow-text: #1e40af;
+      --arc-hero-title: #1e3a8a;
     }
 
     html { scroll-behavior: smooth; }
@@ -113,7 +121,7 @@
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
     .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .member-pill a:hover, .member-pill a.active { color: var(--accent); }
-    .member-pill-sep { width: 0.5px; height: 12px; background: rgba(255,255,255,0.12); display: inline-block; }
+    .member-pill-sep { width: 0.5px; height: 12px; background: var(--border); display: inline-block; }
     .member-only { display: none; }
 
 
@@ -204,9 +212,9 @@
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent);
-      border: 0.5px solid var(--accent-border);
-      background: var(--accent-dim);
+      text-transform: uppercase; color: var(--arc-hero-eyebrow-text);
+      border: 0.5px solid var(--arc-hero-eyebrow-border);
+      background: var(--arc-hero-eyebrow-bg);
       padding: 5px 14px; border-radius: 4px; margin-bottom: 22px;
       width: fit-content;
     }
@@ -214,7 +222,7 @@
     .hero h1 {
       font-size: clamp(36px, 5vw, 54px);
       font-weight: 700; line-height: 1.1;
-      color: #2c3e50;
+      color: var(--arc-hero-title);
       margin-bottom: 18px;
     }
     .hero h1 em { font-style: normal; color: #2980b9; }
@@ -478,8 +486,12 @@
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
-        <span class="member-pill-sep member-only" id="member-pill-sep"></span>
-        <a href="info-base.html" class="member-only" id="member-info-link">info base</a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="info-base.html" class="member-only">info base</a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="arc-org.html" class="member-only">arc org</a>
+        <span class="member-pill-sep member-only"></span>
+        <a href="r4s-org.html" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
@@ -698,11 +710,10 @@
 
     function setMemberNavState(isLoggedIn) {
       const icon = document.getElementById('member-lock-icon');
-      const infoLink = document.getElementById('member-info-link');
-      const pillSep = document.getElementById('member-pill-sep');
       if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      if (infoLink) infoLink.style.display = isLoggedIn ? 'inline-flex' : 'none';
-      if (pillSep) pillSep.style.display = isLoggedIn ? 'inline-block' : 'none';
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      });
     }
 
 
@@ -750,8 +761,7 @@
 
       function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        document.body.setAttribute('data-theme', theme);
-        toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+                toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
         if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
         if (label) label.textContent = theme;
       }
@@ -761,7 +771,7 @@
       applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
 
       toggleBtn.addEventListener('click', () => {
-        const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         localStorage.setItem(THEME_KEY, nextTheme);
         applyTheme(nextTheme);
       });
