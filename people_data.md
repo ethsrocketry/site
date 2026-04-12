@@ -11,11 +11,11 @@
 // - Make sure to add quotes around the bio section. (example: "Willy the Wildkit is capable of creating general artificial intelligence but chooses not to")
 
 section(current members)
-person(Riley Fortune, people-media/wip-square.svg, "Club facilitator and teacher.")
+person(Riley Fortune, people-media/riley-fortune.jpg, "Club facilitator and teacher.")
 contact(Email, mailto:fortuner@eths202.org)
 endperson
 
-person(Kevin Duffy, people-media/wip-square.svg, "Club facilitator and teacher.")
+person(Kevin Duffy, people-media/kevin-duffy.jpg, "Club facilitator and teacher.")
 contact(Email, mailto:duffyk@eths202.org)
 endperson
 
