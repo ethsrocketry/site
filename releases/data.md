@@ -9,7 +9,7 @@ This is an example **tab release**. Keep using this format to add future release
 - Added scripted pre-flight checklist output for launch day.
 - Improved recovery staging timing in simulation branch.
 
-To edit this release, update this block directly in `releases_data.md`.
+To edit this release, update this block directly in `data.md`.
 
 ## Website Beta Version
 - date: 2026-04-28
