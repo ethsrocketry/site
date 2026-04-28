@@ -11,6 +11,13 @@ This is an example **tab release**. Keep using this format to add future release
 
 To edit this release, update this block directly in `releases_data.md`.
 
+## Website Beta Version
+- date: 2026-04-15
+- mode: tab
+- summary: Info on website beta release
+---
+This website was created by Prady using various AI Agents (Gemini, Claude, ChatGPT Codex, and Grok). 
+
 ## ARC Registration Packet
 - date: 2026-03-16
 - mode: link
