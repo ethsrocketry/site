@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R4S · ETHS Rocketry</title>
-  <link rel="icon" type="image/png" href="etrb-logo.png">
-  <link rel="apple-touch-icon" href="etrb-logo.png">
+  <title>History · ETHS Rocketry</title>
+  <link rel="icon" type="image/png" href="/site-media/etrb-logo.png">
+  <link rel="apple-touch-icon" href="/site-media/etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
@@ -23,12 +23,10 @@
       --accent: #4f9cf9;
       --accent-dim: rgba(79, 156, 249, 0.18);
       --accent-border: rgba(79, 156, 249, 0.35);
-      --gold: #f6c453;
-      --gold-dim: rgba(246, 196, 83, 0.14);
-      --gold-border: rgba(246, 196, 83, 0.45);
       --bg: #08090f;
       --bg2: #0d0f1a;
       --nav-bg: rgba(8,9,15,0.88);
+      --surface: rgba(255,255,255,0.04);
       --border: rgba(255,255,255,0.08);
       --text: #e8ecf8;
       --text-muted: rgba(232,236,248,0.45);
@@ -40,14 +38,12 @@
       --bg: #f5f7fb;
       --bg2: #ffffff;
       --nav-bg: rgba(245,247,251,0.92);
+      --surface: rgba(15,24,42,0.05);
       --border: rgba(15,24,42,0.14);
       --text: #0f172a;
       --text-muted: rgba(15,23,42,0.72);
       --accent-dim: rgba(79,156,249,0.14);
       --accent-border: rgba(79,156,249,0.38);
-      --gold: #a16207;
-      --gold-dim: rgba(217, 119, 6, 0.16);
-      --gold-border: rgba(161, 98, 7, 0.4);
     }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
     nav {
@@ -62,6 +58,16 @@
     .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
     .nav-brand { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+
+    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
+    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
+    .lock-icon svg { width: 13px; height: 13px; }
+    .lock-icon.unlocked { color: #3fd6a0; }
+    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
+    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
+    .member-pill-sep { width: 0.5px; height: 12px; background: var(--border); display: inline-block; }
+    .member-only { display: none; }
     .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-family: var(--mono); }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
     .nav-links a.join-us-link {
@@ -76,12 +82,33 @@
       from { background-position: 0% 50%; }
       to { background-position: 280% 50%; }
     }
+
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle::after { content: ' ▾'; font-size: 11px; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 150px;
+      list-style: none;
+      padding: 8px;
+      margin: 0;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg2);
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu { display: flex; }
     .theme-toggle {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       border: 0.5px solid var(--border);
-      background: rgba(255,255,255,0.04);
+      background: var(--surface);
       color: var(--text-muted);
       border-radius: 999px;
       padding: 6px 10px;
@@ -97,96 +124,61 @@
       border-color: var(--accent-border);
       background: var(--accent-dim);
     }
-    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
-    .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
-    .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-    .member-pill a:hover, .member-pill a.active { color: var(--accent); }
-    .member-pill-sep { width: 0.5px; height: 12px; background: var(--border); display: inline-block; }
-    .member-only { display: none; }
-    .hero {
-      min-height: calc(100vh - 58px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 56px 24px;
+
+    .page-header {
+      padding: 50px 40px 24px;
       background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
     }
-    .hero-inner {
-      width: min(860px, 100%);
+    .page-header h1 { font-size: 34px; margin-bottom: 10px; }
+    .page-header p { font-family: var(--mono); color: var(--text-muted); font-size: 13px; }
+
+    .history-wrap { padding: 36px 40px 56px; }
+    .history-card {
+      max-width: 920px;
+      background: var(--surface);
       border: 0.5px solid var(--border);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.03);
-      padding: 34px;
+      border-radius: 12px;
+      padding: 24px;
     }
-    .section-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .section-tag::before { content: '> '; opacity: 0.5; }
-    h1 {
-      font-size: clamp(34px, 6vw, 54px);
-      line-height: 1.08;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-    .wip-note {
-      font-family: var(--mono);
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1.85;
-      max-width: 720px;
-      margin-bottom: 24px;
-    }
-    .status-list {
-      margin: 0 0 26px;
-      padding-left: 20px;
-      color: var(--text-muted);
+    .history-card h1, .history-card h2 { margin-bottom: 10px; }
+    .history-card h1 { font-size: 28px; }
+    .history-card h2 { font-size: 20px; color: var(--accent); margin-top: 18px; }
+    .history-card p, .history-card li {
       font-family: var(--mono);
       font-size: 13px;
-      line-height: 1.9;
+      color: var(--text-muted);
+      line-height: 1.8;
     }
-    .result-highlight {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 9px;
-      border: 0.5px solid var(--gold-border);
-      background: var(--gold-dim);
-      color: var(--gold);
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 0.03em;
-    }
-    @media (max-width: 900px) {
+    .history-card ul { padding-left: 20px; margin-bottom: 12px; }
+    .history-card hr { border: none; border-top: 0.5px solid var(--border); margin: 18px 0; }
+
+    @media (max-width: 700px) {
       nav { padding: 0 20px; }
-      .nav-links { gap: 14px; }
-      .member-pill { padding: 4px 10px; }
-      .hero-inner { padding: 24px; }
+      .page-header, .history-wrap { padding-left: 20px; padding-right: 20px; }
+      .nav-links { gap: 16px; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
+    <a class="nav-logo" href="/home/">
+      <img src="/site-media/etrb-logo.png" alt="ETHS Rocketry logo" />
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="home.html">home</a></li>
-      <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="r4s.html" class="active">r4s</a></li>
-      <li><a href="history.html">history</a></li>
-      <li><a href="people.html">people</a></li>
-      <li><a href="releases.html">releases</a></li>
-      <li><a href="join-us.html" class="join-us-link">join us</a></li>
+      <li><a href="/home/">home</a></li>
+      <li class="nav-dropdown">
+        <a href="#" class="nav-dropdown-toggle">programs</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="/arc-2026/">arc 2026</a></li>
+          <li><a href="/r4s/">r4s</a></li>
+        </ul>
+      </li>
+      <li><a href="/history/" class="active">history</a></li>
+      <li><a href="/people/">people</a></li>
+      <li><a href="/releases/">releases</a></li>
+      <li><a href="/join-us/" class="join-us-link">join us</a></li>
       <li>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
@@ -194,37 +186,59 @@
         </button>
       </li>
       <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
+        <a href="/member-tools/" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
         <span class="member-pill-sep member-only"></span>
-        <a href="info-base.html" class="member-only">info base</a>
+        <a href="/info-base/" class="member-only">info base</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="arc-org.html" class="member-only">arc org</a>
+        <a href="/arc-org/" class="member-only">arc org</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="r4s-org.html" class="member-only">r4s org</a>
+        <a href="/r4s-org/" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
 
-  <main class="hero" aria-label="Rockets 4 Schools page">
-    <section class="hero-inner">
-      <div class="section-tag">Rockets 4 Schools</div>
-      <h1>R4S page is currently <em>WIP.</em></h1>
-      <p class="wip-note">
-        We are actively building out this page for the Rockets4Schools rocket competition.
-        Soon this section will include this season's timeline, design targets, launch updates,
-        and media from build + flight day.
-      </p>
-      <ul class="status-list">
-        <li>Competition overview and requirements (in progress)</li>
-        <li>Vehicle configuration and testing log (in progress)</li>
-        <li>Team workflow, recovery, and flight recap (coming soon)</li>
-      </ul>
-      <div class="result-highlight">🏆 R4S placed 5th nationally in 2025</div>
-    </section>
+  <header class="page-header">
+    <h1>History</h1>
+    <p>Milestones and program timeline for ETHS Rocketry.</p>
+  </header>
+
+  <main class="history-wrap">
+    <article class="history-card" id="history-content">Loading history…</article>
   </main>
+
+  <script>
+    function renderMarkdown(md) {
+      const lines = md.split('\n');
+      const out = [];
+      let inList = false;
+
+      for (const line of lines) {
+        if (line.startsWith('# ')) { if (inList) { out.push('</ul>'); inList = false; } out.push(`<h1>${line.slice(2)}</h1>`); continue; }
+        if (line.startsWith('## ')) { if (inList) { out.push('</ul>'); inList = false; } out.push(`<h2>${line.slice(3)}</h2>`); continue; }
+        if (line.startsWith('- ')) {
+          if (!inList) { out.push('<ul>'); inList = true; }
+          out.push(`<li>${line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`);
+          continue;
+        }
+        if (line.trim() === '---') { if (inList) { out.push('</ul>'); inList = false; } out.push('<hr />'); continue; }
+        if (line.trim() === '') { if (inList) { out.push('</ul>'); inList = false; } continue; }
+        if (inList) { out.push('</ul>'); inList = false; }
+        out.push(`<p>${line.replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`);
+      }
+      if (inList) out.push('</ul>');
+      return out.join('');
+    }
+
+    fetch('history_data.md')
+      .then((res) => res.text())
+      .then((md) => { document.getElementById('history-content').innerHTML = renderMarkdown(md); })
+      .catch(() => {
+        document.getElementById('history-content').innerHTML = '<p>Could not load history data.</p>';
+      });
+  </script>
 
   <script>
     const SESSION_KEY = 'etrb_auth';
