@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ETHS Rocketry</title>
-  <link rel="icon" type="image/png" href="etrb-logo.png">
-  <link rel="apple-touch-icon" href="etrb-logo.png">
+  <link rel="icon" type="image/png" href="/site-media/etrb-logo.png">
+  <link rel="apple-touch-icon" href="/site-media/etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
@@ -91,6 +91,27 @@
     .nav-links a.active { color: var(--accent); }
 
 
+
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle::after { content: ' ▾'; font-size: 11px; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 150px;
+      list-style: none;
+      padding: 8px;
+      margin: 0;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg2);
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu { display: flex; }
     .theme-toggle {
       display: inline-flex;
       align-items: center;
@@ -389,18 +410,23 @@
 <body>
 
   <nav>
-    <a class="nav-logo" href="home.html">
-      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
+    <a class="nav-logo" href="/home/">
+      <img src="/site-media/etrb-logo.png" alt="ETHS Rocketry logo" />
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="home.html" class="active">home</a></li>
-      <li><a href="arc-2026.html">arc 2026</a></li>
-      <li><a href="r4s.html">r4s</a></li>
-      <li><a href="history.html">history</a></li>
-      <li><a href="people.html">people</a></li>
-      <li><a href="releases.html">releases</a></li>
-      <li><a href="join-us.html" class="join-us-link">join us</a></li>
+      <li><a href="/home/" class="active">home</a></li>
+      <li class="nav-dropdown">
+        <a href="#" class="nav-dropdown-toggle">programs</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="/arc-2026/">arc 2026</a></li>
+          <li><a href="/r4s/">r4s</a></li>
+        </ul>
+      </li>
+      <li><a href="/history/">history</a></li>
+      <li><a href="/people/">people</a></li>
+      <li><a href="/releases/">releases</a></li>
+      <li><a href="/join-us/" class="join-us-link">join us</a></li>
       <li>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
@@ -408,16 +434,16 @@
         </button>
       </li>
       <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
+        <a href="/member-tools/" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
         <span class="member-pill-sep member-only"></span>
-        <a href="info-base.html" class="member-only">info base</a>
+        <a href="/info-base/" class="member-only">info base</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="arc-org.html" class="member-only">arc org</a>
+        <a href="/arc-org/" class="member-only">arc org</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="r4s-org.html" class="member-only">r4s org</a>
+        <a href="/r4s-org/" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
@@ -502,7 +528,7 @@
       <h2>What we're working on</h2>
       <p class="section-desc">Our active programs this season.</p>
     </div>
-    <a class="program-card" href="arc-2026.html">
+    <a class="program-card" href="/arc-2026/">
       <div>
         <div class="program-tag">Competition program · 2026</div>
         <div class="program-name">American Rocketry Challenge</div>
@@ -514,7 +540,7 @@
       <div class="program-arrow">→</div>
     </a>
 
-    <a class="program-card" href="r4s.html">
+    <a class="program-card" href="/r4s/">
       <div>
         <div class="program-tag">Competition program · 2026</div>
         <div class="program-name">Rockets 4 Schools</div>
@@ -537,13 +563,13 @@
     </div>
     <div class="sponsors-grid">
       <div class="sponsor-card">
-        <img src="sponsors-images/epl.png" alt="EPL sponsor logo" loading="lazy" />
+        <img src="/site-media/epl.png" alt="EPL sponsor logo" loading="lazy" />
       </div>
       <div class="sponsor-card">
-        <img src="sponsors-images/eths-boosters.jpg" alt="ETHS Boosters sponsor logo" loading="lazy" />
+        <img src="/site-media/eths-boosters.jpg" alt="ETHS Boosters sponsor logo" loading="lazy" />
       </div>
       <div class="sponsor-card">
-        <img src="sponsors-images/eths-engineering-dept.png" alt="ETHS Engineering Department sponsor logo" loading="lazy" />
+        <img src="/site-media/eths-engineering-dept.png" alt="ETHS Engineering Department sponsor logo" loading="lazy" />
       </div>
     </div>
   </section>
