@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ETHS Rocketry</title>
-  <link rel="icon" type="image/png" href="/site-media/etrb-logo.png">
-  <link rel="apple-touch-icon" href="/site-media/etrb-logo.png">
+  <link rel="icon" type="image/png" href="etrb-logo.png">
+  <link rel="apple-touch-icon" href="etrb-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
@@ -126,27 +126,6 @@
 
 
 
-
-    .nav-dropdown { position: relative; }
-    .nav-dropdown-toggle::after { content: ' ▾'; font-size: 11px; }
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 10px);
-      left: 0;
-      min-width: 150px;
-      list-style: none;
-      padding: 8px;
-      margin: 0;
-      border: 0.5px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg2);
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 200;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown:focus-within .nav-dropdown-menu { display: flex; }
     .theme-toggle {
       display: inline-flex;
       align-items: center;
@@ -486,23 +465,18 @@
 <body>
   <!-- HEADER/NAV -->
   <nav>
-    <a class="nav-logo" href="/home/">
-      <img src="/site-media/etrb-logo.png" alt="ETHS Rocketry logo" />
+    <a class="nav-logo" href="home.html">
+      <img src="etrb-logo.png" alt="ETHS Rocketry logo" />
       <span class="nav-brand">ETHS Rocketry</span>
     </a>
     <ul class="nav-links">
-      <li><a href="/home/">home</a></li>
-      <li class="nav-dropdown active">
-        <a href="#" class="nav-dropdown-toggle active">programs</a>
-        <ul class="nav-dropdown-menu">
-          <li><a href="/arc-2026/" class="active">arc 2026</a></li>
-          <li><a href="/r4s/">r4s</a></li>
-        </ul>
-      </li>
-      <li><a href="/history/">history</a></li>
-      <li><a href="/people/">people</a></li>
-      <li><a href="/releases/">releases</a></li>
-      <li><a href="/join-us/" class="join-us-link">join us</a></li>
+      <li><a href="home.html">home</a></li>
+      <li><a href="arc-2026.html" class="active">arc 2026</a></li>
+      <li><a href="r4s.html">r4s</a></li>
+      <li><a href="history.html">history</a></li>
+      <li><a href="people.html">people</a></li>
+      <li><a href="releases.html">releases</a></li>
+      <li><a href="join-us.html" class="join-us-link">join us</a></li>
       <li>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
@@ -510,16 +484,16 @@
         </button>
       </li>
       <li class="member-pill" id="member-pages-pill">
-        <a href="/member-tools/" class="member-entry">
+        <a href="member-tools.html" class="member-entry">
           <span>member tools</span>
           <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         </a>
         <span class="member-pill-sep member-only"></span>
-        <a href="/info-base/" class="member-only">info base</a>
+        <a href="info-base.html" class="member-only">info base</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="/arc-org/" class="member-only">arc org</a>
+        <a href="arc-org.html" class="member-only">arc org</a>
         <span class="member-pill-sep member-only"></span>
-        <a href="/r4s-org/" class="member-only">r4s org</a>
+        <a href="r4s-org.html" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
@@ -552,7 +526,7 @@
       </div>
     </div>
     <div class="hero-img-wrap">
-      <img src="/pages-media/arc26/full_assembly_render_1.png" alt="ARC 2026 full assembly render" />
+      <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 full assembly render" />
       <div class="hero-img-caption">Full assembly render</div>
     </div>
   </section>
@@ -609,18 +583,18 @@
         <button class="carousel-btn" id="arc26-prev" aria-label="Previous media">&#10094;</button>
         <div class="carousel-slide active" data-type="video">
           <video controls preload="metadata">
-            <source src="/pages-media/arc26/Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
+            <source src="arc26-media/Airbrake Control Test (Numerical Input) - Trim.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
         <div class="carousel-slide" data-type="image">
-          <img src="/pages-media/arc26/Full_Rocket_Assembly_2 (1).jpg" alt="ARC 2026 full rocket assembly" />
+          <img src="arc26-media/Full_Rocket_Assembly_2 (1).jpg" alt="ARC 2026 full rocket assembly" />
         </div>
         <div class="carousel-slide" data-type="image">
-          <img src="/pages-media/arc26/Fully_Assembled_AV_Bay_2 (1).jpg" alt="ARC 2026 fully assembled AV bay" />
+          <img src="arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg" alt="ARC 2026 fully assembled AV bay" />
         </div>
         <div class="carousel-slide" data-type="image">
-          <img src="/pages-media/arc26/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
+          <img src="arc26-media/full_assembly_render_1.png" alt="ARC 2026 rocket full assembly render" />
         </div>
         <button class="carousel-btn" id="arc26-next" aria-label="Next media">&#10095;</button>
       </div>
