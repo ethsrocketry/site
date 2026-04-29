@@ -2,13 +2,15 @@
 // IMAGE aliases also supported in info-base: IMG, JPG, JPEG, PNG, GIF, WEBP, SVG
 
 heading(getting started)
+link(Software Kit, A list of useful apps and instructions on installation, DOC, https://docs.google.com/document/d/1lk6KhbNYfQ0HLD55EobMOPDYFdndjwz_wkb6v5dFQxQ/edit?tab=t.0)
 
-heading(the website)
+heading(using the website)
 link(Using the Rocketry Website, A guide to using and maintaining this website, DOC, https://docs.google.com/document/d/12gRNPaZGAlTICXUV52kFTW7cqM-3rsZHIYmJUNRoMXM/edit?tab=t.0#heading=h.yp0w4xn10ih7)
 link(Markdown Syntax, A guide to using markdown, DOC, https://www.markdownguide.org/basic-syntax/)
 
 heading(quick-learn)
 link(Electronics Notes, Quick guide to arduino-style electronics, DOC, https://docs.google.com/document/d/1epr-BBOIx0zVUhN5aM855oR_4kyLSvjc7tyNIKxZ7uQ/edit?tab=t.0)
+link(OpenRocket User Guide, A comprehensive guide to using OpenRocket, DOC, https://openrocket.readthedocs.io/en/latest/)
 //
 heading(fabrication)
 link(3D Printing Tolerance Sheet, Dimensional and fit guidance for printed parts, DOC, https://docs.google.com/document/d/1o35jaJcufN3r2FYCSSN3ju66eLskUaP5I9Abqzxr5Nw/edit)
