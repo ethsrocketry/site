@@ -23,3 +23,6 @@ link(Helpful airbrake control videos, A set of useful videos on active airbraked
 //
 heading(datasets)
 link(Motor Thrust and Weight Data, Datasets of various motor thrust profiles, CSV, https://docs.google.com/spreadsheets/d/1_fO9yHK-BEU7YAX_vI6N74XljMth9HyZWJK6BY4gGcc/edit?gid=1343307092#gid=1343307092)
+//
+heading(pre-flight simulation and testing)
+link(Ground Truth: Physical Testing, Apogee Components newsletter on simulation and physical ground testing of aerostructures, PDF, https://www.apogeerockets.com/education/downloads/Newsletter677.pdf?_kx=uSVweLHx6NxMcbZrmiYCufdlaHVnP7_0ByKhwfypaaz26CQcSfInkqTYdV_q4tDH.V8TZeH)
