@@ -62,10 +62,6 @@
     .nav-brand { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
 
-    .member-entry { display: inline-flex; align-items: center; gap: 7px; }
-    .lock-icon { width: 13px; height: 13px; display: inline-flex; color: rgba(255,90,90,0.85); transition: color 0.3s; flex-shrink: 0; }
-    .lock-icon svg { width: 13px; height: 13px; }
-    .lock-icon.unlocked { color: #3fd6a0; }
     .member-pill { display: inline-flex; align-items: center; gap: 10px; border: 0.5px solid var(--accent-border); background: var(--accent-dim); border-radius: 999px; padding: 5px 14px; }
     .member-pill a { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .member-pill a:hover, .member-pill a.active { color: var(--accent); }
@@ -99,12 +95,6 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       cursor: pointer;
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
-    }
-    .theme-toggle:hover {
-      color: var(--accent);
-      border-color: var(--accent-border);
-      background: var(--accent-dim);
     }
 
     .page-header {
@@ -180,19 +170,26 @@
       border: 0.5px solid var(--border);
       border-radius: 10px;
       padding: 16px;
-      min-height: 260px;
+      min-height: 500px;
       background: var(--bg2);
+      display: flex;
+      flex-direction: column;
     }
     .release-panel h3 { font-size: 22px; margin-bottom: 6px; }
     .release-date { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
-    .release-body p,
-    .release-body li {
+    
+    .release-body { flex-grow: 1; }
+    .release-body p, .release-body li {
       font-family: var(--mono);
       font-size: 13px;
       color: var(--text-muted);
       line-height: 1.8;
     }
-    .release-body ul { padding-left: 18px; margin-bottom: 10px; }
+    
+    /* Embed Styles */
+    .embed-container { width: 100%; height: 600px; border-radius: 8px; overflow: hidden; border: 0.5px solid var(--border); }
+    .embed-container iframe { width: 100%; height: 100%; border: none; }
+    .embed-img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
 
     .empty-state { color: var(--text-muted); font-family: var(--mono); font-size: 12px; }
 
@@ -219,29 +216,22 @@
       <li><a href="releases.html" class="active">releases</a></li>
       <li><a href="join-us.html" class="join-us-link">join us</a></li>
       <li>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
-          <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+        <button class="theme-toggle" id="theme-toggle" type="button">
+          <span class="theme-toggle-icon">🌙</span>
           <span class="theme-toggle-label">dark</span>
         </button>
       </li>
       <li class="member-pill" id="member-pages-pill">
-        <a href="member-tools.html" class="member-entry">
-          <span>member tools</span>
-          <span class="lock-icon" id="member-lock-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.8a3 3 0 1 1 6 0V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        </a>
+        <a href="member-tools.html">member tools</a>
         <span class="member-pill-sep member-only"></span>
         <a href="info-base.html" class="member-only">info base</a>
-        <span class="member-pill-sep member-only"></span>
-        <a href="arc-org.html" class="member-only">arc org</a>
-        <span class="member-pill-sep member-only"></span>
-        <a href="r4s-org.html" class="member-only">r4s org</a>
       </li>
     </ul>
   </nav>
 
   <header class="page-header">
     <h1>Releases</h1>
-    <p>Public changelog and launch notes. Release items can open as in-page tabs or direct links.</p>
+    <p>Public changelog and resources. View release notes or embedded documents below.</p>
   </header>
 
   <main class="release-wrap">
@@ -251,29 +241,17 @@
     </section>
 
     <section class="release-viewer">
-      <h2>Opened Tabs</h2>
+      <h2>Viewer</h2>
       <div class="release-tabbar" id="release-tabbar"></div>
       <div class="release-panel" id="release-panel">
-        <p class="empty-state">Click a release to open it here.</p>
+        <p class="empty-state">Select a release to view.</p>
       </div>
     </section>
   </main>
 
   <script>
     function escapeHtml(str) {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function parseInlineMarkdown(text) {
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`(.*?)`/g, '<code>$1</code>');
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     function renderMarkdown(md) {
@@ -283,7 +261,7 @@
       for (const line of lines) {
         if (line.startsWith('- ')) {
           if (!inList) { out.push('<ul>'); inList = true; }
-          out.push(`<li>${parseInlineMarkdown(escapeHtml(line.slice(2)))}</li>`);
+          out.push(`<li>${escapeHtml(line.slice(2))}</li>`);
           continue;
         }
         if (line.trim() === '') {
@@ -291,7 +269,7 @@
           continue;
         }
         if (inList) { out.push('</ul>'); inList = false; }
-        out.push(`<p>${parseInlineMarkdown(escapeHtml(line))}</p>`);
+        out.push(`<p>${escapeHtml(line)}</p>`);
       }
       if (inList) out.push('</ul>');
       return out.join('');
@@ -300,45 +278,34 @@
     function parseReleases(md) {
       const sections = md.split(/\n##\s+/).map((chunk, i) => i === 0 ? chunk.replace(/^##\s+/, '') : chunk);
       const releases = [];
-
       sections.forEach((section) => {
         const trimmed = section.trim();
-        if (!trimmed || trimmed.startsWith('<!--')) return;
-
+        if (!trimmed) return;
         const lines = trimmed.split('\n');
         const title = lines.shift().trim();
         const meta = {};
         const bodyLines = [];
         let inBody = false;
-
         lines.forEach((line) => {
           if (!inBody && line.startsWith('- ')) {
             const sep = line.indexOf(':');
             if (sep > -1) {
-              const key = line.slice(2, sep).trim().toLowerCase();
-              const value = line.slice(sep + 1).trim();
-              meta[key] = value;
+              meta[line.slice(2, sep).trim().toLowerCase()] = line.slice(sep + 1).trim();
               return;
             }
           }
-          if (line.trim() === '---') {
-            inBody = true;
-            return;
-          }
+          if (line.trim() === '---') { inBody = true; return; }
           if (inBody) bodyLines.push(line);
         });
-
-        const mode = (meta.mode || 'tab').toLowerCase();
         releases.push({
           title,
           date: meta.date || 'undated',
           summary: meta.summary || '',
-          mode,
+          mode: (meta.mode || 'tab').toLowerCase(),
           url: meta.url || '',
           body: bodyLines.join('\n').trim()
         });
       });
-
       return releases;
     }
 
@@ -348,122 +315,61 @@
     function renderTabPanel() {
       const tabbar = document.getElementById('release-tabbar');
       const panel = document.getElementById('release-panel');
-
       if (openTabs.length === 0) {
         tabbar.innerHTML = '';
-        panel.innerHTML = '<p class="empty-state">Click a release set to <code>mode: tab</code> to open it here.</p>';
+        panel.innerHTML = '<p class="empty-state">Select a release from the feed.</p>';
         return;
       }
-
       tabbar.innerHTML = openTabs.map((tab, idx) => `
         <button class="release-tab ${idx === activeTabIndex ? 'active' : ''}" data-tab-index="${idx}">${escapeHtml(tab.title)}</button>
       `).join('');
 
       const release = openTabs[activeTabIndex];
+      let content = '';
+
+      if (release.mode === 'embed' && release.url) {
+        const isPdf = release.url.toLowerCase().endsWith('.pdf');
+        content = isPdf 
+          ? `<div class="embed-container"><iframe src="${release.url}"></iframe></div>`
+          : `<img src="${release.url}" class="embed-img" alt="${escapeHtml(release.title)}">`;
+      } else {
+        content = `<div class="release-body">${renderMarkdown(release.body || 'No notes.')}</div>`;
+      }
+
       panel.innerHTML = `
         <h3>${escapeHtml(release.title)}</h3>
         <p class="release-date">${escapeHtml(release.date)}</p>
-        <div class="release-body">${renderMarkdown(release.body || 'No release notes for this item yet.')}</div>
+        ${content}
       `;
 
-      tabbar.querySelectorAll('[data-tab-index]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          activeTabIndex = Number(btn.dataset.tabIndex);
-          renderTabPanel();
-        });
+      tabbar.querySelectorAll('[data-tab-index]').forEach(btn => {
+        btn.onclick = () => { activeTabIndex = Number(btn.dataset.tabIndex); renderTabPanel(); };
       });
-    }
-
-    function openRelease(release) {
-      if (release.mode === 'link' && release.url) {
-        window.location.href = release.url;
-        return;
-      }
-
-      const existing = openTabs.findIndex((tab) => tab.title === release.title);
-      if (existing > -1) {
-        activeTabIndex = existing;
-      } else {
-        openTabs.push(release);
-        activeTabIndex = openTabs.length - 1;
-      }
-      renderTabPanel();
     }
 
     async function loadReleases() {
       const buttonWrap = document.getElementById('release-buttons');
       try {
         const response = await fetch('releases_data.md');
-        if (!response.ok) throw new Error('Could not load releases_data.md');
         const raw = await response.text();
         const releases = parseReleases(raw);
-
         buttonWrap.innerHTML = '';
-        releases.forEach((release, index) => {
-          const button = document.createElement('button');
-          button.className = 'release-button';
-          button.innerHTML = `
-            <div class="release-title">${escapeHtml(release.title)}</div>
-            <div class="release-meta">${escapeHtml(release.date)} · ${escapeHtml(release.mode)}${release.mode === 'link' ? ' → external' : ' → tab'}</div>
-            ${release.summary ? `<div class="release-meta" style="margin-top: 6px; text-transform: none; letter-spacing: 0;">${escapeHtml(release.summary)}</div>` : ''}
-          `;
-          button.addEventListener('click', () => {
-            document.querySelectorAll('.release-button').forEach((btn) => btn.classList.remove('active'));
-            button.classList.add('active');
-            openRelease(release);
-          });
-          if (index === 0) button.classList.add('active');
-          buttonWrap.appendChild(button);
+        releases.forEach((release) => {
+          const btn = document.createElement('button');
+          btn.className = 'release-button';
+          btn.innerHTML = `<div class="release-title">${escapeHtml(release.title)}</div><div class="release-meta">${escapeHtml(release.date)}</div>`;
+          btn.onclick = () => {
+            if (release.mode === 'link') { window.open(release.url, '_blank'); return; }
+            const idx = openTabs.findIndex(t => t.title === release.title);
+            if (idx === -1) { openTabs.push(release); activeTabIndex = openTabs.length - 1; }
+            else { activeTabIndex = idx; }
+            renderTabPanel();
+          };
+          buttonWrap.appendChild(btn);
         });
-
-        if (releases.length === 0) {
-          buttonWrap.innerHTML = '<p class="empty-state">No releases found in releases_data.md</p>';
-        }
-      } catch (err) {
-        buttonWrap.innerHTML = '<p class="empty-state">Failed to load releases_data.md.</p>';
-      }
+      } catch (err) { buttonWrap.innerHTML = '<p class="empty-state">Error loading releases.</p>'; }
     }
-
     loadReleases();
-  </script>
-
-  <script>
-    const SESSION_KEY = 'etrb_auth';
-    (function setMemberNavState() {
-      const isLoggedIn = sessionStorage.getItem(SESSION_KEY) === '1';
-      const icon = document.getElementById('member-lock-icon');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      document.querySelectorAll('.member-only').forEach(el => {
-        el.style.display = isLoggedIn ? 'inline-flex' : 'none';
-      });
-    })();
-  </script>
-
-  <script>
-    (() => {
-      const THEME_KEY = 'etrb_theme';
-      const toggleBtn = document.getElementById('theme-toggle');
-      if (!toggleBtn) return;
-      const icon = toggleBtn.querySelector('.theme-toggle-icon');
-      const label = toggleBtn.querySelector('.theme-toggle-label');
-
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-                toggleBtn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-        if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
-        if (label) label.textContent = theme;
-      }
-
-      const savedTheme = localStorage.getItem(THEME_KEY);
-      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
-
-      toggleBtn.addEventListener('click', () => {
-        const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        localStorage.setItem(THEME_KEY, nextTheme);
-        applyTheme(nextTheme);
-      });
-    })();
   </script>
 </body>
 </html>
