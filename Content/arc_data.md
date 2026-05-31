@@ -58,6 +58,9 @@ Beginning in August 2024, the E-Town Rocket Bureau (ERB) started designing and b
 
 Although initial testing showed promise, the first three versions of the Wildkit SRB were ultimately unsuccessful. However, the ERB team gained significant technical experience and insight throughout the development process.
 
+See our Final Report here, or scroll below for a quick summary:
+[[pdf: ../arc25-media/ARC 2025 Final Report.docx, ARC 2025 Final Report, false]]
+
 ## The 2025 Build Team
 * Eli Corr (Class of 2025)
 * Peter Elbakian (Class of 2027)
