@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETHS Rocketry</title>
+  <link rel="icon" type="image/png" href="../site-media/favicon.png">
+  <link rel="apple-touch-icon" href="../site-media/logo.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* ── MATTE TECH DARK PROFILE (Calmed down, professional graphite) ── */
+      --bg: #0f172a;               /* Deep Slate (Slightly lighter than pure void) */
+      --bg-alt: #1e293b;           /* Muted Structural Slate */
+      --nav-bg: #0f172a;
+      --surface: rgba(30, 41, 59, 0.4);
+      --surface-hover: rgba(51, 65, 85, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      
+      --eths-blue: #3b82f6;        /* Clean engineering blue */
+      --eths-orange: #f97316;      /* Matte tactical orange */
+      --orange-glow: rgba(249, 115, 22, 0.1);
+      
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    :root[data-theme="light"] {
+      /* ── CLEAN GRAPHITE LIGHT PROFILE ── */
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --nav-bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #e2e8f0;
+      --border: rgba(15, 23, 42, 0.08);
+      
+      --eths-blue: #1d4ed8;
+      --eths-orange: #ea580c;
+      --orange-glow: rgba(234, 88, 12, 0.05);
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* ── FLIGHT DECK NAVIGATION ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 72px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+    
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.15s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-links a.join-us-link {
+      color: #fff;
+      font-weight: 700;
+      padding: 8px 18px;
+      background: var(--eths-orange);
+      border-radius: 4px;
+      box-shadow: 0 4px 15px var(--orange-glow);
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .nav-links a.join-us-link:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    /* MEMBER SYSTEM PILL */
+    .member-pill { 
+      display: inline-flex; align-items: center; gap: 10px; 
+      background: rgba(148, 163, 184, 0.05); border: 1px solid var(--border); border-radius: 4px; padding: 6px 14px; 
+    }
+    .member-entry { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; text-decoration: none; color: var(--text); }
+    .lock-icon { width: 8px; height: 8px; background: var(--eths-orange); border-radius: 50%; display: inline-block; }
+    .lock-icon.unlocked { background: #10b981; }
+    .member-only { display: none; font-size: 13px !important; }
+
+    /* ── CINEMATIC CINEMASCOPE HERO HEADER ── */
+    .hero-viewport {
+      position: relative;
+      width: 100%;
+      height: 75vh;
+      min-height: 550px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    
+    .hero-video-backdrop {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: 1; pointer-events: none;
+    }
+    
+    /* Sleek overlays that integrate cleanly without extreme dark tints */
+    .hero-blast-shield {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.5) 0%, rgba(15,23,42,0.85) 95%);
+      z-index: 2;
+    }
+    :root[data-theme="light"] .hero-blast-shield {
+      background: linear-gradient(to bottom, rgba(248,250,252,0.4) 0%, rgba(248,250,252,0.95) 95%);
+    }
+
+    .hero-telemetry-box {
+      position: relative; z-index: 3; text-align: center; max-width: 900px; padding: 0 24px;
+    }
+    .launch-tag {
+      font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero-viewport h1 {
+      font-family: var(--font-display); font-size: clamp(48px, 8vw, 86px); font-weight: 700; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 24px; text-transform: uppercase;
+    }
+    /* Cleaned up headline styling for crisp contrast across profiles */
+    .hero-viewport h1 em {
+      font-style: normal;
+      color: var(--text);
+      -webkit-text-stroke: none;
+    }
+    :root[data-theme="dark"] .hero-viewport h1 em {
+      color: var(--eths-orange);
+      background: none;
+      -webkit-text-fill-color: initial;
+    }
+    .hero-subtext { font-size: 20px; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.5; }
+
+    /* ── CONTENT PLATFORM CANVAS ── */
+    .page-container { max-width: 1300px; margin: 0 auto; padding: 0 40px 80px 40px; position: relative; z-index: 10; }
+
+    /* SYSTEM BLOCKS GRID */
+    .section-headline { display: flex; align-items: center; gap: 16px; margin-top: 60px; margin-bottom: 32px; }
+    .section-headline h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; text-transform: uppercase; }
+    .section-line { flex-grow: 1; height: 1px; background: var(--border); }
+    .section-index { font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); font-weight: 700; }
+
+    /* SPLIT SECTION GRID */
+    .feature-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; margin-bottom: 40px; }
+    .summary-text-block { display: flex; flex-direction: column; gap: 24px; justify-content: center; }
+    .summary-text-block p { font-size: 17px; color: var(--text-muted); line-height: 1.6; }
+    
+    /* HOUSINGS FOR IMAGES/INFO PANEL LISTS */
+    .plume-deck { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .deck-panel { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 6px; display: flex; gap: 20px; transition: border-color 0.2s, background-color 0.2s; }
+    .deck-panel:hover { border-color: var(--eths-orange); background: var(--surface-hover); }
+    .deck-indicator { width: 4px; height: 40px; background: var(--eths-blue); border-radius: 2px; flex-shrink: 0; }
+    .deck-panel:hover .deck-indicator { background: var(--eths-orange); }
+    .deck-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .deck-desc { font-size: 14px; color: var(--text-muted); }
+
+    /* ── TRACKS TELEMETRY TILES (CAMPAIGNS) ── */
+    .campaign-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .campaign-tile {
+      background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s;
+    }
+    .campaign-tile:hover { transform: translateY(-4px); border-color: rgba(249, 115, 22, 0.4); }
+    
+    .tile-photo-window { position: relative; width: 100%; height: 280px; background: var(--bg); overflow: hidden; }
+    .tile-photo-window img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .campaign-tile:hover .tile-photo-window img { transform: scale(1.01); }
+    
+    .tile-body { padding: 32px; flex-grow: 1; display: flex; flex-direction: column; }
+    .tile-tag { font-family: var(--font-mono); font-size: 11px; color: var(--eths-orange); font-weight: 700; margin-bottom: 8px; display: block; }
+    .tile-name { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    .tile-desc { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+    
+    .live-indicator-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15); padding: 6px 12px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--eths-orange); margin-top: auto; width: fit-content; text-transform: uppercase; }
+
+    /* INDUSTRIAL SPONSORS */
+    .pipeline-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .pipeline-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; height: 100px; display: flex; align-items: center; justify-content: center; padding: 24px; transition: background-color 0.2s; }
+    .pipeline-cell:hover { background: var(--surface-hover); }
+    .pipeline-cell img { max-width: 100%; max-height: 80px; object-fit: contain; filter: none; transition: filter 0.2s; }
+    :root[data-theme="dark"] .pipeline-cell img { filter: none; }
+    .pipeline-cell:hover img { filter: none !important; }
+
+    /* MISSION CONTROLLERS */
+    .theme-toggle {
+      width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 4px; color: var(--text-muted); cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
+    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
+    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .theme-toggle-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    /* ── FOOTER DECK ── */
+    footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ── BREAKPOINTS ── */
+    @media (max-width: 1024px) {
+      .feature-grid, .campaign-showcase { grid-template-columns: 1fr; gap: 32px; }
+      .hero-viewport { height: 60vh; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page-container { padding: 0 20px 40px 20px; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  
+
+  </style>
+  <script src="default.js"></script>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <!-- CINEMATIC VIDEO BACKGROUND HERO -->
+  <header class="hero-viewport">
+    <video class="hero-video-backdrop" autoplay muted loop playsinline>
+      <source src="../site-media/Header Video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-blast-shield"></div>
+    
+    <div class="hero-telemetry-box">
+      <div class="launch-tag">ETHS Rocketry</div>
+      <h1>We build <em>rockets.</em></h1>
+      <p class="hero-subtext">
+        Hands-on aerospace engineering at Evanston Township High School.
+      </p>
+    </div>
+  </header>
+
+  <div class="page-container">
+    
+    <!-- SECTION 01: Our Missions -->
+    <section id="mission">
+      <div class="section-headline">
+        <h2>Our Mission</h2>
+        <div class="section-line"></div>
+        <span class="section-index">// 01</span>
+      </div>
+      <div class="feature-grid">
+        <div class="summary-text-block">
+          <p>
+            We turn curiosity into launch vehicles. ETHS Rocketry brings together students passionate about engineering, aerospace, and innovation to design, build, and launch high-power rockets. Our mission is to create opportunities for students to take on real engineering challenges, push their technical limits, and reach for goals that extend far beyond the classroom.
+          </p>
+          <p>
+            We are a subset of the Architecture, Engineering, and Trades Club.
+          </p>
+        </div>
+        <div class="plume-deck">
+          <div class="deck-panel">
+            <div class="deck-indicator"></div>
+            <div>
+              <h3 class="deck-title">Hands-On Rocketry</h3>
+              <p class="deck-desc">Build and fly real rockets. Every member gets their hands on the hardware.</p>
+            </div>
+          </div>
+          <div class="deck-panel">
+            <div class="deck-indicator"></div>
+            <div>
+              <h3 class="deck-title">Real Engineering Skills</h3>
+              <p class="deck-desc">Avionics, control systems, CAD, simulation, presentation — skills that carry into college and beyond.</p>
+            </div>
+          </div>
+          <div class="deck-panel">
+            <div class="deck-indicator"></div>
+            <div>
+              <h3 class="deck-title">National Competitions</h3>
+              <p class="deck-desc">Competing in ARC and R4S gives us measurable targets and deadlines that keep us focused.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: Programs -->
+    <section id="programs">
+      <div class="section-headline">
+        <h2>Programs</h2>
+        <div class="section-line"></div>
+        <span class="section-index">// 02</span>
+      </div>
+      <div class="campaign-showcase">
+        
+        <a class="campaign-tile" href="arc.html">
+          <div class="tile-photo-window">
+            <img src="../arc26-media/full assembly render 1.png" alt="American Rocketry Challenge" />
+          </div>
+          <div class="tile-body">
+            <span class="tile-tag">2024 - Present</span>
+            <h3 class="tile-name">American Rocketry Challenge</h3>
+            <p class="tile-desc">
+              Dynamic active-control airbrakes to hit variable altitudes on an F-Class rocket.
+            </p>
+          </div>
+        </a>
+
+        <a class="campaign-tile" href="r4s.html">
+          <div class="tile-photo-window">
+            <img src="../site-media/coriander1_26.jpg" alt="Rockets 4 Schools" />
+          </div>
+          <div class="tile-body">
+            <span class="tile-tag">2023 - Present</span>
+            <h3 class="tile-name">Rockets 4 Schools</h3>
+            <p class="tile-desc">
+              Large rocket launch with a gyroscopic experimental payload, focusing on build quality.
+            </p>
+            <div class="live-indicator-badge">🏆 Placed 5th Nationally // 2025</div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SECTION 03: Sponsors -->
+    <section id="sponsors">
+      <div class="section-headline">
+        <h2>Sponsors</h2>
+        <div class="section-line"></div>
+        <span class="section-index">// 03</span>
+      </div>
+      <div class="pipeline-row">
+        <div class="pipeline-cell"><img src="../sponsors-media/epl.png" alt="Evanston Public Library" /></div>
+        <div class="pipeline-cell"><img src="../sponsors-media/eths-boosters.png" alt="ETHS Boosters" /></div>
+        <div class="pipeline-cell"><img src="../sponsors-media/eths-engineering-dept.png" alt="ETHS Engineering Department" /></div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div>ETHS Rocketry</div>
+    <div>Evanston Township High School // 2026</div>
+  </footer>
+
+  <script>
+    // System lock management configuration
+    const SESSION_KEY = 'etrb_auth';
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.classList.toggle('is-visible', isLoggedIn);
+      });
+    }
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
+
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_launch_theme';
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const icon = toggleBtn.querySelector('.theme-toggle-icon');
+      
+      const icons = {
+        light: '<svg viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>',
+        dark: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      };
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (icon) icon.innerHTML = icons[theme] || icons.dark;
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+      toggleBtn.addEventListener('click', () => {
+        const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem(THEME_KEY, nextTheme);
+        applyTheme(nextTheme);
+      });
+    })();
+  
+
+    function logout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      setMemberNavState(false);
+    }
+</script>
+</body>
+</html>

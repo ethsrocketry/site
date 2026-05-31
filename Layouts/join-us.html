@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Us · ETHS Rocketry</title>
+  <link rel="icon" type="image/png" href="../site-media/favicon.png">
+  <link rel="apple-touch-icon" href="../site-media/logo.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #1e293b;
+      --nav-bg: #0f172a;
+      --surface: rgba(30, 41, 59, 0.4);
+      --surface-hover: rgba(51, 65, 85, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      
+      --eths-blue: #3b82f6;
+      --eths-orange: #f97316;
+      --orange-glow: rgba(249, 115, 22, 0.1);
+      
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --nav-bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #e2e8f0;
+      --border: rgba(15, 23, 42, 0.08);
+      
+      --eths-blue: #1d4ed8;
+      --eths-orange: #ea580c;
+      --orange-glow: rgba(234, 88, 12, 0.05);
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 72px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+    
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.15s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-links a.join-us-link {
+      color: #fff;
+      font-weight: 700;
+      padding: 8px 18px;
+      background: var(--eths-orange);
+      border-radius: 4px;
+      box-shadow: 0 4px 15px var(--orange-glow);
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .nav-links a.join-us-link:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    .member-pill { 
+      display: inline-flex; align-items: center; gap: 10px; 
+      background: rgba(148, 163, 184, 0.05); border: 1px solid var(--border); border-radius: 4px; padding: 6px 14px; 
+    }
+    .member-entry { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; text-decoration: none; color: var(--text); }
+    .lock-icon { width: 8px; height: 8px; background: var(--eths-orange); border-radius: 50%; display: inline-block; }
+    .lock-icon.unlocked { background: #10b981; }
+    .member-only { display: none; font-size: 13px !important; }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 80px 40px 60px;
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .page-header h1 { font-family: var(--font-display); font-size: 48px; font-weight: 700; margin-bottom: 20px; }
+    .page-header p { max-width: 760px; font-size: 18px; color: var(--text-muted); line-height: 1.6; }
+
+    /* SECTIONS */
+    .section { padding: 60px 40px; border-top: 1px solid var(--border); }
+    .section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 24px; color: var(--text); }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      transition: all 0.2s ease;
+    }
+    .skill-card:hover {
+      border-color: var(--eths-orange);
+      background: var(--surface-hover);
+      transform: translateY(-4px);
+    }
+    .skill-card h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 12px; }
+
+    .discord-cta {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-mono); font-size: 14px; font-weight: 600;
+      color: white; background: var(--eths-orange);
+      padding: 14px 28px; border-radius: 6px; text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.2s;
+    }
+    .discord-cta:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
+      color: var(--text-muted); cursor: pointer;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
+    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
+    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 40px;
+      display: flex; justify-content: space-between;
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .page-header, .section { padding: 50px 20px; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  
+
+  </style>
+  <script src="default.js"></script>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <header class="page-header">
+    <div class="page-eyebrow">BUILD WITH US</div>
+    <h1>Join ETHS Rocketry</h1>
+    <p>
+      ETHS Rocketry is where motivated students turn curiosity into real engineering. You will design, build, test,
+      and improve systems that have to work in the real world — while learning with a team that takes mentorship,
+      safety, and iteration seriously.
+    </p>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>What you will learn by doing</h2>
+      <div class="skills-grid">
+        <article class="skill-card">
+          <h3>Rocketry fundamentals</h3>
+          <p>Learn stability, propulsion basics, recovery systems, avionics integration, launch operations, and post-flight analysis through real team projects.</p>
+        </article>
+        <article class="skill-card">
+          <h3>Software + technical workflow</h3>
+          <p>Build practical software habits with version control, debugging, data handling, and lightweight automation used in engineering projects.</p>
+        </article>
+        <article class="skill-card">
+          <h3>CAD and hardware design</h3>
+          <p>Model and revise components in Autodesk Inventor and Onshape, then connect digital designs to fabrication and assembly constraints.</p>
+        </article>
+        <article class="skill-card">
+          <h3>Simulation + analysis</h3>
+          <p>Use OpenRocket and CFD-style analysis to estimate performance, compare design options, and make better design decisions before building.</p>
+        </article>
+        <article class="skill-card">
+          <h3>Electronics + embedded systems</h3>
+          <p>Gain hands-on experience with Arduino-style microcontrollers, sensors, wiring, and test plans for reliable data and control loops.</p>
+        </article>
+        <article class="skill-card">
+          <h3>Engineering design philosophy</h3>
+          <p>Practice iterative design, failure analysis, design reviews, and tradeoff thinking so your work improves every cycle.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Academic and STEM growth</h2>
+      <ul style="padding-left: 20px; line-height: 1.8; font-size: 17px; color: var(--text-muted);">
+        <li>Apply math and physics to real systems: force balance, drag, stability margins, trajectories, and system-level constraints.</li>
+        <li>Strengthen core STEM communication skills through documentation, presentations, and design justification.</li>
+        <li>Work in a collaborative engineering environment where planning, testing, and iteration matter as much as raw ideas.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Preparation for collegiate rocketry</h2>
+      <p style="font-size: 17px; max-width: 800px; color: var(--text-muted); line-height: 1.7;">
+        The ETHS Rocketry workflow mirrors what collegiate teams look for: systems thinking, technical depth, strong collaboration,
+        and evidence-based decisions. By graduation, members can point to authentic project work in CAD, simulation, electronics,
+        software, and test operations — exactly the kind of experience that helps students contribute quickly on university rocketry teams.
+      </p>
+      <a class="discord-cta" href="https://discord.gg/KgRaF6vWqw" target="_blank" rel="noopener noreferrer">
+        Join our Discord →
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div>ETHS Rocketry</div>
+    <div>Evanston Township High School // 2026</div>
+  </footer>
+
+  <script>
+    const SESSION_KEY = 'etrb_auth';
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.classList.toggle('is-visible', isLoggedIn);
+      });
+    }
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
+
+  <script>
+    // Exact theme toggle from home.html
+    (() => {
+      const THEME_KEY = 'etrb_launch_theme';
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const iconContainer = toggleBtn.querySelector('.theme-toggle-icon');
+      
+      const icons = {
+        light: '<svg viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>',
+        dark: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      };
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (iconContainer) iconContainer.innerHTML = icons[theme] || icons.dark;
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+      });
+    })();
+  
+
+    function logout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      setMemberNavState(false);
+    }
+</script>
+</body>
+</html>

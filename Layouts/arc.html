@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETHS Rocketry - ARC</title>
+  <link rel="icon" type="image/png" href="../site-media/favicon.png">
+  <link rel="apple-touch-icon" href="../site-media/logo.png">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;               
+      --bg-alt: #1e293b;           
+      --nav-bg: #0f172a;
+      --surface: rgba(30, 41, 59, 0.4);
+      --surface-hover: rgba(51, 65, 85, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      
+      --eths-blue: #3b82f6;        
+      --eths-orange: #f97316;      
+      --orange-glow: rgba(249, 115, 22, 0.1);
+      
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --modal-canvas-bg: #0b0f19;
+      --sub-guide-line: rgba(59, 130, 246, 0.25);
+      --site-nav-height: 72px;
+      --sub-nav-height: 64px;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --nav-bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #e2e8f0;
+      --border: rgba(15, 23, 42, 0.08);
+      
+      --eths-blue: #1d4ed8;
+      --eths-orange: #ea580c;
+      --orange-glow: rgba(234, 88, 12, 0.05);
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+      --modal-canvas-bg: #e2e8f0;
+      --sub-guide-line: rgba(29, 78, 216, 0.2);
+    }
+
+    /* ── STANDARDIZED MAIN & CUSTOM SCROLLBARS ── */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .viewport-window-body::-webkit-scrollbar, 
+    .pdf-embedded-body::-webkit-scrollbar { 
+      width: 8px; 
+      height: 0px;
+    }
+    
+    html::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-track,
+    .viewport-window-body::-webkit-scrollbar-track, 
+    .pdf-embedded-body::-webkit-scrollbar-track { 
+      background: transparent; 
+    }
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar-thumb,
+    .viewport-window-body::-webkit-scrollbar-thumb, 
+    .pdf-embedded-body::-webkit-scrollbar-thumb { 
+      background: var(--text-muted); 
+      border-radius: 4px; 
+      opacity: 0.4;
+    }
+    html::-webkit-scrollbar-thumb:hover,
+    body::-webkit-scrollbar-thumb:hover,
+    .viewport-window-body::-webkit-scrollbar-thumb:hover, 
+    .pdf-embedded-body::-webkit-scrollbar-thumb:hover { 
+      background: var(--eths-orange); 
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-nav-height) + var(--sub-nav-height)) !important; overflow-x: hidden; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-top: var(--site-nav-height);
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV DECK ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 72px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.15s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-links a.join-us-link {
+      color: #fff; font-weight: 700; padding: 8px 18px;
+      background: var(--eths-orange); border-radius: 4px;
+      box-shadow: 0 4px 15px var(--orange-glow);
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .nav-links a.join-us-link:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    .member-pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(148, 163, 184, 0.05); border: 1px solid var(--border); border-radius: 4px; padding: 6px 14px;
+    }
+    .member-entry { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; text-decoration: none; color: var(--text); }
+    .lock-icon { width: 8px; height: 8px; background: var(--eths-orange); border-radius: 50%; display: inline-block; }
+    .lock-icon.unlocked { background: #10b981; }
+    .member-only { display: none; font-size: 13px !important; margin-left: 8px; }
+
+    /* ── STICKY SUB-NAVBAR TIMELINE ── */
+    @keyframes subNavEntrance {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes subNavButtonCascade {
+      from { transform: translateY(-8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .sub-navbar {
+      position: fixed;
+      top: var(--site-nav-height);
+      left: 0;
+      right: 0;
+      z-index: 95;
+      height: var(--sub-nav-height);
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      animation: subNavEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .sub-navbar-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+    }
+    .sub-navbar-links li {
+      opacity: 0;
+      animation: subNavButtonCascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .sub-navbar-links li:nth-child(1) { animation-delay: 0.1s; }
+    .sub-navbar-links li:nth-child(2) { animation-delay: 0.18s; }
+    .sub-navbar-links li:nth-child(3) { animation-delay: 0.26s; }
+    .sub-navbar-links li:nth-child(4) { animation-delay: 0.34s; }
+    .sub-navbar-links li:nth-child(5) { animation-delay: 0.42s; }
+
+    .sub-navbar-links a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2px;
+      transition: color 0.2s;
+    }
+    .sub-navbar-links .sub-nav-year {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1.2;
+      transition: color 0.2s;
+    }
+    .sub-navbar-links .sub-nav-mission {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .sub-navbar-links a.active .sub-nav-year { color: var(--text); }
+    .sub-navbar-links a.active .sub-nav-mission { color: var(--eths-orange); }
+
+    /* ── BASE CONTENT CANVAS ── */
+    .program-layout {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--sub-nav-height) 40px 80px 40px;
+    }
+
+    .campaign-stream { display: flex; flex-direction: column; }
+    .campaign-block { display: none; }
+    .campaign-block.visible-route { display: block; }
+
+    /* ── CLEAN DYNAMIC HERO HOUSINGS ── */
+    .about-hero-collage, .yearly-hero-banner {
+      position: relative;
+      width: 100vw;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      height: auto;
+      max-height: 60vh;
+      background: #090d16;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    
+    .collage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
+      height: 450px;
+    }
+    .collage-cell {
+      position: relative;
+      overflow: hidden;
+      background: #131a26;
+    }
+    .collage-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .collage-cell:hover img {
+      transform: scale(1.025);
+    }
+    .cell-main  { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .cell-top   { grid-column: 3 / 5; grid-row: 1 / 2; }
+    .cell-mid-l { grid-column: 3 / 4; grid-row: 2 / 3; }
+    .cell-mid-r { grid-column: 4 / 5; grid-row: 2 / 3; }
+
+    .yearly-banner-img {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── TECHNICAL HEADLINE GROUPINGS ── */
+    .section-headline { 
+      display: flex; 
+      align-items: center; 
+      gap: 16px; 
+      margin-top: 40px; 
+      margin-bottom: 32px; 
+      border-bottom: 1px solid var(--border); 
+      padding-bottom: 12px; 
+    }
+    .section-headline h2 { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text); text-transform: uppercase; }
+    .section-headline .section-line { flex-grow: 1; height: 1px; background: var(--border); }
+    .section-headline .section-index { font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); font-weight: 700; }
+
+    /* ── EXTENSIVE MARKDOWN MD PROSE STYLING ── */
+    .prose-content { font-size: 16px; color: var(--text); line-height: 1.6; }
+    .prose-content p { margin-bottom: 18px; color: var(--text); }
+    
+    .prose-content h1 { font-family: var(--font-display); font-size: 32px; margin-top: 40px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .prose-content h2 { font-family: var(--font-display); font-size: 24px; margin-top: 36px; margin-bottom: 16px; font-weight: 700; }
+    .prose-content h3 { font-family: var(--font-display); font-size: 20px; margin-top: 32px; margin-bottom: 14px; font-weight: 700; color: var(--text); }
+    .prose-content h4 { font-family: var(--font-sans); font-size: 16px; margin-top: 24px; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .subheading-group-context {
+      position: relative; padding-left: 20px; margin-bottom: 24px;
+    }
+    .subheading-group-context::before {
+      content: ''; position: absolute; left: 2px; top: 0; bottom: 12px; width: 2px; background: var(--sub-guide-line); border-radius: 1px;
+    }
+
+    .prose-content ul, .prose-content ol { margin-left: 24px; margin-bottom: 20px; }
+    .prose-content li { margin-bottom: 8px; }
+    .prose-content ul ul, .prose-content ol ol, .prose-content ul ol, .prose-content ol ul { margin-top: 4px; margin-bottom: 0; }
+    
+    .prose-content blockquote {
+      margin: 24px 0; padding: 16px 24px; background: var(--surface); border-left: 4px solid var(--eths-orange); border-radius: 0 4px 4px 0; font-style: italic; color: var(--text-muted);
+    }
+    .prose-content blockquote p:last-child { margin-bottom: 0; }
+
+    .prose-content pre {
+      margin: 24px 0; padding: 18px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; overflow-x: auto; font-family: var(--font-mono); font-size: 14px;
+    }
+    .prose-content code {
+      font-family: var(--font-mono); font-size: 14px; background: var(--bg-alt); padding: 2px 6px; border-radius: 4px; color: var(--eths-blue);
+    }
+    .prose-content pre code { padding: 0; background: transparent; color: inherit; }
+
+    .prose-content hr { border: 0; height: 1px; background: var(--border); margin: 40px 0; }
+    .prose-content strong { color: var(--text); font-weight: 700; }
+    .prose-content em { color: var(--text-muted); font-style: italic; }
+    .prose-content a { color: var(--eths-blue); text-decoration: none; transition: color 0.15s; }
+    .prose-content a:hover { color: var(--eths-orange); text-decoration: underline; }
+
+    .embedded-media-wrap { margin: 28px 0; width: 100%; max-width: 100%; }
+    .embedded-media-wrap img, .embedded-media-wrap video { width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--border); }
+    .media-caption { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 10px; display: block; letter-spacing: 0.02em; }
+
+    /* ── RESPONSIVE YOUTUBE NATIVE EMBED IFRAME SYSTEM ── */
+    .custom-yt-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin: 28px 0;
+    }
+    .custom-yt-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ── CAROUSEL MECHANICS ── */
+    .embedded-carousel {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #06090f; border-radius: 6px; margin: 28px 0; overflow: hidden; border: 1px solid var(--border);
+    }
+    .carousel-slider-track { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+    .slide-frame {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; display: flex !important; align-items: center !important; justify-content: center !important; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .slide-frame.active { opacity: 1; pointer-events: auto; }
+    .slide-frame img, .slide-frame video, .slide-frame iframe { max-width: 100% !important; max-height: 100% !important; width: 100% !important; height: 100% !important; object-fit: contain !important; object-position: center center !important; flex-shrink: 0 !important; border: 0; }
+
+    .slide-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; font-size: 14px; user-select: none; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: background-color 0.2s, border-color 0.2s;
+    }
+    .slide-arrow:hover { background: var(--eths-orange); border-color: var(--eths-orange); }
+    .slide-arrow.prev { left: 12px; }
+    .slide-arrow.next { right: 12px; }
+
+    .carousel-counter {
+      position: absolute; bottom: 12px; right: 12px; z-index: 20; font-family: var(--font-mono); font-size: 11px; color: #fff; background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); user-select: none; letter-spacing: 0.05em;
+    }
+
+    /* ── PDF HUD ARCHITECTURE ── */
+    .pdf-badge-container { margin: 20px 0; width: 100%; }
+    .pdf-interactive-anchor { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 4px; text-decoration: none; cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s; }
+    .pdf-interactive-anchor:hover { border-color: var(--eths-orange); background: var(--surface-hover); }
+    .pdf-meta-group { display: flex; align-items: center; gap: 14px; }
+    .pdf-vector-icon { width: 20px; height: 20px; color: var(--eths-orange); flex-shrink: 0; display: flex; align-items: center; }
+    .pdf-vector-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; }
+    .pdf-asset-title { font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--text); }
+    .pdf-action-tag { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--border); border-radius: 3px; height: 26px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; transition: color 0.15s ease, border-color 0.15s ease; }
+    .pdf-interactive-anchor:hover .pdf-action-tag { color: var(--text); border-color: var(--eths-orange); }
+
+    .viewport-overlay-frame { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 40px; }
+    .viewport-overlay-frame.active { opacity: 1; pointer-events: auto; }
+    .viewport-window-box { width: 100%; max-width: 900px; height: 85vh; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+    .viewport-window-header { height: 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+    .viewport-window-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); }
+
+    .viewport-pdf-controls { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+    .pdf-page-input { width: 44px; height: 28px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 12px; text-align: center; border-radius: 4px; outline: none; transition: border-color 0.15s; }
+    .pdf-page-input:focus { border-color: var(--eths-orange); }
+    .pdf-page-input::-webkit-outer-spin-button, .pdf-page-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    .viewport-window-close { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; height: 28px; padding: 0 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; transition: color 0.15s ease, border-color 0.15s ease; }
+    .viewport-window-close:hover { color: var(--text); border-color: var(--eths-orange); }
+    .viewport-window-body { flex: 1; width: 100%; height: 100%; background: var(--modal-canvas-bg); overflow-y: auto; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+    .pdf-page-canvas-frame { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); border-radius: 4px; max-width: 100%; height: auto !important; background: #ffffff; display: block; }
+
+    .pdf-embedded-container { width: 100%; margin: 24px 0; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-alt); overflow: hidden; }
+    .pdf-embedded-body { max-height: 550px; overflow-y: auto; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; gap: 20px; background: var(--modal-canvas-bg); }
+
+    .theme-toggle {
+      width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 4px; color: var(--text-muted); cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
+    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
+    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .theme-toggle-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    
+    .dashboard-status { padding: 40px; font-family: var(--font-mono); text-align: center; color: var(--text-muted); }
+    footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding: 40px 0; margin-top: 100px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @media (max-width: 1024px) {
+      .collage-grid { height: 350px; }
+    }
+    @media (max-width: 900px) {
+      .program-layout { padding: var(--sub-nav-height) 20px 80px 20px; }
+      .viewport-overlay-frame { padding: 16px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .sub-navbar { padding: 0 20px; overflow-x: auto; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+
+      .collage-grid { grid-template-columns: repeat(2, 1fr); height: 300px; }
+      .cell-main { grid-column: 1 / 3; grid-row: 1 / 2; }
+      .cell-top { grid-column: 1 / 3; grid-row: 2 / 3; }
+      .cell-mid-l, .cell-mid-r { display: none; }
+    }
+  
+
+  </style>
+  <script src="default.js"></script>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <div class="sub-navbar" aria-label="Campaign Timeline Secondary Links">
+    <ul class="sub-navbar-links" id="dynamic-sub-navbar"></ul>
+  </div>
+
+  <main class="program-layout">
+    <div class="campaign-stream" id="dynamic-campaign-stream">
+      <div class="dashboard-status">Connecting to repository payload...</div>
+    </div>
+  </main>
+
+  <div class="viewport-overlay-frame" id="system-pdf-modal" onclick="dismissSystemModal(event)">
+    <div class="viewport-window-box">
+      <div class="viewport-window-header">
+        <span class="viewport-window-title" id="system-modal-title">Document Hub</span>
+        
+        <div class="viewport-pdf-controls">
+          <span>Page</span>
+          <input type="number" class="pdf-page-input" id="modal-pdf-idx-field" min="1" value="1" onkeydown="executeModalJump(event)">
+          <span id="modal-pdf-max-span">/ --</span>
+        </div>
+
+        <button class="viewport-window-close" onclick="closeDocumentViewer()">Close [ESC]</button>
+      </div>
+      <div class="viewport-window-body" id="system-modal-scrollbody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div>ETHS Rocketry</div>
+    <div>Evanston Township High School // 2026</div>
+  </footer>
+
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    let activeModalPdf = null;
+    let inlinePdfCounter = 0;
+    let carouselCounter = 0;
+    const inlinePdfDocMap = new Map();
+
+    function parseProseMarkdown(mdText) {
+      let html = mdText;
+
+      html = html.replace(/\[\[image:\s*([^,\]]+)(?:,\s*([^\]]+))?\]\]/g, (match, src, caption) => {
+        return `<div class="embedded-media-wrap">
+                  <img src="${src.trim()}" alt="${caption ? caption.trim() : 'Document structural asset'}" />
+                  ${caption ? `<span class="media-caption">// ${caption.trim()}</span>` : ''}
+                </div>`;
+      });
+
+      html = html.replace(/\[\[video:\s*([^\]]+)\]\]/g, (match, src) => {
+        return `<div class="embedded-media-wrap">
+                  <video controls preload="metadata"><source src="${src.trim()}" type="video/mp4" /></video>
+                </div>`;
+      });
+
+      // CLEAN YOUTUBE NATIVE IFRAME HOOK
+      html = html.replace(/\[\[youtube:\s*([^\]]+)\]\]/g, (match, paramData) => {
+        const segments = paramData.split(',').map(s => s.trim());
+        const vidId = segments[0];
+        const label = segments[1] || '';
+        
+        return `<div class="embedded-media-wrap">
+                  <div class="custom-yt-wrapper">
+                    <iframe src="https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  </div>
+                  ${label ? `<span class="media-caption">// ${label}</span>` : ''}
+                </div>`;
+      });
+
+      html = html.replace(/\[\[carousel:\s*([^\]]+)\]\]/g, (match, pathsString) => {
+        carouselCounter++;
+        const paths = pathsString.split(',').map(p => p.trim());
+        let slidesHTML = '';
+
+        paths.forEach((path, idx) => {
+          const initialClass = (idx === 0) ? 'slide-frame active' : 'slide-frame';
+          
+          if (path.toLowerCase().startsWith('yt:')) {
+            // Render YouTube video if line prefixed with yt: (e.g. yt:dQw4w9WgXcQ)
+            const ytId = path.substring(3).trim();
+            slidesHTML += `<div class="${initialClass}"><iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          } else if (path.toLowerCase().endsWith('.mp4') || path.toLowerCase().endsWith('.webm')) {
+            // Render standard native local storage video
+            slidesHTML += `<div class="${initialClass}"><video controls preload="metadata" muted><source src="${path}" type="video/mp4"></video></div>`;
+          } else {
+            // Default image element
+            slidesHTML += `<div class="${initialClass}"><img src="${path}" alt="Slide" /></div>`;
+          }
+        });
+
+        return `<div class="embedded-carousel" data-carousel-id="${carouselCounter}" data-current-index="0"><div class="slide-arrow prev" onclick="shiftInlineCarousel(${carouselCounter}, -1)">&#10094;</div><div class="carousel-slider-track">${slidesHTML}</div><div class="slide-arrow next" onclick="shiftInlineCarousel(${carouselCounter}, 1)">&#10095;</div><div class="carousel-counter" id="counter-${carouselCounter}">1 / ${paths.length}</div></div>`;
+      });
+
+      html = html.replace(/\[\[pdf:\s*([^\]]+)\]\]/g, (match, parameters) => {
+        const tokens = parameters.split(',').map(t => t.trim());
+        const assetPath = tokens[0];
+        const label = tokens[1] || assetPath.split('/').pop();
+        const forceFullEmbed = tokens[2] ? tokens[2].toLowerCase() === 'true' : false;
+
+        if (forceFullEmbed) {
+          inlinePdfCounter++;
+          return `<div class="pdf-embedded-container" id="inline-pdf-box-${inlinePdfCounter}" data-src="${assetPath}">
+                    <div class="viewport-window-header">
+                      <span class="viewport-window-title">${label}</span>
+                      <div class="viewport-pdf-controls">
+                        <span>Page</span>
+                        <input type="number" class="pdf-page-input" id="inline-field-${inlinePdfCounter}" min="1" value="1" onkeydown="executeInlineJump(event, ${inlinePdfCounter})">
+                        <span id="inline-max-${inlinePdfCounter}">/ --</span>
+                      </div>
+                    </div>
+                    <div class="pdf-embedded-body" id="inline-scrollbody-${inlinePdfCounter}"></div>
+                  </div>`;
+        } else {
+          return `<div class="pdf-badge-container">
+                    <div class="pdf-interactive-anchor" onclick="launchDocumentViewer('${assetPath}', '${label.replace(/'/g, "\\'")}')">
+                      <div class="pdf-meta-group">
+                        <span class="pdf-vector-icon">
+                          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </span>
+                        <span class="pdf-asset-title">${label}</span>
+                      </div>
+                      <span class="pdf-action-tag">View Pages</span>
+                    </div>
+                  </div>`;
+        }
+      });
+
+      html = html.replace(/^---$/gm, '<hr>');
+      
+      html = html.replace(/```([\s\S]*?)```/gm, (match, codeContent) => {
+        return `<pre><code>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()}</code></pre>`;
+      });
+
+      html = html.replace(/^### (.*$)/gim, '===H3===$1===/H3===');
+      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
+      const lines = html.split(/\r?\n/);
+      let insideUl = false;
+      let insideOl = false;
+      let insideBlockquote = false;
+      let compiledLines = [];
+      let insideSubheadingBlock = false;
+
+      lines.forEach(line => {
+        let cleanLine = line.trim();
+
+        if (cleanLine.startsWith('>')) {
+          if (!insideBlockquote) {
+            if (insideUl) { compiledLines.push('</ul>'); insideUl = false; }
+            if (insideOl) { compiledLines.push('</ol>'); insideOl = false; }
+            compiledLines.push('blockquote');
+            insideBlockquote = true;
+          }
+          cleanLine = cleanLine.substring(1).trim();
+        } else if (insideBlockquote && cleanLine === '') {
+          compiledLines.push('/blockquote');
+          insideBlockquote = false;
+        }
+
+        if (cleanLine.startsWith('* ') || cleanLine.startsWith('- ')) {
+          if (insideOl) { compiledLines.push('</ol>'); insideOl = false; }
+          if (!insideUl) { compiledLines.push('<ul>'); insideUl = true; }
+          compiledLines.push(`<li>${cleanLine.substring(2)}</li>`);
+        }
+        else if (/^\d+\.\s/.test(cleanLine)) {
+          if (insideUl) { compiledLines.push('</ul>'); insideUl = false; }
+          if (!insideOl) { compiledLines.push('<ol>'); insideOl = true; }
+          const indexOffset = cleanLine.indexOf(' ') + 1;
+          compiledLines.push(`<li>${cleanLine.substring(indexOffset)}</li>`);
+        }
+        else {
+          if (insideUl) { compiledLines.push('</ul>'); insideUl = false; }
+          if (insideOl) { compiledLines.push('</ol>'); insideOl = false; }
+          
+          if (cleanLine.startsWith('===H3===')) {
+            if (insideSubheadingBlock) { compiledLines.push('</div>'); }
+            compiledLines.push(cleanLine.replace('===H3===', '<h3>').replace('===/H3===', '</h3>'));
+            compiledLines.push('<div class="subheading-group-context">');
+            insideSubheadingBlock = true;
+          } else if (cleanLine === '<hr>' || cleanLine.startsWith('<div') || cleanLine.startsWith('</div') || cleanLine.startsWith('<video') || cleanLine.startsWith('<canvas') || cleanLine.startsWith('<pre') || cleanLine.startsWith('</pre>') || cleanLine.startsWith('<h1>') || cleanLine.startsWith('<h2>')) {
+            compiledLines.push(line);
+          } else if (cleanLine !== '' && cleanLine !== 'blockquote' && cleanLine !== '/blockquote') {
+            compiledLines.push(`<p>${line}</p>`);
+          } else if (cleanLine === 'blockquote' || cleanLine === '/blockquote') {
+            compiledLines.push(cleanLine === 'blockquote' ? '<blockquote>' : '</blockquote>');
+          }
+        }
+      });
+
+      if (insideUl) compiledLines.push('</ul>');
+      if (insideOl) compiledLines.push('</ol>');
+      if (insideBlockquote) compiledLines.push('</blockquote>');
+      if (insideSubheadingBlock) compiledLines.push('</div>'); 
+      
+      return compiledLines.join('\n');
+    }
+
+    function shiftInlineCarousel(carouselId, directionalVector) {
+      const wrapper = document.querySelector(`.embedded-carousel[data-carousel-id="${carouselId}"]`);
+      if (!wrapper) return;
+      const slides = wrapper.querySelectorAll('.slide-frame');
+      const totalSlides = slides.length;
+      if (totalSlides === 0) return;
+
+      let currentIndex = parseInt(wrapper.getAttribute('data-current-index') || '0', 10);
+      let nextIndex = (currentIndex + directionalVector + totalSlides) % totalSlides;
+      wrapper.setAttribute('data-current-index', nextIndex);
+
+      slides.forEach((slide, idx) => { 
+        slide.classList.toggle('active', idx === nextIndex);
+        if (idx !== nextIndex) {
+          const innerVid = slide.querySelector('video');
+          if (innerVid) innerVid.pause();
+          
+          // Reset YouTube iframe inside hidden slides to stop playing audio
+          const innerIframe = slide.querySelector('iframe');
+          if (innerIframe) {
+            const currentSrc = innerIframe.src;
+            innerIframe.src = currentSrc;
+          }
+        }
+      });
+      const counterBox = document.getElementById(`counter-${carouselId}`);
+      if (counterBox) counterBox.textContent = `${nextIndex + 1} / ${totalSlides}`;
+    }
+
+    function launchDocumentViewer(src, label) {
+      const modal = document.getElementById('system-pdf-modal');
+      const track = document.getElementById('system-modal-scrollbody');
+      if (!modal || !track) return;
+
+      document.getElementById('system-modal-title').textContent = label;
+      track.innerHTML = ''; 
+      document.getElementById('modal-pdf-idx-field').value = 1;
+      document.getElementById('modal-pdf-max-span').textContent = '/ --';
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      pdfjsLib.getDocument(src).promise.then(async (pdf) => {
+        activeModalPdf = pdf;
+        const total = pdf.numPages;
+        document.getElementById('modal-pdf-max-span').textContent = `/ ${total}`;
+        document.getElementById('modal-pdf-idx-field').max = total;
+
+        for (let i = 1; i <= total; i++) {
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.id = `modal-page-node-${i}`;
+          pageCanvas.className = 'pdf-page-canvas-frame';
+          track.appendChild(pageCanvas);
+          
+          await renderIndividualCanvasElement(pdf, i, pageCanvas, 1.4);
+        }
+
+        track.addEventListener('scroll', handleModalTelemetryScroll);
+      }).catch(err => {
+        console.error("Popup loop initialization failed:", err);
+        track.innerHTML = `<div class="dashboard-status" style="color:var(--eths-orange);">Error processing PDF pages.</div>`;
+      });
+    }
+
+    async function renderIndividualCanvasElement(pdfInstance, pageNum, canvasTarget, resolutionScale) {
+      try {
+        const page = await pdfInstance.getPage(pageNum);
+        const ctx = canvasTarget.getContext('2d');
+        const viewport = page.getViewport({ scale: resolutionScale });
+        
+        canvasTarget.height = viewport.height;
+        canvasTarget.width = viewport.width;
+        
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+      } catch (err) {
+        console.error(`Page ${pageNum} stream failed:`, err);
+      }
+    }
+
+    function handleModalTelemetryScroll() {
+      if (!activeModalPdf) return;
+      const track = document.getElementById('system-modal-scrollbody');
+      const children = track.children;
+      let currentVisiblePage = 1;
+
+      for (let i = 0; i < children.length; i++) {
+        const item = children[i];
+        if (item.offsetTop - track.offsetTop <= track.scrollTop + (track.clientHeight / 3)) {
+          currentVisiblePage = i + 1;
+        }
+      }
+      
+      if (document.activeElement !== document.getElementById('modal-pdf-idx-field')) {
+        document.getElementById('modal-pdf-idx-field').value = currentVisiblePage;
+      }
+    }
+
+    function executeModalJump(e) {
+      if (e.key === 'Enter') {
+        const inputField = document.getElementById('modal-pdf-idx-field');
+        let val = parseInt(inputField.value, 10);
+        if (!activeModalPdf || isNaN(val)) return;
+
+        if (val < 1) val = 1;
+        if (val > activeModalPdf.numPages) val = activeModalPdf.numPages;
+        inputField.value = val;
+
+        const targetNode = document.getElementById(`modal-page-node-${val}`);
+        if (targetNode) {
+          document.getElementById('system-modal-scrollbody').scrollTop = targetNode.offsetTop - 24;
+        }
+        inputField.blur();
+      }
+    }
+
+    function closeDocumentViewer() {
+      const modal = document.getElementById('system-pdf-modal');
+      if (modal) modal.classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('system-modal-scrollbody').removeEventListener('scroll', handleModalTelemetryScroll);
+      activeModalPdf = null;
+    }
+
+    function dismissSystemModal(e) { if (e.target.id === 'system-pdf-modal') closeDocumentViewer(); }
+    
+    window.addEventListener('keydown', (e) => { 
+      if (e.key === 'Escape') {
+        closeDocumentViewer();
+      }
+    });
+
+    function initializeFullInlineEmbeds() {
+      const containers = document.querySelectorAll('.pdf-embedded-container');
+      containers.forEach(box => {
+        const id = box.getAttribute('id').split('-').pop();
+        const src = box.getAttribute('data-src');
+        const track = document.getElementById(`inline-scrollbody-${id}`);
+
+        pdfjsLib.getDocument(src).promise.then(async (pdf) => {
+          const total = pdf.numPages;
+          inlinePdfDocMap.set(id.toString(), { pdf: pdf, elementsCount: total });
+          
+          document.getElementById(`inline-max-${id}`).textContent = `/ ${total}`;
+          document.getElementById(`inline-field-${id}`).max = total;
+
+          for (let i = 1; i <= total; i++) {
+            const inlineCanvas = document.createElement('canvas');
+            inlineCanvas.id = `inline-node-${id}-page-${i}`;
+            inlineCanvas.className = 'pdf-page-canvas-frame';
+            track.appendChild(inlineCanvas);
+
+            await renderIndividualCanvasElement(pdf, i, inlineCanvas, 1.25);
+          }
+
+          track.addEventListener('scroll', () => {
+            let currentVisiblePage = 1;
+            for (let i = 0; i < track.children.length; i++) {
+              if (track.children[i].offsetTop - track.offsetTop <= track.scrollTop + (track.clientHeight / 3)) {
+                currentVisiblePage = i + 1;
+              }
+            }
+            if (document.activeElement !== document.getElementById(`inline-field-${id}`)) {
+              document.getElementById(`inline-field-${id}`).value = currentVisiblePage;
+            }
+          });
+
+        }).catch(err => {
+          console.error("Inline initialization error:", err);
+          track.innerHTML = `<div class="dashboard-status" style="color:var(--eths-orange);">Embedded document asset lost.</div>`;
+        });
+      });
+    }
+
+    window.executeInlineJump = function(e, id) {
+      if (e.key === 'Enter') {
+        const inputField = document.getElementById(`inline-field-${id}`);
+        const state = inlinePdfDocMap.get(id.toString());
+        let val = parseInt(inputField.value, 10);
+        if (!state || isNaN(val)) return;
+
+        if (val < 1) val = 1;
+        if (val > state.elementsCount) val = state.elementsCount;
+        inputField.value = val;
+
+        const element = document.getElementById(`inline-node-${id}-page-${val}`);
+        if (element) {
+          document.getElementById(`inline-scrollbody-${id}`).scrollTop = element.offsetTop - 24;
+        }
+        inputField.blur();
+      }
+    };
+
+    let campaignBlocksCache = [];
+
+    function processClientHashRouting() {
+      let activeTargetHash = window.location.hash.replace('#', '').trim();
+      
+      if (!activeTargetHash) {
+        activeTargetHash = 'about';
+      }
+
+      const navLinks = document.querySelectorAll('.sub-navbar-links a');
+      navLinks.forEach(link => {
+        const linkYear = link.getAttribute('href').replace('#', '');
+        link.classList.toggle('active', linkYear === activeTargetHash);
+      });
+
+      const sections = document.querySelectorAll('.campaign-block');
+      sections.forEach(sec => {
+        const secYear = sec.getAttribute('id').replace('campaign-', '');
+        if (secYear === activeTargetHash) {
+          sec.classList.add('visible-route');
+        } else {
+          sec.classList.remove('visible-route');
+        }
+      });
+    }
+
+    async function loadCampaignTelemetry() {
+      const streamContainer = document.getElementById('dynamic-campaign-stream');
+      const subNavContainer = document.getElementById('dynamic-sub-navbar');
+
+      try {
+        const response = await fetch('../Content/arc_data.md');
+        if (!response.ok) throw new Error('File fetch error');
+        const text = await response.text();
+
+        let blocks = [];
+
+        const aboutRegex = /\[ABOUT-START\]([\s\S]*?)\[ABOUT-END\]/;
+        let aboutMatch = aboutRegex.exec(text);
+        if (aboutMatch) {
+          blocks.push({
+            year: 'about', title: 'About the Program', mission: 'Overview', markdown: aboutMatch[1], isAboutPage: true
+          });
+        } else {
+          blocks.push({
+            year: 'about', title: 'American Rocketry Challenge', mission: 'Overview', markdown: 'Welcome to the ARC timeline portfolio.', isAboutPage: true
+          });
+        }
+
+        const blockRegex = /\[YEAR-START:\s*(\d{4})\s*\]([\s\S]*?)\[YEAR-END:\s*\1\s*\]/g;
+        let yearlyBlocks = [];
+        let match;
+
+        while ((match = blockRegex.exec(text)) !== null) {
+          const year = match[1];
+          const rawContent = match[2];
+
+          const lines = rawContent.split(/\r?\n/);
+          let title = ''; let mission = ''; let headerImg = ''; let headerAlt = ''; let bodyLines = [];
+
+          lines.forEach(line => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('title:')) title = trimmed.replace('title:', '').trim();
+            else if (trimmed.startsWith('mission:')) mission = trimmed.replace('mission:', '').trim();
+            else if (trimmed.startsWith('header_image:')) headerImg = trimmed.replace('header_image:', '').trim();
+            else if (trimmed.startsWith('header_alt:')) headerAlt = trimmed.replace('header_alt:', '').trim();
+            else bodyLines.push(line);
+          });
+
+          yearlyBlocks.push({
+            year, 
+            title: title || `Campaign Log ${year}`, 
+            mission: mission || 'System Profile', 
+            headerImg: headerImg,
+            headerAlt: headerAlt || `Campaign Banner ${year}`,
+            markdown: bodyLines.join('\n'), 
+            isAboutPage: false
+          });
+        }
+
+        yearlyBlocks.sort((a, b) => b.year - a.year);
+        blocks = blocks.concat(yearlyBlocks);
+        campaignBlocksCache = blocks;
+
+        streamContainer.innerHTML = '';
+        subNavContainer.innerHTML = '';
+
+        blocks.forEach((campaign) => {
+          const navLi = document.createElement('li');
+          navLi.innerHTML = `
+            <a href="#${campaign.year}">
+              <span class="sub-nav-year">${campaign.year.toUpperCase()}</span>
+              <span class="sub-nav-mission">${campaign.mission}</span>
+            </a>
+          `;
+          subNavContainer.appendChild(navLi);
+
+          const campaignSection = document.createElement('section');
+          campaignSection.id = `campaign-${campaign.year}`;
+          campaignSection.className = 'campaign-block';
+
+          let structuralHeaderHTML = '';
+          if (campaign.isAboutPage) {
+            structuralHeaderHTML = `
+              <header class="about-hero-collage">
+                <div class="collage-grid">
+                  <div class="collage-cell cell-main"><img src="../arc26-media/2025-team.jpg" alt="Rocketry Payload Integration"></div>
+                  <div class="collage-cell cell-top"><img src="../arc26-media/full assembly render 1.png" alt="Aerospace CAD Architecture Mock"></div>
+                  <div class="collage-cell cell-mid-l"><img src="../site-media/logo.png" alt="Hardware Lab Diagnostics"></div>
+                  <div class="collage-cell cell-mid-r"><img src="../site-media/logo.png" alt="Avionics Field Diagnostics"></div>
+                </div>
+              </header>
+              <div class="section-headline">
+                <h2>${campaign.title}</h2>
+                <div class="section-line"></div>
+                <span class="section-index">// OVERVIEW</span>
+              </div>
+            `;
+          } else if (campaign.headerImg) {
+            structuralHeaderHTML = `
+              <header class="yearly-hero-banner">
+                <img src="${campaign.headerImg}" alt="${campaign.headerAlt}" class="yearly-banner-img">
+              </header>
+              <div class="section-headline">
+                <h2>${campaign.title}</h2>
+                <div class="section-line"></div>
+                <span class="section-index">// ${campaign.year}</span>
+              </div>
+            `;
+          } else {
+            structuralHeaderHTML = `
+              <div class="section-headline">
+                <h2>${campaign.title}</h2>
+                <div class="section-line"></div>
+                <span class="section-index">// ${campaign.year}</span>
+              </div>
+            `;
+          }
+
+          campaignSection.innerHTML = `
+            ${structuralHeaderHTML}
+            <div class="prose-content">
+              ${parseProseMarkdown(campaign.markdown)}
+            </div>
+          `;
+          streamContainer.appendChild(campaignSection);
+        });
+
+        processClientHashRouting();
+        initializeFullInlineEmbeds();
+
+      } catch (err) {
+        console.error(err);
+        streamContainer.innerHTML = `<div class="dashboard-status" style="color:var(--eths-orange);">Error fetching text payload. Boot via local host container parameters to bypass standard CORS fetch pipeline locks.</div>`;
+      }
+    }
+
+    window.addEventListener('hashchange', processClientHashRouting);
+    document.addEventListener('DOMContentLoaded', loadCampaignTelemetry);
+  </script>
+
+  <script>
+    const SESSION_KEY = 'etrb_auth';
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.classList.toggle('is-visible', isLoggedIn);
+      });
+    }
+    setMemberNavState(sessionStorage.getItem(SESSION_KEY) === '1');
+  </script>
+
+  <script>
+    (() => {
+      const THEME_KEY = 'etrb_launch_theme';
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const icon = toggleBtn.querySelector('.theme-toggle-icon');
+
+      const icons = {
+        light: '<svg viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>',
+        dark: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      };
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (icon) icon.innerHTML = icons[theme] || icons.dark;
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+      toggleBtn.addEventListener('click', () => {
+        const nextTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem(THEME_KEY, nextTheme);
+        applyTheme(nextTheme);
+      });
+    })();
+  
+
+    function logout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      setMemberNavState(false);
+    }
+</script>
+</body>
+</html>

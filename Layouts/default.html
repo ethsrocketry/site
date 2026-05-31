@@ -1,0 +1,278 @@
+<!-- Shared site shell for ETHS Rocketry pages. Edit this file to change site-wide theme tokens, fonts, the main navigation, and shared chrome. -->
+<template id="site-fonts">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</template>
+
+<template id="site-theme">
+  <style id="default-site-theme">
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #1e293b;
+      --nav-bg: rgba(15, 23, 42, 0.62);
+      --surface: rgba(30, 41, 59, 0.4);
+      --surface-hover: rgba(51, 65, 85, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      --eths-blue: #3b82f6;
+      --eths-orange: #f97316;
+      --orange-glow: rgba(249, 115, 22, 0.1);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --nav-bg: rgba(248, 250, 252, 0.64);
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-hover: rgba(226, 232, 240, 0.72);
+      --border: rgba(15, 23, 42, 0.08);
+      --eths-blue: #1d4ed8;
+      --eths-orange: #ea580c;
+      --orange-glow: rgba(234, 88, 12, 0.05);
+      --text: #0f172a;
+      --text-muted: #475569;
+    }
+
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-muted) transparent;
+      scroll-padding-top: 72px;
+    }
+    body {
+      padding-top: 72px !important;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .viewport-window-body::-webkit-scrollbar,
+    .pdf-embedded-body::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    html::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-track,
+    .viewport-window-body::-webkit-scrollbar-track,
+    .pdf-embedded-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar-thumb,
+    .viewport-window-body::-webkit-scrollbar-thumb,
+    .pdf-embedded-body::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 4px;
+    }
+    html::-webkit-scrollbar-thumb:hover,
+    body::-webkit-scrollbar-thumb:hover,
+    .viewport-window-body::-webkit-scrollbar-thumb:hover,
+    .pdf-embedded-body::-webkit-scrollbar-thumb:hover {
+      background: var(--eths-orange);
+    }
+
+    /* Main nav only: sub-nav bars intentionally keep their page-specific styling. */
+    body > nav.site-nav,
+    #site-nav > nav.site-nav {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 100 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 40px !important;
+      height: 72px !important;
+      background: var(--nav-bg) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 12px 40px rgba(2, 6, 23, 0.18) !important;
+      backdrop-filter: blur(22px) saturate(175%) !important;
+      -webkit-backdrop-filter: blur(22px) saturate(175%) !important;
+    }
+    :root[data-theme="light"] body > nav.site-nav,
+    :root[data-theme="light"] #site-nav > nav.site-nav {
+      border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.15s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-links a.join-us-link {
+      color: #fff;
+      font-weight: 700;
+      padding: 8px 18px;
+      background: var(--eths-orange);
+      border-radius: 4px;
+      box-shadow: 0 4px 15px var(--orange-glow);
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .nav-links a.join-us-link:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 4px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
+    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
+    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .theme-toggle-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .member-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(148, 163, 184, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    .member-entry { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; text-decoration: none; color: var(--text); }
+    .lock-icon { width: 8px; height: 8px; background: var(--eths-orange); border-radius: 50%; display: inline-block; }
+    .lock-icon.unlocked { background: #10b981; }
+    .member-only { display: none !important; font-size: 13px !important; }
+    .member-only.is-visible { display: inline-flex !important; }
+    .dropdown-content .member-only.is-visible { display: block !important; }
+    li.member-only.is-visible { display: list-item !important; }
+
+    .dropdown { position: relative; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: auto;
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 8px 0;
+      z-index: 110;
+    }
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content { display: block; }
+    .dropdown-item {
+      padding: 10px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .dropdown-item:hover,
+    .dropdown-item.active { background: var(--surface-hover); color: var(--text); }
+
+    .logout-btn {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .logout-btn:hover,
+    .logout-btn:focus-visible { border-color: var(--eths-orange); color: var(--text); }
+
+    footer {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      border-top: 1px solid var(--border) !important;
+      padding: 40px clamp(24px, 5vw, 72px) !important;
+      margin: 80px auto 0 !important;
+      max-width: 1280px !important;
+      width: 100% !important;
+      font-family: var(--font-mono) !important;
+      font-size: 11px !important;
+      color: var(--text-muted) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+    }
+
+    @media (max-width: 900px) {
+      body > nav.site-nav,
+      #site-nav > nav.site-nav { padding: 0 20px !important; }
+      .nav-links { gap: 14px; }
+    }
+    @media (max-width: 700px) {
+      footer { flex-direction: column !important; gap: 16px !important; text-align: center !important; }
+    }
+  </style>
+</template>
+
+<template id="site-nav-template">
+  <nav class="site-nav">
+    <a class="nav-logo" href="home.html">
+      <img src="../site-media/logo.png" alt="ETHS Rocketry logo" />
+      <span class="nav-brand">ETHS Rocketry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="home.html" data-page="home.html">Home</a></li>
+      <li><a href="arc.html" data-page="arc.html">ARC</a></li>
+      <li><a href="r4s.html" data-page="r4s.html">R4S</a></li>
+      <li><a href="history.html" data-page="history.html">History</a></li>
+      <li><a href="people.html" data-page="people.html">People</a></li>
+      <li><a href="releases.html" data-page="releases.html">Releases</a></li>
+      <li><a href="join-us.html" class="join-us-link" data-page="join-us.html">Join Us</a></li>
+      <li>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle visual theme">
+          <span class="theme-toggle-icon" aria-hidden="true"></span>
+          <span class="theme-toggle-label">Toggle theme</span>
+        </button>
+      </li>
+      <li class="dropdown member-dropdown">
+        <div class="member-pill">
+          <a href="member-tools.html" class="member-entry">
+            <span>Member Tools</span>
+            <span class="lock-icon" id="member-lock-icon"></span>
+          </a>
+        </div>
+        <div class="dropdown-content">
+          <a href="member-tools.html" class="dropdown-item" data-page="member-tools.html">Dashboard</a>
+          <a href="info-base.html" class="dropdown-item member-only" data-page="info-base.html">Info Base</a>
+          <a href="arc-org.html" class="dropdown-item member-only" data-page="arc-org.html">ARC Organization</a>
+          <a href="r4s-org.html" class="dropdown-item member-only" data-page="r4s-org.html">R4S Organization</a>
+        </div>
+      </li>
+      <li class="member-only nav-sign-out">
+        <button class="logout-btn" type="button" data-site-logout>Sign Out</button>
+      </li>
+    </ul>
+  </nav>
+</template>
