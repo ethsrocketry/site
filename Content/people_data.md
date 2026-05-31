@@ -77,7 +77,7 @@ person(Tristan Schultz, ../people-media/tristan-schultz.jpg, "Co-founder of E-To
 contact(LinkedIn, https://www.linkedin.com/in/tristan-schultz-54930428a/)
 endperson
 
-person(Prady Manur, ../people-media/pradyumna-manur.png, "E-Town Rocket Bureau Co-founder and ARC 2026 chief and systems engineer working on organization architecture, GNC, and systems integration.", "Class of 2026, Co-Founder, ARC26, ARC25")
+person(Prady Manur, ../people-media/pradyumna-manur.png, "E-Town Rocket Bureau Co-founder and ARC 2026 chief and systems engineer working on organization architecture, GNC, and systems integration. Will be studying engineering at Purdue.", "Class of 2026, Co-Founder, ARC26, ARC25")
 contact(LinkedIn, https://www.linkedin.com/in/prady-m/)
 contact(Website, https://f15eagle.github.io/mysite/)
 endperson
