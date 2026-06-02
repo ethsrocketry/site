@@ -31,7 +31,8 @@ link(Helpful airbrake control videos, A set of useful videos on active airbraked
 # Datasets | Data
 ## Resources
 link(Motor Thrust and Weight Data, Datasets of various motor thrust profiles, CSV, https://docs.google.com/spreadsheets/d/1_fO9yHK-BEU7YAX_vI6N74XljMth9HyZWJK6BY4gGcc/edit?gid=1343307092#gid=1343307092)
-link(ARC 2025 Full Data, "A ZIP file containing part files, media, organization, and more from ARC 2025", ZIP, https://drive.google.com/file/d/123OxVigyd_lJVTl2hu5qvs5OGOorZr_D/view?usp=sharing)
+link(ARC 2025 Full Data Packet, A ZIP file containing all files from ARC 2025, ZIP, https://drive.google.com/file/d/123OxVigyd_lJVTl2hu5qvs5OGOorZr_D/view?usp=sharing)
+link(ARC 2026 Full Data Packet, A ZIP file containing all files from ARC 2026, ZIP, [https://drive.google.com/file/d/123OxVigyd_lJVTl2hu5qvs5OGOorZr_D/view?usp=sharing](https://drive.google.com/file/d/1Dtmv7pCErYUpys3mz0WOg48KVOpck0kX/view?usp=sharing))
 
 # Pre-Flight Simulation & Testing | Testing
 ## Resources
@@ -39,4 +40,4 @@ link(Ground Truth: Physical Testing, Apogee Components newsletter on simulation 
 
 # Other | Other
 ## ARC
-link(Notes from Official ARC2025 Presentation, *Note that some info might be outdated, PDF, https://docs.google.com/document/d/1wVG3nXXllM6RjmEUsilNnAMFY08S7q3r/edit?usp=sharing&ouid=113341205205596584862&rtpof=true&sd=true)
+link(Notes from Official ARC 2025 Presentation, *Note that some info might be outdated, PDF, https://docs.google.com/document/d/1wVG3nXXllM6RjmEUsilNnAMFY08S7q3r/edit?usp=sharing&ouid=113341205205596584862&rtpof=true&sd=true)
