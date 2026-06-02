@@ -1,5 +1,5 @@
 [ABOUT-START]
-### About the Program
+## About the Program
 The American Rocketry Challenge is the world's largest model rocket contest, challenging student teams to design, build, and fly a model rocket that meets precise altitude and flight duration parameters while carrying a fragile payload (raw eggs) safely back to Earth. 
 
 Through this program, team members gain hands-on engineering experience spanning:
@@ -17,23 +17,29 @@ header_alt: Custom telemetry background image for 2026 logs
 
 *Lil' Willy* is ETHS's first actively-controlled rocket, using airbrakes and custom avionics to slow the rocket to a target apogee. This year, we focused on investigating and implementing active control, improving design and build quality, and cost reduction.
 
-### Project Scope
+## Project Scope
 * **Target Apogee:** 750 ft
 * **Flight Duration:** 36 – 39 s
 * **Payload Allocation:** 1 Raw Egg
 
-### Engineering Breakthroughs
+## Engineering Breakthroughs
 - **Python-Based SIL Simulation & Controller Tuning:** We developed a custom Python rocket flight simulator with software-in-the-loop capabilities and married it to a binary search engine. The binary search engine iteratively finds the optimal PID constants for our flight controller. 
 [[pdf: ../arc26-media/Sample PID Optimization Report.pdf, Sample PID Optimization Report, false]]
 - **Custom Avionics Stack:** In a major step up from 2025, we created a functional custom avionics stack featuring 9-axis acceleration and orientation tracking, barometric altitude finding, and flight data logging.
 [[carousel: ../arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg, ../arc26-media/Avionics Assembly 1.png, ../arc26-media/Avionics Assembly 2.png, ../arc26-media/Avionics Assembly 3.png, ../arc26-media/Avionics Assembly 4.png]]
 - **Working Airbrake Mechanism:** We created a linkage-based airbrake mechanism that uses a servo and linkages to push flat plates out the side of the rocket.
-
 [[carousel: ../arc26-media/Airbrake Control Test (Numerical Input).mp4, ../arc26-media/Airbrake Render1.png, ../arc26-media/Airbrake Render2.png, ../arc26-media/Airbrake Render3.png, ../arc26-media/Airbrake Render4.png, ../arc26-media/Airbrake Render5.png, ../arc26-media/Airbrake Render7.png]]
 
-[[carousel: ../arc26-media/Full_Rocket_Assembly_2 (1).jpg, ../arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg]]
-
+## Flight History and Performance
+### Flight #1:
+- Flight #1 was a validation test of all baseline systems, as well as the avionics data logging system. The airbrakes were kept retracted for the duration of the flight.
 [[youtube: DBYvCB82rY4, Launch #1]]
+- Unfortunately, excessive friction between the coupler and upper body tube stopped the parachute from being ejected. It is believed that gasses from the ejection charge were instead directed into an improperly-designed, weak plastic part, blowing through it and damaging the interals of the upper tube. Upon landing, the the vehicle fragmented into multiple pieces and was deemed unrecoverable.
+- We will build a second vehicle to test the airbrake system. Here is the crash report:
+[[pdf: ../arc26-media/ARC 2026 - Flight  1 Accident Report and Design Review.pdf, ARC26 Flight #1 Crash Report, false]]
+
+## More Media
+[[carousel: ../arc26-media/Full_Rocket_Assembly_2 (1).jpg, ../arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg]]
 
 *Tags: C++ Avionics, Python SIL Sim, Active Airbrakes, Binary Search Tuning*
 [YEAR-END: 2026]
