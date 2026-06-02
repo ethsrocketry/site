@@ -98,37 +98,73 @@
       border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 14px;
     }
 
-    /* ── CONDENSED LAYOUT ACTIONS AND VARIATIONS ── */
-    .layout-toggle {
-      width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
-      border: 1px solid var(--border); background: var(--surface); border-radius: 6px;
-      color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s;
-    }
-    .layout-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
-    .layout-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    /* ── DYNAMIC LAYOUT MANAGEMENT MODULE ── */
+    .layout-dropdown-wrapper { position: relative; display: inline-block; }
     
-    /* Active Condensed Modifications */
-    body.condensed .page-header { padding: 30px 0 20px 0; }
-    body.condensed .section { padding: 30px 0; }
-    body.condensed .section h2 { font-size: 22px; margin-bottom: 16px; }
-    body.condensed .subsection { margin-bottom: 20px; }
-    body.condensed .subsection h3 { margin: 20px 0 12px; font-size: 16px; }
-    body.condensed .doc-list { gap: 8px; }
-    body.condensed .doc-link { padding: 12px 20px; border-radius: 6px; }
-    body.condensed .doc-content h4 { font-size: 15px; margin-bottom: 2px; }
-    body.condensed .doc-content p { font-size: 13px; }
-    body.condensed .doc-link span { font-size: 20px !important; }
+    .layout-menu-btn {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+      padding: 10px 16px; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text-muted); border-radius: 6px; cursor: pointer; display: flex;
+      align-items: center; gap: 8px; transition: all 0.15s ease-in-out;
+    }
+    .layout-menu-btn:hover, .layout-dropdown-wrapper.active .layout-menu-btn {
+      color: var(--text); border-color: var(--eths-orange); background: var(--surface-hover);
+    }
+
+    .layout-card {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
+      width: 260px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); padding: 16px; z-index: 110;
+    }
+    .layout-dropdown-wrapper.active .layout-card { display: block; }
+
+    .layout-card-group { margin-bottom: 14px; }
+    .layout-card-group:last-child { margin-bottom: 0; }
+    .layout-card-label {
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block;
+    }
+    .layout-btn-row { display: flex; gap: 6px; background: rgba(0,0,0,0.15); padding: 4px; border-radius: 6px; }
+    
+    .layout-option-btn {
+      flex: 1; font-family: var(--font-sans); font-size: 12px; font-weight: 600; padding: 6px 10px;
+      background: transparent; border: none; color: var(--text-muted); border-radius: 4px;
+      cursor: pointer; text-align: center; transition: all 0.15s;
+    }
+    .layout-option-btn:hover { color: var(--text); }
+    .layout-option-btn.active { background: var(--eths-orange); color: #ffffff; }
+
+    /* Layout Style Variant Selectors Engine */
+    /* 1. Condensed System Modifiers */
+    body.layout-condensed .page-header { padding: 30px 0 20px 0; }
+    body.layout-condensed .section { padding: 30px 0; }
+    body.layout-condensed .section h2 { font-size: 22px; margin-bottom: 16px; }
+    body.layout-condensed .subsection { margin-bottom: 20px; }
+    body.layout-condensed .subsection h3 { margin: 20px 0 12px; font-size: 16px; }
+    body.layout-condensed .doc-list { gap: 8px; }
+    body.layout-condensed .doc-link { padding: 12px 20px; border-radius: 6px; }
+    body.layout-condensed .doc-content h4 { font-size: 15px; margin-bottom: 2px; }
+    body.layout-condensed .doc-content p { font-size: 13px; }
+    body.layout-condensed .doc-link span { font-size: 20px !important; }
+
+    /* 2. Multi-Column Grid System Modifiers */
+    @media (min-width: 768px) {
+      body.layout-2col .doc-list {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 100%;
+      }
+      body.layout-2col.layout-condensed .doc-list { gap: 8px; }
+    }
 
     /* ── CONTENT CANVAS ── */
-    .program-layout { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-    .page-header {
-      padding: 60px 0 40px 0; display: flex; justify-content: space-between; align-items: flex-end; transition: padding 0.2s ease-in-out;
-    }
+    .program-layout { max-width: 960px; margin: 0 auto; padding: 0 20px; transition: max-width 0.25s; }
+    body.layout-2col .program-layout { max-width: 1200px; } /* Widens layout beautifully if choosing 2 Columns */
+
+    .page-header { padding: 60px 0 40px 0; display: flex; justify-content: space-between; align-items: flex-end; transition: padding 0.2s ease-in-out; }
     .page-eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); text-transform: uppercase; letter-spacing: 0.1em; }
     .page-header h1 { font-family: var(--font-display); font-size: 42px; font-weight: 700; }
 
     .section { padding: 60px 0; border-top: 1px solid var(--border); transition: padding 0.2s ease-in-out; }
-    .section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 32px; text-transform: uppercase; transition: font-size 0.2s, margin 0.2s; }
+    .section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 32px; text-transform: uppercase; transition: font-size 0.2s; }
     .subsection { margin-bottom: 40px; transition: margin 0.2s; }
     .subsection h3 { font-family: var(--font-display); font-size: 20px; color: var(--eths-orange); margin: 40px 0 20px; transition: margin 0.2s, font-size 0.2s; }
 
@@ -177,13 +213,31 @@
     <div class="sub-nav-search">
       <input type="text" id="info-search" placeholder="Search resources..." onkeyup="filterEntries()">
     </div>
-    <button id="layout-toggle" class="layout-toggle" title="Toggle Condensed Layout">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="4" y1="6" x2="20" y2="6"></line>
-        <line x1="4" y1="12" x2="20" y2="12"></line>
-        <line x1="4" y1="18" x2="20" y2="18"></line>
-      </svg>
-    </button>
+    
+    <!-- ── DYNAMIC LAYOUT MANAGEMENT CONTROLLER ── -->
+    <div class="layout-dropdown-wrapper" id="layout-wrapper">
+      <button class="layout-menu-btn" onclick="toggleLayoutMenu(event)">
+        <span>Layout</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      
+      <div class="layout-card" onclick="event.stopPropagation()">
+        <div class="layout-card-group">
+          <span class="layout-card-label">Density</span>
+          <div class="layout-btn-row">
+            <button id="opt-density-normal" class="layout-option-btn active" onclick="setLayoutMetric('density', 'normal')">Normal</button>
+            <button id="opt-density-condensed" class="layout-option-btn" onclick="setLayoutMetric('density', 'condensed')">Condensed</button>
+          </div>
+        </div>
+        <div class="layout-card-group">
+          <span class="layout-card-label">Card Display Grid</span>
+          <div class="layout-btn-row">
+            <button id="opt-grid-1" class="layout-option-btn active" onclick="setLayoutMetric('grid', '1col')">1 Col</button>
+            <button id="opt-grid-2" class="layout-option-btn" onclick="setLayoutMetric('grid', '2col')">2 Cols</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <main class="program-layout">
@@ -430,28 +484,48 @@
       });
     })();
 
-    // Condensed Layout Engine
-    (() => {
-      const layoutBtn = document.getElementById('layout-toggle');
-      if (!layoutBtn) return;
-      
-      function applyLayout(isCondensed) {
-        if (isCondensed) {
-          document.body.classList.add('condensed');
+    // ── INTEGRATED MULTI-LAYOUT CONFIGURATION ENGINE ──
+    function toggleLayoutMenu(event) {
+      event.stopPropagation();
+      document.getElementById('layout-wrapper').classList.toggle('active');
+    }
+
+    function setLayoutMetric(category, setting) {
+      if (category === 'density') {
+        localStorage.setItem('etrb_layout_density', setting);
+        document.getElementById('opt-density-normal').classList.toggle('active', setting === 'normal');
+        document.getElementById('opt-density-condensed').classList.toggle('active', setting === 'condensed');
+        
+        if (setting === 'condensed') {
+          document.body.classList.add('layout-condensed');
         } else {
-          document.body.classList.remove('condensed');
+          document.body.classList.remove('layout-condensed');
+        }
+      } 
+      else if (category === 'grid') {
+        localStorage.setItem('etrb_layout_grid', setting);
+        document.getElementById('opt-grid-1').classList.toggle('active', setting === '1col');
+        document.getElementById('opt-grid-2').classList.toggle('active', setting === '2col');
+        
+        if (setting === '2col') {
+          document.body.classList.add('layout-2col');
+        } else {
+          document.body.classList.remove('layout-2col');
         }
       }
+    }
 
-      // Check for saved preference initialization
-      const savedLayoutState = localStorage.getItem('etrb_condensed_layout') === 'true';
-      applyLayout(savedLayoutState);
+    // Initialize Layout Options from LocalStorage Configurations
+    (() => {
+      const storedDensity = localStorage.getItem('etrb_layout_density') || 'normal';
+      const storedGrid = localStorage.getItem('etrb_layout_grid') || '1col';
+      
+      setLayoutMetric('density', storedDensity);
+      setLayoutMetric('grid', storedGrid);
 
-      layoutBtn.addEventListener('click', () => {
-        const isCurrentlyCondensed = document.body.classList.contains('condensed');
-        const nextLayoutState = !isCurrentlyCondensed;
-        localStorage.setItem('etrb_condensed_layout', nextLayoutState);
-        applyLayout(nextLayoutState);
+      // Close structural UI menus when clicking outside
+      document.addEventListener('click', () => {
+        document.getElementById('layout-wrapper').classList.remove('active');
       });
     })();
   </script>
