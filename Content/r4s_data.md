@@ -6,7 +6,7 @@ WORK IN PROGRESS
 [YEAR-START: 2026]
 title: Gyro
 mission: WIP
-header_image: ../site-media/coriander1_26.jpg
+header_image: ../assets/site-media/coriander1_26.jpg
 header_alt: Coriander 2026
 
 WORK IN PROGRESS

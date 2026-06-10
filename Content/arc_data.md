@@ -12,7 +12,7 @@ Through this program, team members gain hands-on engineering experience spanning
 [YEAR-START: 2026]
 title: Lil' Willy: Active Control
 mission: Active Airbrakes
-header_image: ../arc26-media/full assembly render 1.png
+header_image: ../assets/arc-media/arc26-media/full assembly render 1.png
 header_alt: Custom telemetry background image for 2026 logs
 
 *Lil' Willy* is ETHS's first actively-controlled rocket, using airbrakes and custom avionics to slow the rocket to a target apogee. This year, we focused on investigating and implementing active control, improving design and build quality, and cost reduction.
@@ -24,11 +24,11 @@ header_alt: Custom telemetry background image for 2026 logs
 
 ## Engineering Breakthroughs
 - **Python-Based SIL Simulation & Controller Tuning:** We developed a custom Python rocket flight simulator with software-in-the-loop capabilities and married it to a binary search engine. The binary search engine iteratively finds the optimal PID constants for our flight controller. 
-[[pdf: ../arc26-media/Sample PID Optimization Report.pdf, Sample PID Optimization Report, false]]
+[[pdf: ../assets/arc-media/arc26-media/Sample PID Optimization Report.pdf, Sample PID Optimization Report, false]]
 - **Custom Avionics Stack:** In a major step up from 2025, we created a functional custom avionics stack featuring 9-axis acceleration and orientation tracking, barometric altitude finding, and flight data logging.
-[[carousel: ../arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg, ../arc26-media/Avionics Assembly 1.png, ../arc26-media/Avionics Assembly 2.png, ../arc26-media/Avionics Assembly 3.png, ../arc26-media/Avionics Assembly 4.png]]
+[[carousel: ../assets/arc-media/arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg, ../assets/arc-media/arc26-media/Avionics Assembly 1.png, ../assets/arc-media/arc26-media/Avionics Assembly 2.png, ../assets/arc-media/arc26-media/Avionics Assembly 3.png, ../assets/arc-media/arc26-media/Avionics Assembly 4.png]]
 - **Working Airbrake Mechanism:** We created a linkage-based airbrake mechanism that uses a servo and linkages to push flat plates out the side of the rocket.
-[[carousel: ../arc26-media/Airbrake Control Test (Numerical Input).mp4, ../arc26-media/Airbrake Render1.png, ../arc26-media/Airbrake Render2.png, ../arc26-media/Airbrake Render3.png, ../arc26-media/Airbrake Render4.png, ../arc26-media/Airbrake Render5.png, ../arc26-media/Airbrake Render7.png]]
+[[carousel: ../assets/arc-media/arc26-media/Airbrake Control Test (Numerical Input).mp4, ../assets/arc-media/arc26-media/Airbrake Render1.png, ../assets/arc-media/arc26-media/Airbrake Render2.png, ../assets/arc-media/arc26-media/Airbrake Render3.png, ../assets/arc-media/arc26-media/Airbrake Render4.png, ../assets/arc-media/arc26-media/Airbrake Render5.png, ../assets/arc-media/arc26-media/Airbrake Render7.png]]
 
 ## Flight History and Performance
 ### Flight #1:
@@ -36,10 +36,10 @@ header_alt: Custom telemetry background image for 2026 logs
 [[youtube: DBYvCB82rY4, Launch #1]]
 - Unfortunately, excessive friction between the coupler and upper body tube stopped the parachute from being ejected. It is believed that gasses from the ejection charge were instead directed into an improperly-designed, weak plastic part, blowing through it and damaging the interals of the upper tube. Upon landing, the the vehicle fragmented into multiple pieces and was deemed unrecoverable.
 - We will build a second vehicle to test the airbrake system. Here is the crash report:
-[[pdf: ../arc26-media/ARC 2026 - Flight  1 Accident Report and Design Review.pdf, ARC26 Flight #1 Crash Report, false]]
+[[pdf: ../assets/arc-media/arc26-media/ARC 2026 - Flight  1 Accident Report and Design Review.pdf, ARC26 Flight #1 Crash Report, false]]
 
 ## More Media
-[[carousel: ../arc26-media/Full_Rocket_Assembly_2 (1).jpg, ../arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg]]
+[[carousel: ../assets/arc-media/arc26-media/Full_Rocket_Assembly_2 (1).jpg, ../assets/arc-media/arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg]]
 
 *Tags: C++ Avionics, Python SIL Sim, Active Airbrakes, Binary Search Tuning*
 [YEAR-END: 2026]
@@ -49,10 +49,10 @@ header_alt: Custom telemetry background image for 2026 logs
 [YEAR-START: 2025]
 title: Wildkit SRB MK3: Familiarization and Gaining Experience
 mission: Familiarization
-header_image: ../arc25-media/Full Assembly 3.jpg
+header_image: ../assets/arc-media/arc25-media/Full Assembly 3.jpg
 header_alt: Full Assembly
 
-[[carousel: ../arc25-media/Full Assembly 1.jpg, ../arc25-media/Full Assembly 2.jpg]]
+[[carousel: ../assets/arc-media/arc25-media/Full Assembly.jpg, ../assets/arc-media/arc25-media/Full Assembly 2.jpg]]
 
 ## Project Scope & Deliverables
 * **Target Apogee:** 790 ft
@@ -66,7 +66,7 @@ Although initial testing showed promise, the first three versions of the Wildkit
 
 See our Final Report here, or scroll below for a quick summary:
 
-[[pdf: ../arc25-media/ARC 2025 Final Report.pdf, ARC 2025 Final Report, false]]
+[[pdf: ../assets/arc-media/arc25-media/ARC 2025 Final Report.pdf, ARC 2025 Final Report, false]]
 
 ## The 2025 Build Team
 * Eli Corr (Class of 2025)
@@ -94,7 +94,7 @@ While early digital versions showed promise, our real-world launch window came d
 * **What Happened:** The rocket flew significantly straighter and higher, with a visually estimated peak of 550 feet. However, the altimeter was accidentally left turned off, leaving us with no hard data. As it reached its peak, it began rapidly pitching back and forth (a behavior accurately predicted by our simulator, EulerSimBETA). 
 * **The Catch:** The angled flight path carried the rocket directly into a nearby water reservoir. Though both pieces floated and were physically recovered, the crew stage suffered irreversible water damage. With no backup airframe or spare parts available, the remainder of our season was ground-canceled.
 
-[[carousel: yt:Kewcq5KMFVI, ../arc25-media/Floating Rocket.jpg, yt:7D0z9zdrFr4, ../arc25-media/Rocket Fishing 1.jpg, ../arc25-media/Rocket Fishing 2.jpg, yt:u9WxUJuNQEc]]
+[[carousel: yt:Kewcq5KMFVI, ../assets/arc-media/arc25-media/Floating Rocket.jpg, yt:7D0z9zdrFr4, ../assets/arc-media/arc25-media/Rocket Fishing 1.jpg, ../assets/arc-media/arc25-media/Rocket Fishing 2.jpg, yt:u9WxUJuNQEc]]
 
 ## Behind the Scenes: Programmatic Challenges
 

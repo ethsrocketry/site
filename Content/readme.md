@@ -5,7 +5,7 @@ This site is organized around two top-level authoring folders:
 - `Layouts/` contains every HTML layout/page.
 - `Content/` contains every Markdown-style data page consumed by its matching layout.
 
-Most layouts fetch their content file in the browser with `fetch('../Content/<name>_data.md')`, so content paths for images, videos, and PDFs should be written relative to the HTML page in `Layouts/` (for example `../arc26-media/file.png`).
+Most layouts fetch their content file in the browser with `fetch('../Content/<name>_data.md')`, so content paths for images, videos, and PDFs should be written relative to the HTML page in `Layouts/` (for example `../assets/arc-media/arc26-media/file.png`).
 
 ## Global site conventions
 
@@ -76,7 +76,7 @@ Standard markdown content...
 [YEAR-START: 2026]
 title: Lil' Willy: Active Control
 mission: Active Airbrakes
-header_image: ../arc26-media/full assembly render 1.png
+header_image: ../assets/arc-media/arc26-media/full assembly render 1.png
 header_alt: Custom telemetry background image for 2026 logs
 
 Campaign body content...
@@ -102,8 +102,8 @@ Required/recognized fields:
 ```
 
 ```md
-[[pdf: ../arc26-media/file.pdf, Display Title, false]]
-[[carousel: ../arc26-media/image.png, ../arc26-media/video.mp4]]
+[[pdf: ../assets/arc-media/arc26-media/file.pdf, Display Title, false]]
+[[carousel: ../assets/arc-media/arc26-media/image.png, ../assets/arc-media/arc26-media/video.mp4]]
 [[youtube: DBYvCB82rY4, Launch #1]]
 *Tags: C++ Avionics, Python SIL Sim*
 ```
@@ -170,7 +170,7 @@ Available Markdown features:
 // Comments are ignored
 section(current members)
 
-person(Name, ../people-media/photo.jpg, "Short bio text.", "Class of 2027")
+person(Name, ../assets/people-media/photo.jpg, "Short bio text.", "Class of 2027")
 contact(LinkedIn, https://www.linkedin.com/in/example/)
 contact(Email, mailto:name@example.com)
 endperson
@@ -200,7 +200,7 @@ Available functions:
 ## Release Title
 - date: 2026-05-01
 - mode: embed
-- url: ../arc26-media/ARC Launch 1 Release.mp4
+- url: ../assets/arc-media/arc26-media/ARC Launch 1 Release.mp4
 - summary: Optional short summary text.
 ---
 Markdown body content for the release.
