@@ -6,6 +6,10 @@
   <title>Info Base · ETHS Rocketry</title>
   <link rel="icon" type="image/png" href="../assets/site-media/favicon.png">
   <link rel="apple-touch-icon" href="../assets/site-media/logo.png">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,13 +22,17 @@
       --font-display: 'Space Grotesk', sans-serif;
       --font-sans: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      --modal-canvas-bg: #0b0f19;
+      --sub-guide-line: rgba(59, 130, 246, 0.25);
     }
 
-    :root[data-theme="light"] {
+    :root[data-theme=\"light\"] {
       --bg: #f8fafc; --bg-alt: #f1f5f9; --nav-bg: #f8fafc;
       --surface: #ffffff; --surface-hover: #e2e8f0; --border: rgba(15, 23, 42, 0.08);
       --eths-blue: #1d4ed8; --eths-orange: #ea580c;
       --text: #0f172a; --text-muted: #475569;
+      --modal-canvas-bg: #e2e8f0;
+      --sub-guide-line: rgba(29, 78, 216, 0.2);
     }
 
     html { scroll-behavior: smooth; }
@@ -32,6 +40,12 @@
       background: var(--bg); color: var(--text); font-family: var(--font-sans);
       line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased;
     }
+
+    /* ── STANDARDIZED CORE MODAL CONTAINER SCROLLBAR MECHANICS ── */
+    .viewport-window-body::-webkit-scrollbar { width: 8px; height: 0px; }
+    .viewport-window-body::-webkit-scrollbar-track { background: transparent; }
+    .viewport-window-body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; opacity: 0.4; }
+    .viewport-window-body::-webkit-scrollbar-thumb:hover { background: var(--eths-orange); }
 
     /* ── NAV DECK ── */
     nav {
@@ -74,8 +88,6 @@
       padding: 10px 20px; color: var(--text-muted); text-decoration: none; display: block; font-size: 14px; font-weight: 500; transition: background-color 0.15s, color 0.15s;
     }
     .dropdown-item:hover, .dropdown-item.active { background: var(--surface-hover); color: var(--text); }
-
-    /* Custom Member Dropdown alignment logic */
     .member-dropdown .dropdown-content { left: auto; right: 0; min-width: 200px; }
 
     .member-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(148,163,184,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 6px 14px; cursor: pointer; }
@@ -100,7 +112,6 @@
 
     /* ── DYNAMIC ICON-BASED LAYOUT ENGINE ── */
     .layout-dropdown-wrapper { position: relative; display: inline-block; }
-    
     .layout-menu-btn {
       width: 38px; height: 38px; background: var(--surface); border: 1px solid var(--border);
       color: var(--text-muted); border-radius: 6px; cursor: pointer; display: flex;
@@ -117,7 +128,6 @@
       width: 220px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); padding: 14px; z-index: 110;
     }
     .layout-dropdown-wrapper.active .layout-card { display: block; }
-
     .layout-card-group { margin-bottom: 12px; }
     .layout-card-group:last-child { margin-bottom: 0; }
     .layout-card-label {
@@ -125,7 +135,6 @@
       text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: block;
     }
     .layout-btn-row { display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 3px; border-radius: 6px; }
-    
     .layout-option-btn {
       flex: 1; height: 32px; display: inline-flex; align-items: center; justify-content: center;
       background: transparent; border: none; color: var(--text-muted); border-radius: 4px;
@@ -135,7 +144,7 @@
     .layout-option-btn.active { background: var(--eths-orange); color: #ffffff; }
     .layout-option-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* 1. Condensed Layout Metric Adjustments */
+    /* Condensed Layout Metric Settings */
     body.layout-condensed .page-header { padding: 30px 0 20px 0; }
     body.layout-condensed .section { padding: 30px 0; }
     body.layout-condensed .section h2 { font-size: 22px; margin-bottom: 16px; }
@@ -147,16 +156,10 @@
     body.layout-condensed .doc-content p { font-size: 13px; }
     body.layout-condensed .doc-link span { font-size: 20px !important; }
 
-    /* 2. Column Configurations (Responsive Desktop Viewports) */
     @media (min-width: 768px) {
-      body.layout-2col .doc-list {
-        display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 100%;
-      }
-      body.layout-3col .doc-list {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 100%;
-      }
-      body.layout-2col.layout-condensed .doc-list,
-      body.layout-3col.layout-condensed .doc-list { gap: 8px; }
+      body.layout-2col .doc-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 100%; }
+      body.layout-3col .doc-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 100%; }
+      body.layout-2col.layout-condensed .doc-list, body.layout-3col.layout-condensed .doc-list { gap: 8px; }
     }
 
     /* ── CONTENT CANVAS ── */
@@ -183,73 +186,118 @@
       text-decoration: none; color: inherit; transition: all 0.2s;
     }
     .doc-link:hover { border-color: var(--eths-orange); background: var(--surface-hover); transform: translateY(-1px); }
-
     .doc-content h4 { font-size: 18px; margin-bottom: 6px; transition: font-size 0.2s; }
     .doc-content p { color: var(--text-muted); font-size: 15px; line-height: 1.5; transition: font-size 0.2s; }
-
-    .logout-btn {
-      font-family: var(--font-mono); font-size: 13px; padding: 8px 16px;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: color 0.15s, border-color 0.15s;
-    }
-    .logout-btn:hover { border-color: var(--eths-orange); color: var(--text); }
-
+    
     .theme-toggle {
       width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
       border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
       color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s;
     }
     .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
-    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
-    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-
-    @media (max-width: 900px) {
-      nav, .sub-navbar { padding: 0 20px; }
-      .sub-nav-sections { gap: 20px; }
+    /* ── UNIFIED VIEWPORT OVERLAY WINDOW SCHEMATICS ── */
+    .viewport-overlay-frame {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      z-index: 1000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 40px;
     }
+    .viewport-overlay-frame.active { opacity: 1; pointer-events: auto; }
+    
+    .viewport-window-box {
+      width: 100%; max-width: 900px; height: 85vh; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 6px; display: flex;
+      flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .viewport-window-header {
+      height: 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0;
+    }
+    .viewport-window-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); }
+    
+    .viewport-pdf-controls { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+    .pdf-page-input {
+      width: 44px; height: 28px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font-mono); font-size: 12px; text-align: center;
+      border-radius: 4px; outline: none; transition: border-color 0.15s;
+    }
+    .pdf-page-input:focus { border-color: var(--eths-orange); }
+    .viewport-window-close {
+      background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+      font-family: var(--font-mono); font-size: 11px; height: 28px; padding: 0 12px;
+      border-radius: 4px; cursor: pointer; text-transform: uppercase; display: inline-flex;
+      align-items: center; justify-content: center; transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .viewport-window-close:hover { color: var(--text); border-color: var(--eths-orange); }
+    
+    .viewport-window-body {
+      flex: 1; width: 100%; height: 100%; background: var(--modal-canvas-bg);
+      overflow-y: auto; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    .pdf-page-canvas-frame { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); border-radius: 4px; max-width: 100%; height: auto !important; background: #ffffff; display: block; }
+
+    /* ── HYBRID EXTENDED MARKDOWN COMPONENT LAYOUT PROSE STYLING ── */
+    .markdown-view-container { width: 100%; max-width: 780px; display: none; }
+    .markdown-view-container.active { display: block; }
+    .prose-content { font-size: 16px; color: var(--text); line-height: 1.6; width: 100%; }
+    .prose-content p { margin-bottom: 18px; color: var(--text); }
+    .prose-content h1 { font-family: var(--font-display); font-size: 32px; margin-top: 32px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .prose-content h2 { font-family: var(--font-display); font-size: 24px; margin-top: 28px; margin-bottom: 16px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 4px; }
+    .prose-content h3 { font-family: var(--font-display); font-size: 20px; margin-top: 24px; margin-bottom: 14px; font-weight: 700; color: var(--text); }
+    .prose-content ul, .prose-content ol { margin-left: 24px; margin-bottom: 20px; }
+    .prose-content li { margin-bottom: 8px; }
+    .prose-content blockquote { margin: 24px 0; padding: 16px 24px; background: var(--surface); border-left: 4px solid var(--eths-orange); border-radius: 0 4px 4px 0; font-style: italic; color: var(--text-muted); }
+    .prose-content pre { margin: 24px 0; padding: 18px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; overflow-x: auto; font-family: var(--font-mono); font-size: 14px; }
+    .prose-content code { font-family: var(--font-mono); font-size: 14px; background: var(--bg-alt); padding: 2px 6px; border-radius: 4px; color: var(--eths-blue); }
+    .prose-content pre code { padding: 0; background: transparent; color: inherit; }
+    .prose-content a { color: var(--eths-blue); text-decoration: none; }
+    .prose-content a:hover { color: var(--eths-orange); text-decoration: underline; }
   </style>
-  <script src="default.js"></script>
 </head>
 <body>
-  <div id="site-nav"></div>
+
+  <nav>
+    <a href="./index.html" class="nav-logo">
+      <img src="../assets/site-media/logo.png" alt="ETHS Rocketry Logo">
+      <span class="nav-brand">ETHS ROCKETRY</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./hub.html">Launch Hub</a></li>
+      <li><a href="./info-base.html" class="active">Info Base</a></li>
+      <li><a href="./arc.html">ARC</a></li>
+      <li><a href="./join.html" class="join-us-link">Join Team</a></li>
+    </ul>
+  </nav>
 
   <div class="sub-navbar">
-    <div class="sub-nav-sections" id="sub-nav-sections"></div>
+    <div class="sub-nav-sections">
+      <div class="dropdown">
+        <div class="dropdown-toggle">SYSTEM DOCUMENTATION</div>
+      </div>
+    </div>
     <div class="sub-nav-search">
-      <input type="text" id="info-search" placeholder="Search resources..." onkeyup="filterEntries()">
+      <input type="text" id="info-search" placeholder="SEARCH DOCUMENT BASE...">
     </div>
     
     <div class="layout-dropdown-wrapper" id="layout-wrapper">
-      <button class="layout-menu-btn" onclick="toggleLayoutMenu(event)" title="Adjust Layout Configurations">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
+      <button class="layout-menu-btn" onclick="(() => { document.getElementById('layout-wrapper').classList.toggle('active'); event.stopPropagation(); })()">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor"/></svg>
       </button>
-      
       <div class="layout-card" onclick="event.stopPropagation()">
         <div class="layout-card-group">
-          <span class="layout-card-label">Density</span>
+          <span class="layout-card-label">Layout Density</span>
           <div class="layout-btn-row">
-            <button id="opt-density-normal" class="layout-option-btn active" onclick="setLayoutMetric('density', 'normal')" title="Normal Density">
-              <svg viewBox="0 0 24 24"><line x1="5" y1="6" x2="19" y2="6"></line><line x1="5" y1="12" x2="19" y2="12"></line><line x1="5" y1="18" x2="19" y2="18"></line></svg>
-            </button>
-            <button id="opt-density-condensed" class="layout-option-btn" onclick="setLayoutMetric('density', 'condensed')" title="Condensed Density">
-              <svg viewBox="0 0 24 24"><line x1="4" y1="4" x2="20" y2="4"></line><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line><line x1="4" y1="20" x2="20" y2="20"></line></svg>
-            </button>
+            <button class="layout-option-btn" id="opt-density-normal" onclick="setLayoutMetric('density', 'normal')">Normal</button>
+            <button class="layout-option-btn" id="opt-density-condensed" onclick="setLayoutMetric('density', 'condensed')">Compact</button>
           </div>
         </div>
         <div class="layout-card-group">
-          <span class="layout-card-label">Columns</span>
+          <span class="layout-card-label">Grid View Configurations</span>
           <div class="layout-btn-row">
-            <button id="opt-grid-1" class="layout-option-btn active" onclick="setLayoutMetric('grid', '1col')" title="Single Column Grid">
-              <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="4" y1="12" x2="20" y2="12"></line></svg>
-            </button>
-            <button id="opt-grid-2" class="layout-option-btn" onclick="setLayoutMetric('grid', '2col')" title="Double Column Grid">
-              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="2"></rect><rect x="13" y="4" width="8" height="16" rx="2"></rect></svg>
-            </button>
-            <button id="opt-grid-3" class="layout-option-btn" onclick="setLayoutMetric('grid', '3col')" title="Triple Column Grid">
-              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="5" height="16" rx="1"></rect><rect x="9" y="4" width="6" height="16" rx="1"></rect><rect x="17" y="4" width="5" height="16" rx="1"></rect></svg>
-            </button>
+            <button class="layout-option-btn" id="opt-grid-1" onclick="setLayoutMetric('grid', '1col')">1-Col</button>
+            <button class="layout-option-btn" id="opt-grid-2" onclick="setLayoutMetric('grid', '2col')">2-Col</button>
+            <button class="layout-option-btn" id="opt-grid-3" onclick="setLayoutMetric('grid', '3col')">3-Col</button>
           </div>
         </div>
       </div>
@@ -257,261 +305,247 @@
   </div>
 
   <main class="program-layout">
-    <div id="login-gate" style="min-height: calc(100vh - 136px); display: flex; align-items: center; justify-content: center;">
-      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; max-width: 400px; width: 100%;">
-        <h1 style="font-family: var(--font-display); font-size: 28px;">Member Access</h1>
-        <p style="color: var(--text-muted); margin-bottom: 20px;">Sign in to access the Info Base.</p>
-        <div style="margin: 24px 0;">
-          <label style="font-family: var(--font-mono); font-size: 12px; display:block; margin-bottom:6px;">Username</label>
-          <input type="text" id="username" placeholder="member" style="width:100%; padding:12px 16px; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; color:var(--text); outline: none;">
-        </div>
-        <div style="margin-bottom: 24px;">
-          <label style="font-family: var(--font-mono); font-size: 12px; display:block; margin-bottom:6px;">Password</label>
-          <input type="password" id="password" placeholder="••••••••" style="width:100%; padding:12px 16px; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; color:var(--text); outline: none;">
-        </div>
-        <div id="error-msg" style="display:none; color:#f87171; font-family:var(--font-mono); margin-bottom: 16px; font-size:13px;">Incorrect username or password.</div>
-        <button onclick="tryLogin()" style="width:100%; padding:14px; background:var(--eths-orange); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Sign In</button>
+    <header class="page-header">
+      <div>
+        <span class="page-eyebrow">Central Archive Repository</span>
+        <h1>INFO BASE</h1>
       </div>
-    </div>
+    </header>
 
-    <div id="member-content" style="display:none;">
-      <div class="page-header">
-        <div>
-          <div class="page-eyebrow">MEMBERS ONLY</div>
-          <h1>Info Base</h1>
-        </div>
+    <section class="section">
+      <h2>General Architecture & Blueprints</h2>
+      <div class="subsection">
+        <h3>1. Flight Operations Guides</h3>
+        <ul class="doc-list">
+          <li class="doc-item">
+            <a href="docs/handbook.pdf" class="doc-link">
+              <div class="doc-content">
+                <h4>Team Standard Operating Procedures Handbook</h4>
+                <p>Official structural guidelines covering local safety profiles, build protocols, and launch staging steps.</p>
+              </div>
+            </a>
+          </li>
+          <li class="doc-item">
+            <a href="docs/propulsion_changelog.md" class="doc-link">
+              <div class="doc-content">
+                <h4>Propulsion Engine & Systems Changelog</h4>
+                <p>Markdown internal technical file logs regarding motor changes, payload weight configurations, and test runs.</p>
+              </div>
+            </a>
+          </li>
+          <li class="doc-item">
+            <a href="https://www.nar.org/wp-content/uploads/2015/05/NAR-high-power-safety-code.pdf" class="doc-link">
+              <div class="doc-content">
+                <h4>NAR High Power Safety Regulations Checklist</h4>
+                <p>External reference source detailing National Association of Rocketry mandatory codes.</p>
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div id="dynamic-content"></div>
-    </div>
-
-    <footer>
-      <div>ETHS Rocketry</div>
-      <div>Evanston Township High School // 2026</div>
-    </footer>
+    </section>
   </main>
 
+  <div class="viewport-overlay-frame" id="custom-document-viewer" onclick="closeDocumentViewer()">
+    <div class="viewport-window-box" onclick="event.stopPropagation()">
+      <header class="viewport-window-header">
+        <span class="viewport-window-title" id="viewer-document-title">DOCUMENT INTERVIEWER</span>
+        
+        <div class="viewport-pdf-controls" id="pdf-view-controls">
+          <span>PAGE</span>
+          <input type="number" class="pdf-page-input" id="pdf-page-idx" value="1" min="1">
+          <span>/ <span id="pdf-total-pages">0</span></span>
+        </div>
+        
+        <button class="viewport-window-close" onclick="closeDocumentViewer()">CLOSE X</button>
+      </header>
+      
+      <div class="viewport-window-body" id="viewer-canvas-scroll-container">
+        <div id="pdf-rendering-target-root" style="display:none; width:100%; flex-direction:column; align-items:center; gap:20px;"></div>
+        
+        <div class="markdown-view-container" id="markdown-rendering-target-root">
+          <article class="prose-content" id="markdown-injector-body"></article>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const SESSION_KEY = 'etrb_auth';
-    const CORRECT_USER = 'member';
-    const CORRECT_PASS = 'rktpass1';
+    /* ── DYNAMIC ENGINE LINK ROUTING DETECTOR ── */
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.addEventListener("click", (event) => {
+        const structuralAnchor = event.target.closest("a");
+        if (!structuralAnchor) return;
 
-    function setMemberNavState(isLoggedIn) {
-      const icon = document.getElementById('member-lock-icon');
-      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
-      document.querySelectorAll('.member-only').forEach(el => {
-        el.classList.toggle('is-visible', isLoggedIn);
+        const originalUrlString = structuralAnchor.getAttribute("href");
+        if (!originalUrlString) return;
+
+        // Establish Absolute Validation Resolution Targets
+        const targetResolutionObj = new URL(originalUrlString, window.location.href);
+        const lowerCasePath = targetResolutionObj.pathname.toLowerCase();
+        
+        const isPdfTarget = lowerCasePath.endsWith('.pdf');
+        const isMarkdownTarget = lowerCasePath.endsWith('.md');
+
+        // Condition Check: Guard Link if and only if it points to an internal file path structure
+        const isInternalFileTarget = (targetResolutionObj.origin === window.location.origin);
+
+        if (isInternalFileTarget) {
+          if (isPdfTarget) {
+            event.preventDefault();
+            launchDocumentViewer(structuralAnchor.href, 'pdf');
+          } else if (isMarkdownTarget) {
+            event.preventDefault();
+            launchDocumentViewer(structuralAnchor.href, 'markdown');
+          }
+        }
+        // External elements pass naturally out of the routing loop to browser context handlers
       });
+    });
+
+    /* ── HYBRID INTEGRATED SINGLE-MODAL VIEWER MANAGEMENT ENGINE ── */
+    let currentPdfHandle = null;
+    let currentActivePageNum = 1;
+    let isRenderingInProgress = false;
+
+    const documentViewerOverlay = document.getElementById("custom-document-viewer");
+    const viewerHeaderText = document.getElementById("viewer-document-title");
+    const pdfControlsDeck = document.getElementById("pdf-view-controls");
+    const pdfTargetCanvasContainer = document.getElementById("pdf-rendering-target-root");
+    const markdownTargetContainer = document.getElementById("markdown-rendering-target-root");
+    const markdownTextBox = document.getElementById("markdown-injector-body");
+    const scrollViewport = document.getElementById("viewer-canvas-scroll-container");
+    const pageInputField = document.getElementById("pdf-page-idx");
+
+    function launchDocumentViewer(fileLocationUrl, structuralEngineType) {
+      // Clear out older residual operational frames
+      pdfTargetCanvasContainer.innerHTML = "";
+      markdownTextBox.innerHTML = "";
+      currentActivePageNum = 1;
+      pageInputField.value = 1;
+      
+      const fileNameExtraction = fileLocationUrl.substring(fileLocationUrl.lastIndexOf('/') + 1);
+      viewerHeaderText.textContent = decodeURIComponent(fileNameExtraction).toUpperCase();
+      
+      documentViewerOverlay.classList.add("active");
+      scrollViewport.scrollTop = 0;
+
+      if (structuralEngineType === 'pdf') {
+        // Toggle Component States for Vector Rendering Mode
+        pdfControlsDeck.style.display = "flex";
+        pdfTargetCanvasContainer.style.display = "flex";
+        markdownTargetContainer.classList.remove("active");
+        
+        initializePdfRenderingCycle(fileLocationUrl);
+      } 
+      else if (structuralEngineType === 'markdown') {
+        // Toggle Component States for Compiled Prose Markdown Mode
+        pdfControlsDeck.style.display = "none";
+        pdfTargetCanvasContainer.style.display = "none";
+        markdownTargetContainer.classList.add("active");
+        
+        executeMarkdownFetchAndRender(fileLocationUrl);
+      }
     }
 
-    function filterEntries() {
-      const query = document.getElementById('info-search').value.toLowerCase().trim();
-      const sections = document.querySelectorAll('.section');
-
-      sections.forEach(section => {
-        let sectionHasMatches = false;
-        const subsections = section.querySelectorAll('.subsection');
-
-        subsections.forEach(sub => {
-          let subHasMatches = false;
-          const items = sub.querySelectorAll('.doc-item');
-
-          items.forEach(item => {
-            if (query === "") {
-              item.style.display = '';
-              subHasMatches = true;
-            } else {
-              const text = item.textContent.toLowerCase();
-              if (text.includes(query)) {
-                item.style.display = '';
-                subHasMatches = true;
-              } else {
-                item.style.display = 'none';
-              }
-            }
-          });
-
-          if (subHasMatches) {
-            sub.style.display = '';
-            sectionHasMatches = true;
-          } else {
-            sub.style.display = 'none';
-          }
-        });
-
-        section.style.display = sectionHasMatches ? '' : 'none';
-      });
+    function closeDocumentViewer() {
+      documentViewerOverlay.classList.remove("active");
+      currentPdfHandle = null;
+      pdfTargetCanvasContainer.innerHTML = "";
+      markdownTextBox.innerHTML = "";
     }
 
-    async function loadInfoBase() {
-      const container = document.getElementById('dynamic-content');
-      const subNav = document.getElementById('sub-nav-sections');
-
-      try {
-        const res = await fetch('../Content/info-base_data.md');
-        const text = await res.text();
-        const lines = text.split('\n');
-
-        let html = '';
-        let currentSectionId = '';
-        let isFirstSection = true;
-        let isListOpen = false;
-        let navStructure = []; 
-
-        lines.forEach(line => {
-          line = line.trim();
-          if (!line || line.startsWith('//')) return;
-
-          if (line.startsWith('# ')) {
-            const headingContent = line.substring(2).trim();
-            let title = headingContent;
-            let nickname = headingContent;
-
-            if (headingContent.includes('|')) {
-              const parts = headingContent.split('|');
-              title = parts[0].trim();
-              nickname = parts[1].trim();
-            }
-
-            currentSectionId = 'sec-' + nickname.toLowerCase().replace(/\s+/g, '-');
-            
-            if (isListOpen) {
-              html += '</ul></div>';
-              isListOpen = false;
-            }
-            if (!isFirstSection) {
-              html += '</section>';
-            }
-            isFirstSection = false;
-            
-            html += `<section class="section" id="${currentSectionId}"><h2>${title}</h2>`;
-            
-            navStructure.push({
-              id: currentSectionId,
-              nickname: nickname,
-              subsections: []
-            });
-          } 
-          else if (line.startsWith('## ')) {
-            const subtitle = line.substring(3).trim();
-            const subId = currentSectionId + '-' + subtitle.toLowerCase().replace(/\s+/g, '-');
-            
-            if (isListOpen) {
-              html += '</ul></div>';
-            }
-            
-            html += `<div class="subsection" id="${subId}"><h3>${subtitle}</h3><ul class="doc-list">`;
-            isListOpen = true;
-            
-            if (navStructure.length > 0) {
-              navStructure[navStructure.length - 1].subsections.push({
-                id: subId,
-                title: subtitle
-              });
-            }
-          } 
-          else if (line.startsWith('link(')) {
-            const m = line.match(/link\((.+?),\s*(.+?),\s*(.+?),\s*(.+)\)/);
-            if (m) {
-              const [_, title, desc, type, url] = m.map(s => s.trim());
-              html += `
-                <li class="doc-item">
-                  <a class="doc-link" href="${url}" target="_blank">
-                    <div class="doc-content">
-                      <h4>${title}</h4>
-                      <p>${desc}</p>
-                    </div>
-                    <span style="font-size:28px; color:var(--eths-blue); font-family:var(--font-display); transition: font-size 0.2s;">→</span>
-                  </a>
-                </li>`;
-            }
-          }
-        });
-
-        if (isListOpen) html += '</ul></div>';
-        if (!isFirstSection) html += '</section>';
-
-        container.innerHTML = html;
-
-        let navHTML = '';
-        navStructure.forEach(sec => {
-          let dropdownItems = '';
-          sec.subsections.forEach(sub => {
-            dropdownItems += `<a href="#${sub.id}" class="dropdown-item">${sub.title}</a>`;
-          });
-
-          navHTML += `
-            <div class="dropdown">
-              <a href="#${sec.id}" class="dropdown-toggle">${sec.nickname} ▾</a>
-              <div class="dropdown-content">
-                ${dropdownItems}
-              </div>
+    /* ── SYSTEM MODULE A: MARKDOWN PARSING ENGINE ── */
+    function executeMarkdownFetchAndRender(markdownDataPath) {
+      markdownTextBox.innerHTML = `<p style="font-family:var(--font-mono); font-size:13px; color:var(--text-muted)">CONNECTING TO FILE ARCHIVE DATA NODE...</p>`;
+      
+      fetch(markdownDataPath)
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP System Failure Alert: Status Code ${response.status}`);
+          return response.text();
+        })
+        .then(rawMarkdownString => {
+          // Process raw Markdown using the Marked library
+          markdownTextBox.innerHTML = marked.parse(rawMarkdownString);
+        })
+        .catch(processingError => {
+          console.error(processingError);
+          markdownTextBox.innerHTML = `
+            <div style="border:1px solid rgba(239,68,68,0.2); background:rgba(239,68,68,0.05); padding:16px; border-radius:4px; color:#ef4444; font-family:var(--font-mono); font-size:13px;">
+              [SYSTEM COMPILATION EXCEPTION FAILURE ERROR]<br>Unable to resolve text content link pointer node.<br>${processingError.message}
             </div>`;
         });
-        subNav.innerHTML = navHTML;
-
-      } catch (e) {
-        container.innerHTML = `<p style="padding:60px; color:#f87171;">Failed to load payload profile data.</p>`;
-      }
     }
 
-    function tryLogin() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value;
-      if (user === CORRECT_USER && pass === CORRECT_PASS) {
-        sessionStorage.setItem(SESSION_KEY, '1');
-        document.getElementById('login-gate').style.display = 'none';
-        document.getElementById('member-content').style.display = 'block';
-        setMemberNavState(true);
-        loadInfoBase();
-      } else {
-        document.getElementById('error-msg').style.display = 'block';
+    /* ── SYSTEM MODULE B: MULTI-PAGE PDF VECTOR RENDERING ENGINE ── */
+    function initializePdfRenderingCycle(targetPdfAssetPath) {
+      if (!window['pdfjs-dist/build/pdf']) {
+        console.error("PDF.js Library is currently missing or uninitialized.");
+        return;
       }
-    }
-
-    function logout() { sessionStorage.removeItem(SESSION_KEY); location.reload(); }
-
-    if (sessionStorage.getItem(SESSION_KEY) === '1') {
-      document.getElementById('login-gate').style.display = 'none';
-      document.getElementById('member-content').style.display = 'block';
-      setMemberNavState(true);
-      loadInfoBase();
-    } else setMemberNavState(false);
-
-    // Theme Engine
-    (() => {
-      const btn = document.getElementById('theme-toggle');
-      if (!btn) return;
-      const icon = btn.querySelector('.theme-toggle-icon');
-      const icons = {
-        light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>',
-        dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-      };
-      function apply(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        if (icon) icon.innerHTML = icons[t];
-      }
-      const saved = localStorage.getItem('etrb_launch_theme');
-      apply(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
-      btn.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme');
-        const next = cur === 'light' ? 'dark' : 'light';
-        localStorage.setItem('etrb_launch_theme', next);
-        apply(next);
+      
+      const configuredPdfWorkerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      window['pdfjs-dist/build/pdf'].GlobalWorkerOptions.workerSrc = configuredPdfWorkerSrc;
+      
+      window['pdfjs-dist/build/pdf'].getDocument(targetPdfAssetPath).promise.then(loadedPdfInstance => {
+        currentPdfHandle = loadedPdfInstance;
+        document.getElementById("pdf-total-pages").textContent = loadedPdfInstance.numPages;
+        
+        executePdfPageGenerationRoute(currentActivePageNum);
+      }).catch(pdfLoadFailure => {
+        console.error("PDF Processing Error:", pdfLoadFailure);
+        pdfTargetCanvasContainer.innerHTML = `<p style="color:#ef4444; font-family:var(--font-mono); font-size:13px;">ERROR: Failed to successfully display target PDF object vector data layout stream.</p>`;
       });
-    })();
-
-    // ── LAYOUT SELECTION ARCHITECTURE CONFIGURATION ──
-    function toggleLayoutMenu(event) {
-      event.stopPropagation();
-      document.getElementById('layout-wrapper').classList.toggle('active');
     }
 
+    function executePdfPageGenerationRoute(requestedPageInteger) {
+      if (!currentPdfHandle || isRenderingInProgress) return;
+      isRenderingInProgress = true;
+      
+      pdfTargetCanvasContainer.innerHTML = "";
+      
+      currentPdfHandle.getPage(requestedPageInteger).then(activePageReference => {
+        const runtimeViewportContext = activePageReference.getViewport({ scale: 1.5 });
+        const primaryRenderCanvasNode = document.createElement("canvas");
+        primaryRenderCanvasNode.className = "pdf-page-canvas-frame";
+        
+        const canvasRendering2dContext = primaryRenderCanvasNode.getContext("2d");
+        primaryRenderCanvasNode.height = runtimeViewportContext.height;
+        primaryRenderCanvasNode.width = runtimeViewportContext.width;
+        
+        pdfTargetCanvasContainer.appendChild(primaryRenderCanvasNode);
+        
+        const activePageRenderExecutionPlan = {
+          canvasContext: canvasRendering2dContext,
+          viewport: runtimeViewportContext
+        };
+        
+        activePageReference.render(activePageRenderExecutionPlan).promise.then(() => {
+          isRenderingInProgress = false;
+          pageInputField.value = requestedPageInteger;
+        });
+      });
+    }
+
+    /* Handle Dynamic Input-driven Page Navigation Events */
+    pageInputField.addEventListener("change", (changeEvent) => {
+      if (!currentPdfHandle) return;
+      let numericParsedValue = parseInt(changeEvent.target.value);
+      const absoluteMaxTotalPages = currentPdfHandle.numPages;
+      
+      if (isNaN(numericParsedValue) || numericParsedValue < 1) numericParsedValue = 1;
+      if (numericParsedValue > absoluteMaxTotalPages) numericParsedValue = absoluteMaxTotalPages;
+      
+      currentActivePageNum = numericParsedValue;
+      executePdfPageGenerationRoute(currentActivePageNum);
+    });
+
+    /* ── USER INTERFACE VIEW CONFIGURATION MANAGERS ── */
     function setLayoutMetric(category, setting) {
       if (category === 'density') {
         localStorage.setItem('etrb_layout_density', setting);
         document.getElementById('opt-density-normal').classList.toggle('active', setting === 'normal');
         document.getElementById('opt-density-condensed').classList.toggle('active', setting === 'condensed');
-        
         document.body.classList.toggle('layout-condensed', setting === 'condensed');
       } 
       else if (category === 'grid') {
@@ -525,7 +559,6 @@
       }
     }
 
-    // Initialize layout setup engines from state cache entries
     (() => {
       const storedDensity = localStorage.getItem('etrb_layout_density') || 'normal';
       const storedGrid = localStorage.getItem('etrb_layout_grid') || '1col';
