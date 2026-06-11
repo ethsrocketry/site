@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content=\"width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Info Base · ETHS Rocketry</title>
   <link rel="icon" type="image/png" href="../assets/site-media/favicon.png">
   <link rel="apple-touch-icon" href="../assets/site-media/logo.png">
@@ -21,117 +21,713 @@
     }
 
     :root[data-theme="light"] {
-      --bg: #f8fafc; --bg-alt: #ffffff; --nav-bg: #f8fafc;
-      --surface: rgba(241, 245, 249, 0.6); --surface-hover: rgba(226, 232, 240, 0.8);
-      --border: rgba(0, 0, 0, 0.06);
-      --text: #0f172a; --text-muted: #64748b;
+      --bg: #f8fafc; --bg-alt: #f1f5f9; --nav-bg: #f8fafc;
+      --surface: #ffffff; --surface-hover: #e2e8f0; --border: rgba(15, 23, 42, 0.08);
+      --eths-blue: #1d4ed8; --eths-orange: #ea580c;
+      --text: #0f172a; --text-muted: #475569;
     }
-  </style>
 
-  <style>
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text); font-family: var(--font-sans);
+      line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased;
     }
-    .modal.active { display: flex; }
-    .modal-content {
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      width: 90%;
-      max-width: 1000px;
-      height: 85vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-    .modal-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      background: var(--bg);
+
+    /* ── NAV DECK ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 72px;
+      background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
-    .control-group { display: flex; align-items: center; gap: 12px; }
-    .control-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      width: 36px; height: 36px;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.2s;
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-brand { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-links a.join-us-link {
+      color: #fff; font-weight: 700; padding: 8px 18px;
+      background: var(--eths-orange); border-radius: 4px;
+      transition: transform 0.2s, filter 0.2s;
     }
-    .control-btn:hover { background: var(--surface-hover); color: var(--eths-orange); }
-    .control-btn svg { width: 18px; height: 18px; }
-    .page-info, .zoom-text { font-family: var(--font-sans); font-size: 14px; color: var(--text-muted); min-width: 80px; text-align: center; }
-    .pdf-viewport { flex: 1; overflow: auto; padding: 24px; display: flex; justify-content: center; align-items: flex-start; background: #0b0f19; }
-    #pdf-container { display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%; }
-    #pdf-container canvas { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 4px; max-width: 100%; height: auto !important; }
+    .nav-links a.join-us-link:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+    /* Nav Dropdown Utility Modules */
+    .dropdown { position: relative; }
+    .dropdown-toggle {
+      font-family: var(--font-display); font-size: 15px; font-weight: 700;
+      color: var(--text-muted); cursor: pointer; padding: 20px 0; display: flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .dropdown-toggle:hover, .dropdown.active .dropdown-toggle { color: var(--text); }
+    .dropdown-content {
+      display: none; position: absolute; top: 100%; left: 0; background: var(--bg-alt);
+      border: 1px solid var(--border); border-radius: 6px; min-width: 240px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 8px 0; z-index: 100;
+    }
+    .dropdown:hover .dropdown-content { display: block; }
     
-    /* Custom inner styling for markdown files inside the viewport */
-    .markdown-rendered-view {
-      width: 100%;
-      max-width: 800px;
-      color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.6;
-      padding: 10px 20px;
-      text-align: left;
+    .dropdown-item {
+      padding: 10px 20px; color: var(--text-muted); text-decoration: none; display: block; font-size: 14px; font-weight: 500; transition: background-color 0.15s, color 0.15s;
     }
-    .markdown-rendered-view h1 { color: var(--eths-orange); font-family: var(--font-display); margin-bottom: 1rem; border-bottom: 2px solid var(--eths-orange); padding-bottom: 0.5rem; font-size: 2rem; }
-    .markdown-rendered-view h2 { color: var(--eths-blue); font-family: var(--font-display); margin-top: 1.5rem; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; font-size: 1.5rem; }
-    .markdown-rendered-view h3 { font-family: var(--font-display); margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.2rem; }
-    .markdown-rendered-view p { margin-bottom: 1rem; color: var(--text); }
-    .markdown-rendered-view ul { margin-left: 1.5rem; margin-bottom: 1rem; list-style-type: disc; }
-    .markdown-rendered-view li { margin-bottom: 0.25rem; }
-    .markdown-rendered-view code { font-family: var(--font-mono); background: var(--surface); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; border: 1px solid var(--border); }
-    .markdown-rendered-view a { color: var(--eths-blue); text-decoration: none; border-bottom: 1px dashed var(--eths-blue); }
+    .dropdown-item:hover, .dropdown-item.active { background: var(--surface-hover); color: var(--text); }
+
+    /* Custom Member Dropdown alignment logic */
+    .member-dropdown .dropdown-content { left: auto; right: 0; min-width: 200px; }
+
+    .member-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(148,163,184,0.05); border: 1px solid var(--border); border-radius: 4px; padding: 6px 14px; cursor: pointer; }
+    .member-entry { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; color: var(--text); text-decoration: none; }
+    .lock-icon { width: 8px; height: 8px; background: var(--eths-orange); border-radius: 50%; }
+    .lock-icon.unlocked { background: #10b981; }
+    .member-only { display: none; }
+
+    /* ── STICKY SUB-NAVBAR ── */
+    .sub-navbar {
+      position: sticky; top: 72px; z-index: 90;
+      background: var(--bg-alt); border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 64px; display: flex; align-items: center; gap: 16px;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    .sub-nav-sections { display: flex; gap: 32px; flex: 1; }
+    .sub-nav-search { width: 280px; }
+    #info-search {
+      width: 100%; padding: 10px 16px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 14px;
+    }
+
+    /* ── DYNAMIC ICON-BASED LAYOUT ENGINE ── */
+    .layout-dropdown-wrapper { position: relative; display: inline-block; }
+    
+    .layout-menu-btn {
+      width: 38px; height: 38px; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text-muted); border-radius: 6px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: all 0.15s ease-in-out;
+    }
+    .layout-menu-btn:hover, .layout-dropdown-wrapper.active .layout-menu-btn {
+      color: var(--text); border-color: var(--eths-orange); background: var(--surface-hover);
+    }
+    .layout-menu-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    .layout-card {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
+      width: 220px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); padding: 14px; z-index: 110;
+    }
+    .layout-dropdown-wrapper.active .layout-card { display: block; }
+
+    .layout-card-group { margin-bottom: 12px; }
+    .layout-card-group:last-child { margin-bottom: 0; }
+    .layout-card-label {
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: block;
+    }
+    .layout-btn-row { display: flex; gap: 4px; background: rgba(0,0,0,0.2); padding: 3px; border-radius: 6px; }
+    
+    .layout-option-btn {
+      flex: 1; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; color: var(--text-muted); border-radius: 4px;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .layout-option-btn:hover { color: var(--text); }
+    .layout-option-btn.active { background: var(--eths-orange); color: #ffffff; }
+    .layout-option-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* 1. Condensed Layout Metric Adjustments */
+    body.layout-condensed .page-header { padding: 30px 0 20px 0; }
+    body.layout-condensed .section { padding: 30px 0; }
+    body.layout-condensed .section h2 { font-size: 22px; margin-bottom: 16px; }
+    body.layout-condensed .subsection { margin-bottom: 20px; }
+    body.layout-condensed .subsection h3 { margin: 20px 0 12px; font-size: 16px; }
+    body.layout-condensed .doc-list { gap: 8px; }
+    body.layout-condensed .doc-link { padding: 12px 20px; border-radius: 6px; }
+    body.layout-condensed .doc-content h4 { font-size: 15px; margin-bottom: 2px; }
+    body.layout-condensed .doc-content p { font-size: 13px; }
+    body.layout-condensed .doc-link span { font-size: 20px !important; }
+
+    /* 2. Column Configurations (Responsive Desktop Viewports) */
+    @media (min-width: 768px) {
+      body.layout-2col .doc-list {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 100%;
+      }
+      body.layout-3col .doc-list {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 100%;
+      }
+      body.layout-2col.layout-condensed .doc-list,
+      body.layout-3col.layout-condensed .doc-list { gap: 8px; }
+    }
+
+    /* ── CONTENT CANVAS ── */
+    .program-layout { max-width: 960px; margin: 0 auto; padding: 0 20px; transition: max-width 0.2s ease-in-out; }
+    body.layout-2col .program-layout { max-width: 1140px; }
+    body.layout-3col .program-layout { max-width: 1440px; }
+
+    .page-header { padding: 60px 0 40px 0; display: flex; justify-content: space-between; align-items: flex-end; transition: padding 0.2s ease-in-out; }
+    .page-eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--eths-orange); text-transform: uppercase; letter-spacing: 0.1em; }
+    .page-header h1 { font-family: var(--font-display); font-size: 42px; font-weight: 700; }
+
+    .section { padding: 60px 0; border-top: 1px solid var(--border); transition: padding 0.2s ease-in-out; }
+    .section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 32px; text-transform: uppercase; transition: font-size 0.2s; }
+    .subsection { margin-bottom: 40px; transition: margin 0.2s; }
+    .subsection h3 { font-family: var(--font-display); font-size: 20px; color: var(--eths-orange); margin: 40px 0 20px; transition: margin 0.2s, font-size 0.2s; }
+
+    .doc-list { list-style: none; display: flex; flex-direction: column; gap: 16px; max-width: 860px; transition: gap 0.2s; }
+    body.layout-2col .doc-list, body.layout-3col .doc-list { max-width: 100%; }
+
+    .doc-item { transition: all 0.2s; }
+    .doc-link {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 24px; display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: inherit; transition: all 0.2s;
+    }
+    .doc-link:hover { border-color: var(--eths-orange); background: var(--surface-hover); transform: translateY(-1px); }
+
+    .doc-content h4 { font-size: 18px; margin-bottom: 6px; transition: font-size 0.2s; }
+    .doc-content p { color: var(--text-muted); font-size: 15px; line-height: 1.5; transition: font-size 0.2s; }
+
+    .logout-btn {
+      font-family: var(--font-mono); font-size: 13px; padding: 8px 16px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+    }
+    .logout-btn:hover { border-color: var(--eths-orange); color: var(--text); }
+
+    .theme-toggle {
+      width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
+      color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--eths-orange); }
+    .theme-toggle-icon { width: 16px; height: 16px; display: inline-flex; }
+    .theme-toggle-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      nav, .sub-navbar { padding: 0 20px; }
+      .sub-nav-sections { gap: 20px; }
+    }
+
+    /* ── DOCUMENT VIEWER MODAL ── */
+    .viewport-overlay-frame { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 40px; }
+    .viewport-overlay-frame.active { opacity: 1; pointer-events: auto; }
+    .viewport-window-box { width: 100%; max-width: 900px; height: 85vh; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+    .viewport-window-header { height: 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+    .viewport-window-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); }
+    .viewport-pdf-controls { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+    .pdf-page-input { width: 44px; height: 28px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 12px; text-align: center; border-radius: 4px; outline: none; transition: border-color 0.15s; }
+    .pdf-page-input:focus { border-color: var(--eths-orange); }
+    .pdf-page-input::-webkit-outer-spin-button, .pdf-page-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .viewport-window-close { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; height: 28px; padding: 0 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; transition: color 0.15s ease, border-color 0.15s ease; }
+    .viewport-window-close:hover { color: var(--text); border-color: var(--eths-orange); }
+    .viewport-window-body { flex: 1; width: 100%; height: 100%; background: var(--modal-canvas-bg, #0b0f19); overflow-y: auto; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .viewport-window-body::-webkit-scrollbar { width: 8px; }
+    .viewport-window-body::-webkit-scrollbar-track { background: transparent; }
+    .viewport-window-body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+    .viewport-window-body::-webkit-scrollbar-thumb:hover { background: var(--eths-orange); }
+    .pdf-page-canvas-frame { box-shadow: 0 6px 20px rgba(0,0,0,0.15); border-radius: 4px; max-width: 100%; height: auto !important; background: #ffffff; display: block; }
+    /* MD viewer prose styles inside modal */
+    .md-viewer-body { flex: 1; width: 100%; height: 100%; overflow-y: auto; padding: 32px 40px; color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.7; }
+    .md-viewer-body::-webkit-scrollbar { width: 8px; }
+    .md-viewer-body::-webkit-scrollbar-track { background: transparent; }
+    .md-viewer-body::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+    .md-viewer-body::-webkit-scrollbar-thumb:hover { background: var(--eths-orange); }
+    .md-viewer-body h1 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin: 0 0 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .md-viewer-body h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin: 28px 0 14px; }
+    .md-viewer-body h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin: 22px 0 10px; color: var(--eths-orange); }
+    .md-viewer-body p { margin-bottom: 14px; }
+    .md-viewer-body a { color: var(--eths-blue); text-decoration: none; }
+    .md-viewer-body a:hover { color: var(--eths-orange); text-decoration: underline; }
+    .md-viewer-body strong { font-weight: 700; }
+    .md-viewer-body em { font-style: italic; color: var(--text-muted); }
+    .md-viewer-body code { font-family: var(--font-mono); font-size: 13px; background: var(--bg-alt); padding: 2px 6px; border-radius: 4px; color: var(--eths-blue); }
+    .md-viewer-body pre { background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; padding: 16px; overflow-x: auto; margin: 16px 0; }
+    .md-viewer-body pre code { background: transparent; padding: 0; color: inherit; }
+    .md-viewer-body ul, .md-viewer-body ol { margin: 0 0 16px 24px; }
+    .md-viewer-body li { margin-bottom: 6px; }
+    .md-viewer-body blockquote { margin: 16px 0; padding: 12px 20px; background: var(--surface); border-left: 4px solid var(--eths-orange); font-style: italic; color: var(--text-muted); }
+    .md-viewer-body hr { border: 0; height: 1px; background: var(--border); margin: 28px 0; }
+    @media (max-width: 900px) { .viewport-overlay-frame { padding: 16px; } }
   </style>
+  <script src="default.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
+  <div id="site-nav"></div>
 
-  <div id="pdf-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-controls">
-        <div class="control-group" id="pdf-page-controls">
-          <button id="prev-page" class="control-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <span class="page-info">Page <span id="page-num">1</span> / <span id="page-count">-</span></span>
-          <button id="next-page" class="control-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+  <div class="sub-navbar">
+    <div class="sub-nav-sections" id="sub-nav-sections"></div>
+    <div class="sub-nav-search">
+      <input type="text" id="info-search" placeholder="Search resources..." onkeyup="filterEntries()">
+    </div>
+    
+    <div class="layout-dropdown-wrapper" id="layout-wrapper">
+      <button class="layout-menu-btn" onclick="toggleLayoutMenu(event)" title="Adjust Layout Configurations">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
+      </button>
+      
+      <div class="layout-card" onclick="event.stopPropagation()">
+        <div class="layout-card-group">
+          <span class="layout-card-label">Density</span>
+          <div class="layout-btn-row">
+            <button id="opt-density-normal" class="layout-option-btn active" onclick="setLayoutMetric('density', 'normal')" title="Normal Density">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="6" x2="19" y2="6"></line><line x1="5" y1="12" x2="19" y2="12"></line><line x1="5" y1="18" x2="19" y2="18"></line></svg>
+            </button>
+            <button id="opt-density-condensed" class="layout-option-btn" onclick="setLayoutMetric('density', 'condensed')" title="Condensed Density">
+              <svg viewBox="0 0 24 24"><line x1="4" y1="4" x2="20" y2="4"></line><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line><line x1="4" y1="20" x2="20" y2="20"></line></svg>
+            </button>
+          </div>
         </div>
-        <div class="control-group" id="pdf-zoom-controls">
-          <button id="zoom-out" class="control-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-          </button>
-          <span id="zoom-percent" class="zoom-text">100%</span>
-          <button id="zoom-in" class="control-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-          </button>
+        <div class="layout-card-group">
+          <span class="layout-card-label">Columns</span>
+          <div class="layout-btn-row">
+            <button id="opt-grid-1" class="layout-option-btn active" onclick="setLayoutMetric('grid', '1col')" title="Single Column Grid">
+              <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="4" y1="12" x2="20" y2="12"></line></svg>
+            </button>
+            <button id="opt-grid-2" class="layout-option-btn" onclick="setLayoutMetric('grid', '2col')" title="Double Column Grid">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="2"></rect><rect x="13" y="4" width="8" height="16" rx="2"></rect></svg>
+            </button>
+            <button id="opt-grid-3" class="layout-option-btn" onclick="setLayoutMetric('grid', '3col')" title="Triple Column Grid">
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="5" height="16" rx="1"></rect><rect x="9" y="4" width="6" height="16" rx="1"></rect><rect x="17" y="4" width="5" height="16" rx="1"></rect></svg>
+            </button>
+          </div>
         </div>
-        <div id="viewer-title-fallback" style="font-family: var(--font-display); font-size: 14px; color: var(--eths-orange); display: none;">Document Viewer</div>
-        <button id="close-modal" class="control-btn close-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <div class="pdf-viewport">
-        <div id="pdf-container"></div>
       </div>
     </div>
   </div>
 
+  <main class="program-layout">
+    <div id="login-gate" style="min-height: calc(100vh - 136px); display: flex; align-items: center; justify-content: center;">
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; max-width: 400px; width: 100%;">
+        <h1 style="font-family: var(--font-display); font-size: 28px;">Member Access</h1>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Sign in to access the Info Base.</p>
+        <div style="margin: 24px 0;">
+          <label style="font-family: var(--font-mono); font-size: 12px; display:block; margin-bottom:6px;">Username</label>
+          <input type="text" id="username" placeholder="member" style="width:100%; padding:12px 16px; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; color:var(--text); outline: none;">
+        </div>
+        <div style="margin-bottom: 24px;">
+          <label style="font-family: var(--font-mono); font-size: 12px; display:block; margin-bottom:6px;">Password</label>
+          <input type="password" id="password" placeholder="••••••••" style="width:100%; padding:12px 16px; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; color:var(--text); outline: none;">
+        </div>
+        <div id="error-msg" style="display:none; color:#f87171; font-family:var(--font-mono); margin-bottom: 16px; font-size:13px;">Incorrect username or password.</div>
+        <button onclick="tryLogin()" style="width:100%; padding:14px; background:var(--eths-orange); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Sign In</button>
+      </div>
+    </div>
+
+    <div id="member-content" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-eyebrow">MEMBERS ONLY</div>
+          <h1>Info Base</h1>
+        </div>
+      </div>
+      <div id="dynamic-content"></div>
+    </div>
+
+    <footer>
+      <div>ETHS Rocketry</div>
+      <div>Evanston Township High School // 2026</div>
+    </footer>
+  </main>
+
+  <!-- ── DOCUMENT VIEWER MODAL (PDF + MD) ── -->
+  <div class="viewport-overlay-frame" id="system-doc-modal" onclick="dismissDocModal(event)">
+    <div class="viewport-window-box">
+      <div class="viewport-window-header">
+        <span class="viewport-window-title" id="system-modal-title">Document</span>
+        <div class="viewport-pdf-controls" id="modal-pdf-controls">
+          <span>Page</span>
+          <input type="number" class="pdf-page-input" id="modal-pdf-idx-field" min="1" value="1" onkeydown="executeModalJump(event)">
+          <span id="modal-pdf-max-span">/ --</span>
+        </div>
+        <button class="viewport-window-close" onclick="closeDocModal()">Close [ESC]</button>
+      </div>
+      <div class="viewport-window-body" id="system-modal-scrollbody" style="display:none;"></div>
+      <div class="md-viewer-body" id="system-modal-mdbody" style="display:none;"></div>
+    </div>
+  </div>
+
   <script>
+    // ── DOCUMENT VIEWER (PDF + MD) ──
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let activeModalPdf = null;
+
+    function launchDocumentViewer(src, label, type) {
+      const modal = document.getElementById('system-doc-modal');
+      const pdfBody = document.getElementById('system-modal-scrollbody');
+      const mdBody = document.getElementById('system-modal-mdbody');
+      const controls = document.getElementById('modal-pdf-controls');
+      if (!modal) return;
+
+      document.getElementById('system-modal-title').textContent = label;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      if (type === 'md') {
+        pdfBody.style.display = 'none';
+        mdBody.style.display = '';
+        controls.style.visibility = 'hidden';
+        mdBody.innerHTML = '<p style="font-family:var(--font-mono);color:var(--text-muted);padding:20px;">Loading...</p>';
+        fetch(src)
+          .then(r => { if (!r.ok) throw new Error('Fetch failed'); return r.text(); })
+          .then(text => { mdBody.innerHTML = renderMarkdownForViewer(text); })
+          .catch(() => { mdBody.innerHTML = '<p style="color:#f87171;padding:20px;">Error loading document.</p>'; });
+      } else {
+        mdBody.style.display = 'none';
+        pdfBody.style.display = '';
+        controls.style.visibility = 'visible';
+        pdfBody.innerHTML = '';
+        document.getElementById('modal-pdf-idx-field').value = 1;
+        document.getElementById('modal-pdf-max-span').textContent = '/ --';
+        pdfjsLib.getDocument(src).promise.then(async (pdf) => {
+          activeModalPdf = pdf;
+          const total = pdf.numPages;
+          document.getElementById('modal-pdf-max-span').textContent = `/ ${total}`;
+          document.getElementById('modal-pdf-idx-field').max = total;
+          for (let i = 1; i <= total; i++) {
+            const pageCanvas = document.createElement('canvas');
+            pageCanvas.id = `modal-page-node-${i}`;
+            pageCanvas.className = 'pdf-page-canvas-frame';
+            pdfBody.appendChild(pageCanvas);
+            await renderPdfPage(pdf, i, pageCanvas, 1.4);
+          }
+          pdfBody.addEventListener('scroll', handleModalPdfScroll);
+        }).catch(() => {
+          pdfBody.innerHTML = '<p style="font-family:var(--font-mono);color:#f87171;padding:20px;">Error loading PDF.</p>';
+        });
+      }
+    }
+
+    async function renderPdfPage(pdfInstance, pageNum, canvasTarget, scale) {
+      try {
+        const page = await pdfInstance.getPage(pageNum);
+        const ctx = canvasTarget.getContext('2d');
+        const viewport = page.getViewport({ scale });
+        canvasTarget.height = viewport.height;
+        canvasTarget.width = viewport.width;
+        await page.render({ canvasContext: ctx, viewport }).promise;
+      } catch (err) { console.error(`PDF page ${pageNum} failed:`, err); }
+    }
+
+    function handleModalPdfScroll() {
+      if (!activeModalPdf) return;
+      const track = document.getElementById('system-modal-scrollbody');
+      const children = track.children;
+      let cur = 1;
+      for (let i = 0; i < children.length; i++) {
+        if (children[i].offsetTop - track.offsetTop <= track.scrollTop + track.clientHeight / 3) cur = i + 1;
+      }
+      if (document.activeElement !== document.getElementById('modal-pdf-idx-field'))
+        document.getElementById('modal-pdf-idx-field').value = cur;
+    }
+
+    function executeModalJump(e) {
+      if (e.key !== 'Enter') return;
+      const field = document.getElementById('modal-pdf-idx-field');
+      let val = parseInt(field.value, 10);
+      if (!activeModalPdf || isNaN(val)) return;
+      val = Math.max(1, Math.min(val, activeModalPdf.numPages));
+      field.value = val;
+      const node = document.getElementById(`modal-page-node-${val}`);
+      if (node) document.getElementById('system-modal-scrollbody').scrollTop = node.offsetTop - 24;
+      field.blur();
+    }
+
+    function closeDocModal() {
+      const modal = document.getElementById('system-doc-modal');
+      if (modal) modal.classList.remove('active');
+      document.body.style.overflow = '';
+      const pdfBody = document.getElementById('system-modal-scrollbody');
+      pdfBody.removeEventListener('scroll', handleModalPdfScroll);
+      activeModalPdf = null;
+    }
+
+    function dismissDocModal(e) { if (e.target.id === 'system-doc-modal') closeDocModal(); }
+
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDocModal(); });
+
+    function renderMarkdownForViewer(md) {
+      let html = md;
+      html = html.replace(/```([\s\S]*?)```/gm, (_, c) => `<pre><code>${c.replace(/</g,'&lt;').replace(/>/g,'&gt;').trim()}</code></pre>`);
+      html = html.replace(/^### (.*)$/gim, '<h3>$1</h3>');
+      html = html.replace(/^## (.*)$/gim, '<h2>$1</h2>');
+      html = html.replace(/^# (.*)$/gim, '<h1>$1</h1>');
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+      html = html.replace(/^---$/gm, '<hr>');
+      const lines = html.split(/\r?\n/);
+      let out = []; let inUl = false; let inOl = false;
+      lines.forEach(line => {
+        const t = line.trim();
+        if (t.startsWith('* ') || t.startsWith('- ')) {
+          if (inOl) { out.push('</ol>'); inOl = false; }
+          if (!inUl) { out.push('<ul>'); inUl = true; }
+          out.push(`<li>${t.substring(2)}</li>`);
+        } else if (/^\d+\.\s/.test(t)) {
+          if (inUl) { out.push('</ul>'); inUl = false; }
+          if (!inOl) { out.push('<ol>'); inOl = true; }
+          out.push(`<li>${t.substring(t.indexOf(' ') + 1)}</li>`);
+        } else {
+          if (inUl) { out.push('</ul>'); inUl = false; }
+          if (inOl) { out.push('</ol>'); inOl = false; }
+          if (t.startsWith('<h') || t.startsWith('<pre') || t.startsWith('</pre>') || t === '<hr>') out.push(t);
+          else if (t !== '') out.push(`<p>${t}</p>`);
+        }
+      });
+      if (inUl) out.push('</ul>');
+      if (inOl) out.push('</ol>');
+      return out.join('\n');
+    }
+  </script>
+
+  <script>
+    const SESSION_KEY = 'etrb_auth';
+    const CORRECT_USER = 'member';
+    const CORRECT_PASS = 'rktpass1';
+
+    function setMemberNavState(isLoggedIn) {
+      const icon = document.getElementById('member-lock-icon');
+      if (icon) icon.classList.toggle('unlocked', isLoggedIn);
+      document.querySelectorAll('.member-only').forEach(el => {
+        el.classList.toggle('is-visible', isLoggedIn);
+      });
+    }
+
+    function filterEntries() {
+      const query = document.getElementById('info-search').value.toLowerCase().trim();
+      const sections = document.querySelectorAll('.section');
+
+      sections.forEach(section => {
+        let sectionHasMatches = false;
+        const subsections = section.querySelectorAll('.subsection');
+
+        subsections.forEach(sub => {
+          let subHasMatches = false;
+          const items = sub.querySelectorAll('.doc-item');
+
+          items.forEach(item => {
+            if (query === "") {
+              item.style.display = '';
+              subHasMatches = true;
+            } else {
+              const text = item.textContent.toLowerCase();
+              if (text.includes(query)) {
+                item.style.display = '';
+                subHasMatches = true;
+              } else {
+                item.style.display = 'none';
+              }
+            }
+          });
+
+          if (subHasMatches) {
+            sub.style.display = '';
+            sectionHasMatches = true;
+          } else {
+            sub.style.display = 'none';
+          }
+        });
+
+        section.style.display = sectionHasMatches ? '' : 'none';
+      });
+    }
+
+    async function loadInfoBase() {
+      const container = document.getElementById('dynamic-content');
+      const subNav = document.getElementById('sub-nav-sections');
+
+      try {
+        const res = await fetch('../Content/info-base_data.md');
+        const text = await res.text();
+        const lines = text.split('\n');
+
+        let html = '';
+        let currentSectionId = '';
+        let isFirstSection = true;
+        let isListOpen = false;
+        let navStructure = []; 
+
+        lines.forEach(line => {
+          line = line.trim();
+          if (!line || line.startsWith('//')) return;
+
+          if (line.startsWith('# ')) {
+            const headingContent = line.substring(2).trim();
+            let title = headingContent;
+            let nickname = headingContent;
+
+            if (headingContent.includes('|')) {
+              const parts = headingContent.split('|');
+              title = parts[0].trim();
+              nickname = parts[1].trim();
+            }
+
+            currentSectionId = 'sec-' + nickname.toLowerCase().replace(/\s+/g, '-');
+            
+            if (isListOpen) {
+              html += '</ul></div>';
+              isListOpen = false;
+            }
+            if (!isFirstSection) {
+              html += '</section>';
+            }
+            isFirstSection = false;
+            
+            html += `<section class="section" id="${currentSectionId}"><h2>${title}</h2>`;
+            
+            navStructure.push({
+              id: currentSectionId,
+              nickname: nickname,
+              subsections: []
+            });
+          } 
+          else if (line.startsWith('## ')) {
+            const subtitle = line.substring(3).trim();
+            const subId = currentSectionId + '-' + subtitle.toLowerCase().replace(/\s+/g, '-');
+            
+            if (isListOpen) {
+              html += '</ul></div>';
+            }
+            
+            html += `<div class="subsection" id="${subId}"><h3>${subtitle}</h3><ul class="doc-list">`;
+            isListOpen = true;
+            
+            if (navStructure.length > 0) {
+              navStructure[navStructure.length - 1].subsections.push({
+                id: subId,
+                title: subtitle
+              });
+            }
+          } 
+          else if (line.startsWith('link(')) {
+            const m = line.match(/link\((.+?),\s*(.+?),\s*(.+?),\s*(.+)\)/);
+            if (m) {
+              const [_, title, desc, type, url] = m.map(s => s.trim());
+              const isLocalFile = !url.startsWith('http://') && !url.startsWith('https://');
+              const isPdf = type.toUpperCase() === 'PDF';
+              const isMd = type.toUpperCase() === 'MD';
+
+              if (isLocalFile && isPdf) {
+                html += `
+                <li class="doc-item">
+                  <a class="doc-link" href="#" onclick="event.preventDefault(); launchDocumentViewer('${url.replace(/'/g,"\\'")}', '${title.replace(/'/g,"\\'")}', 'pdf')">
+                    <div class="doc-content">
+                      <h4>${title}</h4>
+                      <p>${desc}</p>
+                    </div>
+                    <span style="font-size:28px; color:var(--eths-blue); font-family:var(--font-display); transition: font-size 0.2s;">→</span>
+                  </a>
+                </li>`;
+              } else if (isLocalFile && isMd) {
+                html += `
+                <li class="doc-item">
+                  <a class="doc-link" href="#" onclick="event.preventDefault(); launchDocumentViewer('${url.replace(/'/g,"\\'")}', '${title.replace(/'/g,"\\'")}', 'md')">
+                    <div class="doc-content">
+                      <h4>${title}</h4>
+                      <p>${desc}</p>
+                    </div>
+                    <span style="font-size:28px; color:var(--eths-blue); font-family:var(--font-display); transition: font-size 0.2s;">→</span>
+                  </a>
+                </li>`;
+              } else {
+                html += `
+                <li class="doc-item">
+                  <a class="doc-link" href="${url}" target="_blank">
+                    <div class="doc-content">
+                      <h4>${title}</h4>
+                      <p>${desc}</p>
+                    </div>
+                    <span style="font-size:28px; color:var(--eths-blue); font-family:var(--font-display); transition: font-size 0.2s;">→</span>
+                  </a>
+                </li>`;
+              }
+            }
+          }
+        });
+
+        if (isListOpen) html += '</ul></div>';
+        if (!isFirstSection) html += '</section>';
+
+        container.innerHTML = html;
+
+        let navHTML = '';
+        navStructure.forEach(sec => {
+          let dropdownItems = '';
+          sec.subsections.forEach(sub => {
+            dropdownItems += `<a href="#${sub.id}" class="dropdown-item">${sub.title}</a>`;
+          });
+
+          navHTML += `
+            <div class="dropdown">
+              <a href="#${sec.id}" class="dropdown-toggle">${sec.nickname} ▾</a>
+              <div class="dropdown-content">
+                ${dropdownItems}
+              </div>
+            </div>`;
+        });
+        subNav.innerHTML = navHTML;
+
+      } catch (e) {
+        container.innerHTML = `<p style="padding:60px; color:#f87171;">Failed to load payload profile data.</p>`;
+      }
+    }
+
+    function tryLogin() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value;
+      if (user === CORRECT_USER && pass === CORRECT_PASS) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.getElementById('login-gate').style.display = 'none';
+        document.getElementById('member-content').style.display = 'block';
+        setMemberNavState(true);
+        loadInfoBase();
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
+
+    function logout() { sessionStorage.removeItem(SESSION_KEY); location.reload(); }
+
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      document.getElementById('login-gate').style.display = 'none';
+      document.getElementById('member-content').style.display = 'block';
+      setMemberNavState(true);
+      loadInfoBase();
+    } else setMemberNavState(false);
+
+    // Theme Engine
+    (() => {
+      const btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      const icon = btn.querySelector('.theme-toggle-icon');
+      const icons = {
+        light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>',
+        dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      };
+      function apply(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        if (icon) icon.innerHTML = icons[t];
+      }
+      const saved = localStorage.getItem('etrb_launch_theme');
+      apply(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        const next = cur === 'light' ? 'dark' : 'light';
+        localStorage.setItem('etrb_launch_theme', next);
+        apply(next);
+      });
+    })();
+
+    // ── LAYOUT SELECTION ARCHITECTURE CONFIGURATION ──
+    function toggleLayoutMenu(event) {
+      event.stopPropagation();
+      document.getElementById('layout-wrapper').classList.toggle('active');
+    }
+
     function setLayoutMetric(category, setting) {
       if (category === 'density') {
         localStorage.setItem('etrb_layout_density', setting);
@@ -151,6 +747,7 @@
       }
     }
 
+    // Initialize layout setup engines from state cache entries
     (() => {
       const storedDensity = localStorage.getItem('etrb_layout_density') || 'normal';
       const storedGrid = localStorage.getItem('etrb_layout_grid') || '1col';
@@ -162,176 +759,6 @@
         document.getElementById('layout-wrapper').classList.remove('active');
       });
     })();
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-  <script>
-    if (typeof pdfjsLib !== 'undefined') {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-
-    let pdfDoc = null;
-    let pageNum = 1;
-    let currentScale = 1.25;
-    const pdfContainer = document.getElementById('pdf-container');
-    const modal = document.getElementById('pdf-modal');
-
-    // Load PDF File Engine
-    async function loadPDF(url) {
-      pdfContainer.innerHTML = '<div style="color: var(--text-muted); font-family: var(--font-sans);">Loading PDF document...</div>';
-      document.getElementById('pdf-page-controls').style.display = 'flex';
-      document.getElementById('pdf-zoom-controls').style.display = 'flex';
-      document.getElementById('viewer-title-fallback').style.display = 'none';
-      
-      try {
-        pdfDoc = await pdfjsLib.getDocument(url).promise;
-        document.getElementById('page-count').textContent = pdfDoc.numPages;
-        pageNum = 1;
-        renderPage(pageNum);
-        modal.classList.add('active');
-      } catch (err) {
-        console.error('Error loading PDF:', err);
-        pdfContainer.innerHTML = `<div style="color: #f87171; font-family: var(--font-sans); padding: 20px;">Failed to load PDF file.</div>`;
-        modal.classList.add('active');
-      }
-    }
-
-    // Render Specified PDF Page
-    async function renderPage(num) {
-      pdfContainer.innerHTML = '';
-      const canvas = document.createElement('canvas');
-      pdfContainer.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-      
-      try {
-        const page = await pdfDoc.getPage(num);
-        const viewport = page.getViewport({ scale: currentScale });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        
-        const renderContext = { canvasContext: ctx, viewport: viewport };
-        await page.render(renderContext).promise;
-        document.getElementById('page-num').textContent = num;
-      } catch (err) {
-        console.error('Page render error:', err);
-      }
-    }
-
-    // Load and Parse Markdown File Engine
-    async function loadMarkdown(url) {
-      pdfContainer.innerHTML = '<div style="color: var(--text-muted); font-family: var(--font-sans);">Loading Markdown document...</div>';
-      document.getElementById('pdf-page-controls').style.display = 'none';
-      document.getElementById('pdf-zoom-controls').style.display = 'none';
-      document.getElementById('viewer-title-fallback').style.display = 'block';
-      document.getElementById('viewer-title-fallback').textContent = url.split('/').pop();
-
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network error structural response fail');
-        const rawText = await response.text();
-        
-        pdfDoc = null; // Flush active PDF instance
-        pdfContainer.innerHTML = `<div class="markdown-rendered-view">${simpleMarkdownParse(rawText)}</div>`;
-        modal.classList.add('active');
-      } catch (err) {
-        console.error('Error loading Markdown:', err);
-        pdfContainer.innerHTML = `<div style="color: #f87171; font-family: var(--font-sans); padding: 20px;">Failed to load Markdown file.</div>`;
-        modal.classList.add('active');
-      }
-    }
-
-    // Lightweight clean Markdown structural converter syntax match
-    function simpleMarkdownParse(md) {
-      let html = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-      html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
-      html = html.replace(/`(.*?)`/gim, '<code>$1</code>');
-      html = html.replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>');
-      
-      let lines = html.split('\n');
-      let inList = false;
-      for (let i = 0; i < lines.length; i++) {
-        let trimmed = lines[i].trim();
-        if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-          let content = trimmed.substring(2);
-          if (!inList) {
-            lines[i] = '<ul>\n<li>' + content + '</li>';
-            inList = true;
-          } else {
-            lines[i] = '<li>' + content + '</li>';
-          }
-        } else {
-          if (inList) {
-            lines[i] = '</ul>\n' + lines[i];
-            inList = false;
-          }
-          if (trimmed.length > 0 && !trimmed.startsWith('<h') && !trimmed.startsWith('<div') && !trimmed.startsWith('<ul') && !trimmed.startsWith('<li')) {
-            lines[i] = '<p>' + lines[i] + '</p>';
-          }
-        }
-      }
-      if (inList) lines.push('</ul>');
-      return lines.join('\n');
-    }
-
-    // Control Group Event Observers
-    document.getElementById('prev-page').addEventListener('click', () => {
-      if (!pdfDoc || pageNum <= 1) return;
-      pageNum--;
-      renderPage(pageNum);
-    });
-
-    document.getElementById('next-page').addEventListener('click', () => {
-      if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
-      pageNum++;
-      renderPage(pageNum);
-    });
-
-    document.getElementById('zoom-in').addEventListener('click', () => {
-      currentScale += 0.25;
-      document.getElementById('zoom-percent').textContent = `${Math.round(currentScale * 100)}%`;
-      if (pdfDoc) renderPage(pageNum);
-    });
-
-    document.getElementById('zoom-out').addEventListener('click', () => {
-      if (currentScale <= 0.5) return;
-      currentScale -= 0.25;
-      document.getElementById('zoom-percent').textContent = `${Math.round(currentScale * 100)}%`;
-      if (pdfDoc) renderPage(pageNum);
-    });
-
-    document.getElementById('close-modal').addEventListener('click', () => {
-      modal.classList.remove('active');
-      pdfContainer.innerHTML = '';
-      pdfDoc = null;
-    });
-
-    // Global Event Delegation Interceptor for local site file verification
-    document.addEventListener('click', function(e) {
-      const anchor = e.target.closest('a');
-      if (!anchor) return;
-      
-      const href = anchor.getAttribute('href');
-      if (!href) return;
-      
-      const targetClean = href.split(/[?#]/)[0].toLowerCase();
-      const isPdf = targetClean.endsWith('.pdf');
-      const isMd = targetClean.endsWith('.md');
-      
-      // Strict constraint verification: Check if absolute/remote origin parameter is absent
-      const isLocalSiteFile = !href.startsWith('http://') && !href.startsWith('https://') && !href.startsWith('//');
-      
-      if (isPdf && isLocalSiteFile) {
-        e.preventDefault();
-        loadPDF(href);
-      } else if (isMd && isLocalSiteFile) {
-        e.preventDefault();
-        loadMarkdown(href);
-      }
-    });
   </script>
 </body>
 </html>
