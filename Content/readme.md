@@ -1,378 +1,228 @@
-# ETHS Rocketry Site Content + Layout Reference
+# ETHS Rocketry Website
 
-This site is organized around two top-level authoring folders:
+This repository is a simple static website for ETHS Rocketry. The actual page templates live in `Layouts/`, and the content is stored in `Content/`.
 
-- `Layouts/` contains every HTML layout/page.
-- `Content/` contains every Markdown-style data page consumed by its matching layout.
+## How the site works
 
-Most layouts fetch their content file in the browser with `fetch('../Content/<name>_data.md')`, so content paths for images, videos, and PDFs should be written relative to the HTML page in `Layouts/` (for example `../assets/arc-media/arc26-media/file.png`).
+- `index.html` is the main entry point and redirects visitors into `Layouts/home.html`.
+- The root HTML files such as `home.html`, `arc.html`, `r4s.html`, `history.html`, and `join-us.html` are redirect wrappers that send the browser to the same page under `Layouts/`.
+- Most of the pages in `Layouts/` load a matching markdown-style file from `Content/` using `fetch()`.
+- Many of the `Layouts/` pages are dynamic: they parse custom syntax from the content files and render the page in the browser.
+- The site does not require a build process. Open `index.html` in a browser or serve the folder with any static server.
 
-## Global site conventions
+## Folder structure
 
-### Navigation and shared UI
+- `Layouts/` - actual HTML page templates, shared styles, navigation, and page-specific rendering logic.
+- `Content/` - markdown-style data files that drive the dynamic pages.
+- `site-media/`, `arc26-media/`, `people-media/`, `sponsors-media/` - image, video, PDF, and asset folders used by content pages.
 
-All layouts use the same top navigation pattern:
+## Main pages and data files
 
-- Primary pages: `home.html`, `arc.html`, `r4s.html`, `history.html`, `people.html`, `releases.html`, and `join-us.html`.
-- Member pages: `member-tools.html`, `info-base.html`, `arc-org.html`, and `r4s-org.html`.
-- Signed-in member-only links are hidden until `sessionStorage['etrb_auth'] === '1'`.
-- The sign-out button is a `member-only` top-nav item on the far-right side of the main navigation.
-- The visible ARC label should remain `ARC` everywhere, not `ARC 2026`.
+| Page | Layout | Content file | Notes |
+| --- | --- | --- | --- |
+| Home | `Layouts/home.html` | none | Static landing page.
+| ARC | `Layouts/arc.html` | `Content/arc_data.md` | Program page with campaign sections, carousels, PDFs, and videos.
+| R4S | `Layouts/r4s.html` | `Content/r4s_data.md` | Uses the same campaign parser as ARC.
+| History | `Layouts/history.html` | `Content/history_data.md` | Timeline page from simple headings and lists.
+| People | `Layouts/people.html` | `Content/people_data.md` | Team directory from custom person blocks.
+| Releases | `Layouts/releases.html` | `Content/releases_data.md` | News feed parser with tabs and optional links.
+| Join Us | `Layouts/join-us.html` | none | Static recruitment page.
+| Member Tools | `Layouts/member-tools.html` | `Content/member-tools_data.md` | Member dashboard cards.
+| Info Base | `Layouts/info-base.html` | `Content/info-base_data.md` | Searchable member knowledge base.
+| ARC Org | `Layouts/arc-org.html` | `Content/arc-org_data.md` | Member ARC resources page.
+| R4S Org | `Layouts/r4s-org.html` | `Content/r4s-org_data.md` | Member R4S resources page.
+| Shared shell | `Layouts/default.html` | none | Shared navigation and font/theme template.
+| Shared JS | `Layouts/default.js` | none | Theme toggle, member UI, nav activation.
 
-### Shared typography
+## Important authoring rules
 
-Every page uses the same Google font stack:
+- All pages in `Layouts/` expect assets and image paths relative to the page file location in `Layouts/`.
+- Content files live in `Content/`, so asset references in those files should usually start with `../` to reach the media folders from `Layouts/`.
+- The site uses `sessionStorage['etrb_auth'] === '1'` to control member-only features.
+- `.member-only` elements are hidden until a member logs in.
 
-- Display headings: `Space Grotesk` through `--font-display`.
-- Body/interface text: `Inter` through `--font-sans`.
-- Technical labels and metadata: `JetBrains Mono` through `--font-mono`.
+## ARC / R4S page syntax (`arc_data.md` and `r4s_data.md`)
 
-### Shared scrollbar
+These pages parse a simple block structure with an ABOUT section and one or more YEAR campaign blocks.
 
-The custom scrollbar style is standardized from the ARC page and applies to the document plus PDF/modal scroll containers:
-
-- `html` / `body`
-- `.viewport-window-body`
-- `.pdf-embedded-body`
-
-## Layout + content map
-
-| Layout file | Content file | Purpose |
-| --- | --- | --- |
-| `Layouts/home.html` | Static HTML only | Landing page, program tiles, sponsors, and hero video. |
-| `Layouts/arc.html` | `Content/arc_data.md` | American Rocketry Challenge program page with about text, yearly campaign sections, media embeds, carousels, and PDFs. |
-| `Layouts/r4s.html` | `Content/r4s_data.md` | Rockets 4 Schools program page using the same year/campaign parser as ARC. |
-| `Layouts/history.html` | `Content/history_data.md` | Timeline/history page parsed from standard Markdown headings and lists. |
-| `Layouts/people.html` | `Content/people_data.md` | People directory parsed from custom `section`, `person`, and `contact` functions. |
-| `Layouts/releases.html` | `Content/releases_data.md` | Release/news feed parsed from release blocks with metadata. |
-| `Layouts/join-us.html` | `Content/join-us_data.md` | Recruitment page copy reference with page header, learning sections, and Discord CTA fields. |
-| `Layouts/member-tools.html` | `Content/member-tools_data.md` | Signed-in dashboard of member resources. |
-| `Layouts/info-base.html` | `Content/info-base_data.md` | Signed-in searchable knowledge/resource base. |
-| `Layouts/arc-org.html` | `Content/arc-org_data.md` | Signed-in ARC organization drive/resource page. |
-| `Layouts/r4s-org.html` | `Content/r4s-org_data.md` | Signed-in R4S organization drive/resource page. |
-| `Layouts/index.html` | Static redirect only | Redirects to `home.html` inside `Layouts/`. |
-
-## `Content/arc_data.md` and `Layouts/arc.html`
-
-`arc.html` renders ARC campaign content from `arc_data.md`.
-
-### Available syntax
-
-#### About block
+### About section
 
 ```md
 [ABOUT-START]
 ### About the Program
-Standard markdown content...
+Intro copy here.
 [ABOUT-END]
 ```
 
-- Content between the markers appears in the program intro area.
-- Standard Markdown-like headings, paragraphs, lists, bold text, links, and media macros can be used inside.
-
-#### Year block
+### Year campaign blocks
 
 ```md
 [YEAR-START: 2026]
 title: Lil' Willy: Active Control
 mission: Active Airbrakes
-header_image: ../assets/arc-media/arc26-media/full assembly render 1.png
-header_alt: Custom telemetry background image for 2026 logs
+header_image: ../arc26-media/full assembly render 1.png
+header_alt: Custom telemetry image
 
-Campaign body content...
+Campaign body content goes here.
 [YEAR-END: 2026]
 ```
 
-Required/recognized fields:
+Supported fields:
+- `title:` required campaign name.
+- `mission:` short label used in the page sub-navigation.
+- `header_image:` optional hero image path.
+- `header_alt:` optional alt text for the hero image.
 
-- `title:` campaign title.
-- `mission:` short mission/sub-nav label.
-- `header_image:` optional image path.
-- `header_alt:` optional alt text for the header image.
+### Page body formatting
 
-#### Markdown and media functions
+Inside the campaign block, use standard Markdown-like text:
+- `###` and `####` headings
+- `*` or `-` bullet lists
+- `**bold**`
+- `[links](https://example.com)`
 
-```md
-### Heading 3
-#### Heading 4
-* Bullet item
-- Bullet item
-**bold text**
-[link text](https://example.com)
-```
+### Media macros
 
-```md
-[[pdf: ../assets/arc-media/arc26-media/file.pdf, Display Title, false]]
-[[carousel: ../assets/arc-media/arc26-media/image.png, ../assets/arc-media/arc26-media/video.mp4]]
-[[youtube: DBYvCB82rY4, Launch #1]]
-*Tags: C++ Avionics, Python SIL Sim*
-```
+These pages support helpful embedded media shorthand:
 
-Available functions:
+- `[[pdf: path, title, false]]` - render a PDF link or embedded viewer.
+- `[[carousel: item1, item2, ...]]` - render an image/video carousel.
+- `[[youtube: VIDEO_ID, caption]]` - embed a YouTube video.
+- `*Tags: tag1, tag2*` - render metadata tags.
 
-- `[[pdf: path, title, embeddedFlag]]` renders a PDF asset. Use `false` for a downloadable/openable item or the layout-supported embedded mode where applicable.
-- `[[carousel: item1, item2, ...]]` renders an image/video carousel. Items may be image files, MP4 files, or supported media paths.
-- `[[youtube: videoId, caption]]` embeds a YouTube video by ID.
-- `*Tags: ...*` renders tags/metadata in the campaign body.
+## History page syntax (`history_data.md`)
 
-## `Content/r4s_data.md` and `Layouts/r4s.html`
-
-`r4s.html` uses the same parser and functions as `arc.html`.
-
-### Available syntax
-
-Use the same blocks and functions documented for `arc_data.md`:
-
-- `[ABOUT-START]` / `[ABOUT-END]`
-- `[YEAR-START: YYYY]` / `[YEAR-END: YYYY]`
-- `title:`, `mission:`, `header_image:`, `header_alt:`
-- Standard Markdown-like headings/lists/bold/links
-- `[[pdf: path, title, embeddedFlag]]`
-- `[[carousel: item1, item2, ...]]`
-- `[[youtube: videoId, caption]]`
-- `*Tags: ...*`
-
-## `Content/history_data.md` and `Layouts/history.html`
-
-`history.html` renders a chronological timeline from Markdown.
-
-### Available syntax
+This file is parsed as a simple timeline layout.
 
 ```md
 # Page Title
 
-## Month YYYY · Milestone Title
-- **Highlighted label**
-- Plain list item
-- Additional timeline detail
+## Month YYYY - Milestone Title
+- **Highlight**
+- Detail item
 
 ---
 
-_Optional italic note._
+_Optional note or caption._
 ```
 
-Available Markdown features:
-
-- `#` page title.
-- `##` timeline event headings.
-- `-` bullet details under an event.
-- `**bold text**` for emphasis.
+Supported features:
+- `#` for the page title.
+- `##` for timeline entries.
+- `-` for bullet details.
+- `---` as a section separator.
 - `_italic text_` for notes.
-- `---` horizontal separator.
 
-## `Content/people_data.md` and `Layouts/people.html`
+## People page syntax (`people_data.md`)
 
-`people.html` renders team member cards from custom line-based functions.
-
-### Available syntax
+The people page uses custom block syntax.
 
 ```md
 // Comments are ignored
 section(current members)
 
-person(Name, ../assets/people-media/photo.jpg, "Short bio text.", "Class of 2027")
+person(Name, ../people-media/photo.jpg, "Short bio text.", "Class of 2027")
 contact(LinkedIn, https://www.linkedin.com/in/example/)
 contact(Email, mailto:name@example.com)
 endperson
 ```
 
-Available functions:
+Supported lines:
+- `section(title)` - begins a people section.
+- `person(Name, ImagePath, "Bio", "Meta")` - starts an entry.
+- `contact(Method, URL)` - adds a contact button.
+- `endperson` - closes the current person.
+- `//` - comment line.
 
-- `section(title)` starts a people section. Examples: `section(current members)`, `section(alumni)`.
-- `person(name, image path, "bio", "optional meta")` starts one person entry.
-  - Argument 1: name.
-  - Argument 2: image path.
-  - Argument 3: quoted bio text.
-  - Argument 4: optional quoted metadata such as class year.
-- `contact(method, url)` adds a contact button to the current person.
-  - Common methods: `Email`, `LinkedIn`, `GitHub`, `Instagram`, `Website`.
-  - Email links should use `mailto:`.
-- `endperson` closes the current person entry.
-- Lines beginning with `//` are comments.
+## Releases page syntax (`releases_data.md`)
 
-## `Content/releases_data.md` and `Layouts/releases.html`
-
-`releases.html` renders release/news entries from repeated release blocks.
-
-### Available syntax
+Each release starts with `##` and may include metadata lines followed by `---` and the long body.
 
 ```md
 ## Release Title
 - date: 2026-05-01
-- mode: embed
-- url: ../assets/arc-media/arc26-media/ARC Launch 1 Release.mp4
-- summary: Optional short summary text.
+- mode: tab
+- summary: Short summary text.
+- url: https://example.com
 ---
-Markdown body content for the release.
+Release body content.
 ```
 
 Recognized metadata:
+- `date:` release date.
+- `mode:` `tab`, `link`, or `embed`.
+- `url:` target for `link` mode.
+- `summary:` short text used in the list view.
 
-- `date:` release date in `YYYY-MM-DD` format.
-- `mode:` display behavior.
-  - `embed` embeds the referenced media in-page where supported.
-  - `tab` creates an in-page release body tab.
-  - `link` opens the `url` directly.
-- `url:` target URL or media file.
-- `summary:` optional summary for the release list.
+Body content may include standard Markdown-like text and media rendered by the page.
 
-Body content supports standard Markdown-like text plus the page's media renderer where applicable.
+## Member-only page syntax
 
-
-## `Content/join-us_data.md` and `Layouts/join-us.html`
-
-`join-us_data.md` stores editable recruitment copy in a simple Markdown-plus-field format for the Join Us page.
-
-### Available syntax
-
-```md
-# Join Us Page Content
-
-## Page Header
-**eyebrow:** BUILD WITH US
-**title:** Join ETHS Rocketry
-**subtitle:** Short introductory copy.
-
-## Section 1: What you will learn by doing
-**heading:** What you will learn by doing
-
-**skills:**
-- **title:** Rocketry fundamentals
-  **description:** Skill-card description.
-
-## Section 2: Academic and STEM growth
-**heading:** Academic and STEM growth
-
-**items:**
-- Bullet item text.
-
-## Section 3: Preparation for collegiate rocketry
-**heading:** Preparation for collegiate rocketry
-
-**content:** Paragraph text.
-**discord_button:** Join our Discord →
-**discord_link:** https://discord.gg/example
-```
-
-Available fields/functions:
-
-- `# Join Us Page Content` labels the file.
-- `## Page Header` starts header metadata.
-- `**eyebrow:**`, `**title:**`, and `**subtitle:**` define the page header copy.
-- `## Section N: Name` starts a content section.
-- `**heading:**` defines a section heading.
-- `**skills:**` starts a list of skill cards.
-- `- **title:**` and indented `**description:**` define each skill card.
-- `**items:**` starts a bullet list for academic/STEM points.
-- `**content:**` defines paragraph copy.
-- `**discord_button:**` defines CTA button text.
-- `**discord_link:**` defines the CTA URL.
-
-## `Content/member-tools_data.md` and `Layouts/member-tools.html`
-
-`member-tools.html` renders signed-in dashboard cards.
-
-### Available syntax
+### Member Tools (`member-tools_data.md`)
 
 ```md
 tag(TOOLS)
 ## Section Heading
-
 card(Title, Description, IconPreset, TargetURL)
 card(Title, Description, IconPreset, TargetURL, WIP)
 ```
 
-Available functions:
+Supported fields:
+- `tag(TEXT)` - section label.
+- `## Section Heading` - starts a group of cards.
+- `card(Title, Description, IconPreset, TargetURL)` - adds a tool card.
+- Optional fifth value adds a small badge like `WIP`.
 
-- `tag(TEXT)` sets the small uppercase label for the next section.
-- `## Section Heading` starts a card grid section.
-- `card(Title, Description, IconPreset, TargetURL)` renders a tool/resource card.
-- `card(Title, Description, IconPreset, TargetURL, BadgeText)` renders a card with a small status badge, such as `WIP`.
-
-Icon presets:
-
+Supported icon presets:
 - `library`
 - `flight`
 - `notes`
 - `schedule`
 - `infobase`
 
-Target URLs may be local layout files such as `info-base.html` or external URLs.
-
-## `Content/info-base_data.md` and `Layouts/info-base.html`
-
-`info-base.html` renders a searchable signed-in resource base.
-
-### Available syntax
+### Info Base (`info-base_data.md`)
 
 ```md
-# Main Category | Short Label
+# Category Title | Short Label
 ## Subsection Title
 link(Title, Description, TYPE, URL)
 ```
 
-Available functions:
+Supported fields:
+- `# Category | Label` - starts a top-level category.
+- `## Subsection Title` - starts a subsection.
+- `link(Title, Description, TYPE, URL)` - adds a searchable resource entry.
 
-- `# Category | Label` starts a category. The text before `|` is the category title; the text after `|` is a short navigation/status label.
-- `## Subsection Title` starts a subsection within the current category.
-- `link(Title, Description, TYPE, URL)` renders a searchable document/resource row.
-  - `TYPE` examples: `DOC`, `PDF`, `WEB`, `VIDEO`, `CAD`, `WIP`.
-  - `URL` can be a local page, external webpage, Google Doc, Drive folder, or media file.
+### ARC Org and R4S Org (`arc-org_data.md`, `r4s-org_data.md`)
 
-## `Content/arc-org_data.md` and `Layouts/arc-org.html`
-
-`arc-org.html` renders signed-in ARC organizational resources.
-
-### Available syntax
+These pages use the same syntax.
 
 ```md
 // Comments are ignored
 tag(OPERATIONS)
-## Cloud Resources & Shared Drives
-
-card(Master Folder, Description, library, https://drive.google.com/drive/folders/example)
-
+## Section Title
+card(Title, Description, IconPreset, TargetURL)
 embed(https://drive.google.com/drive/folders/example)
 ```
 
-Available functions:
+Supported fields:
+- `tag(TEXT)` - section label.
+- `## Section Title` - starts a section.
+- `card(Title, Description, IconPreset, TargetURL)` - adds a resource card.
+- `embed(URL)` - renders an embedded iframe view.
+- `//` - comment line.
 
-- `tag(TEXT)` sets the small uppercase label for the next section.
-- `## Section Heading` starts a card/grid or embed section.
-- `card(Title, Description, IconPreset, TargetURL)` renders an external resource card.
-- `embed(GOOGLE_DRIVE_EMBED_URL)` renders an iframe-style live Drive view.
-- Lines beginning with `//` are comments.
+## Notes for editors
 
-Icon presets:
+- Edit `Layouts/` for page structure, styling, and shared navigation.
+- Edit `Content/` for page data and content blocks.
+- Keep asset paths relative to `Layouts/` when referenced from content files.
+- `Layouts/default.js` contains the theme toggle and member link visibility logic.
+- `Layouts/default.html` contains the shared top navigation and fonts.
+- `Join Us` is the only major page in `Layouts/` that is static HTML and does not depend on `Content/`.
 
-- `library`
-- `flight`
-- `notes`
-- `schedule`
-- `infobase`
+## Serving the site
 
-## `Content/r4s-org_data.md` and `Layouts/r4s-org.html`
+The site works as plain static HTML. To preview locally, use any static server or open `index.html` in a browser.
 
-`r4s-org.html` uses the same organization-resource parser as `arc-org.html`.
-
-### Available syntax
-
-Use the same functions documented for `arc-org_data.md`:
-
-- `tag(TEXT)`
-- `## Section Heading`
-- `card(Title, Description, IconPreset, TargetURL)`
-- `embed(GOOGLE_DRIVE_EMBED_URL)`
-- `// comment lines`
-
-Icon presets are the same: `library`, `flight`, `notes`, `schedule`, and `infobase`.
-
-## Static HTML-only pages
-
-### `Layouts/home.html`
-
-The home page is static HTML and does not fetch a Markdown content file. Edit program tiles, sponsor rows, hero text, and hero video directly in the layout.
-
-### `Layouts/index.html`
-
-The index page is a redirect shim that sends visitors to `home.html` from inside the `Layouts/` folder.
+> Tip: Use `index.html` or `home.html` at the root. They both redirect into `Layouts/home.html` and keep all relative paths working.
