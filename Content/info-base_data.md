@@ -6,7 +6,7 @@ link(Software Kit, A list of useful apps and instructions on installation, DOC, 
 ## Guides
 link(Using the Rocketry Website, A guide to using and maintaining this website, DOC, https://docs.google.com/document/d/12gRNPaZGAlTICXUV52kFTW7cqM-3rsZHIYmJUNRoMXM/edit?tab=t.0#heading=h.yp0w4xn10ih7)
 link(Webmaster's Handbook, A thorough guide for webmasters, DOC, https://docs.google.com/document/d/1MrzgkMY8jKKsOVO_TIF_iso853BXO0ZdvT2mepB_xfI/edit?usp=sharing)
-link(Site Syntax, Documentation on the functions of each and every site page, MD, readme.md)
+link(Site Syntax, Documentation on the functions of each and every site page, MD, ../readme.md)
 link(Markdown Syntax, A guide to using markdown, DOC, https://www.markdownguide.org/basic-syntax/)
 
 # Quick-Learn | Learn
