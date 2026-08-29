@@ -23,7 +23,7 @@ header_alt: Custom telemetry background image for 2026 logs
 * **Payload Allocation:** 1 Raw Egg
 
 ## Engineering Breakthroughs
-- **Python-Based SIL Simulation & Controller Tuning:** We developed a custom Python rocket flight simulator with software-in-the-loop capabilities and married it to a binary search engine. The binary search engine iteratively finds the optimal PID constants for our flight controller. 
+- **Python-Based SIL Simulation & Controller Tuning:** We developed a custom Python rocket flight simulator with software-in-the-loop capabilities and married it to a binary search engine. The binary search engine iteratively finds the optimal PID constants for our flight controller. The original Python notebooks can be found at our [active airbrake control repository](https://github.com/ethsrocketry/airbrake-active-control), and the much more user-friendly website tool can be found [here](https://ethsrocketry.github.io/airbrake-active-control/).
 [[pdf: ../assets/arc-media/arc26-media/Sample PID Optimization Report.pdf, Sample PID Optimization Report, false]]
 - **Custom Avionics Stack:** In a major step up from 2025, we created a functional custom avionics stack featuring 9-axis acceleration and orientation tracking, barometric altitude finding, and flight data logging.
 [[carousel: ../assets/arc-media/arc26-media/Fully_Assembled_AV_Bay_2 (1).jpg, ../assets/arc-media/arc26-media/Avionics Assembly 1.png, ../assets/arc-media/arc26-media/Avionics Assembly 2.png, ../assets/arc-media/arc26-media/Avionics Assembly 3.png, ../assets/arc-media/arc26-media/Avionics Assembly 4.png]]
