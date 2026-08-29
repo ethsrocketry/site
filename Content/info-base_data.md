@@ -31,6 +31,7 @@ link(OpenRocket Technical Documentation, How the physics and code behind OpenRoc
 ## Resources
 link(PID Control Notes, Notes on Proportional-Integral-Derivative Control, DOC, https://docs.google.com/document/d/1DHeQKgfnCaiSpKFgrLkHXNbAYDTK3OsPRObcpOe_feY/edit?usp=sharing)
 link(Helpful airbrake control videos, A set of useful videos on active airbraked control, VIDEO, https://docs.google.com/document/d/1SS-ee4huyNWXu5YKEJBs0b0ZoFZePtNta1MYV-bVyBA/edit?tab=t.0)
+link(ATOS, Altitude Targeting & Optimization Suite, LINK, https://docs.google.com/document/d/1i_UKwctMrYWo29xRQ_8gYM4So_7c6D-xA6ojEPu1kk4/edit?tab=t.0)
 
 # Datasets | Data
 ## Resources
