@@ -1,3 +1,10 @@
+## ATOS Public Release
+- date: 2026-08-30
+- mode: tab
+- summary: ETHS Rocketry Altitude Targeting & Optimization Suite
+---
+Created by Prady Manur, this software suite automates control system development and tuning for subsonic model rocket airbrakes. Originally written as an Euler-step simulation in late 2024, the platform was expanded throughout 2025–2026. Prady developed the underlying flight dynamics and optimization routines, utilizing Gemini, Claude, and ChatGPT Codex to build the supporting web interface.
+
 ## Website Version 2.0
 - data: 2026-05-31
 - mode: tab
@@ -14,14 +21,6 @@ This website version was created by Prady using various AI Agents (Gemini, Claud
 ## Website Version 1.0
 - date: 2026-04-28
 - mode: tab
-- summary: Example in-page release tab with markdown body content.
+- summary: Release of Website v1.0
 ---
 This website was created by Prady using various AI Agents (Gemini, Claude, ChatGPT Codex, and Grok). 
-
-## ARC Registration Packet
-- date: 2026-03-16
-- mode: link
-- summary: Example direct link release item.
-- url: https://www.rocketcontest.org/
----
-Optional notes can live here for team reference, even for link entries.
